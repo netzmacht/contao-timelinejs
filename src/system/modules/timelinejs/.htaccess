@@ -1,0 +1,4 @@
+<Files json.php>
+Order allow,deny
+Allow from all
+</Files>
