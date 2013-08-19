@@ -16,7 +16,7 @@ namespace Contao;
 /**
  * Class TimelineJSEntryModel
  */
-class TimelineJSEntryModel extends Model
+class TimelineJSEntryModel extends \Model
 {
 
 	/**
