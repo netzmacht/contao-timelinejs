@@ -48,26 +48,7 @@ class JSONController extends \Frontend
 			throw new \Exception('No id given');
 		}
 
-		$cache = $this->getCached($id);
-
-		if($cache === null)
-		{
-			echo $this->createCache($id);
-		}
-		else
-		{
-			echo $cache;
-		}
-	}
-
-
-	/**
-	 * @param $id
-	 * @return bool
-	 */
-	public function isCached($id)
-	{
-		return file_exists(sprintf('%s/system/cache/timelinejs/timeline_%s.json', TL_ROOT, $id));
+		echo $this->createJson($id);
 	}
 
 
@@ -77,10 +58,10 @@ class JSONController extends \Frontend
 	 * @return string
 	 * @throws \Exception
 	 */
-	public function createCache($id)
+	public function createJson($id)
 	{
 		$timeline = \TimelineJSModel::findByPk($id);
-		$entries = \TimelineJSEntryModel::findPublishedByPid($id);
+		$entries  = \TimelineJSEntryModel::findPublishedByPid($id);
 
 		if($timeline === null)
 		{
@@ -88,17 +69,17 @@ class JSONController extends \Frontend
 		}
 
 		$json = array();
-		$json['headline'] = $timeline->title;
-		$json['type'] = 'default';
-		$json['text'] = $timeline->teaser;
-		$json['date'] = array();
+		$json['headline'] = $this->replaceInsertTags($timeline->title);
+		$json['type']     = 'default';
+		$json['text']     = $this->replaceInsertTags($timeline->teaser);
+		$json['date']     = array();
 
 		if($timeline->media)
 		{
 			$json['asset'] = array
 			(
-				'credit' => $timeline->credit,
-				'caption' => $timeline->caption
+				'credit'  => $this->replaceInsertTags($timeline->credit),
+				'caption' => $this->replaceInsertTags($timeline->caption)
 			);
 
 			if($timeline->singleSRC)
@@ -108,43 +89,37 @@ class JSONController extends \Frontend
 			}
 		}
 
-
 		if($entries === null)
 		{
 			echo json_encode($json);
-			return;
+			return '';
 		}
 
 		while($entries->next()) {
 			$entry = array(
 				'startDate' => $entries->startDate,
-				'endDate' => $entries->endDate ? $entries->endDate : $entries->startDate,
-				'headline' => $entries->headline,
-				'text' => $entries->teaser,
+				'endDate'   => $entries->endDate ? $entries->endDate : $entries->startDate,
+				'headline'  => $this->replaceInsertTags($entries->headline),
+				'text'      => $this->replaceInsertTags($entries->teaser),
 			);
 
-			if($entries->tags)
-			{
+			if($entries->tags) {
 				$entry['tag'] = $entries->tags;
 			}
 
-			if($entries->era)
-			{
+			if($entries->era) {
 				$json['era'][] = $entry;
 			}
 
-			if($entries->media)
-			{
+			if($entries->media) {
 				$thumbnail = false;
 
-				if($entries->thumbnail)
-				{
-					$objFile = \FilesModel::findByPk($entries->thumbnail);
+				if($entries->thumbnail) {
+					$objFile   = \FilesModel::findByPk($entries->thumbnail);
 					$thumbnail = \Image::get($objFile->path, 60, 60);
 				}
 
-				if($entries->singleSRC)
-				{
+				if($entries->singleSRC) {
 					$objFile = \FilesModel::findByPk($entries->singleSRC);
 					$url = $objFile->path;
 
@@ -153,15 +128,14 @@ class JSONController extends \Frontend
 						$thumbnail = \Image::get($url, 60, 60);
 					}
 				}
-				else
-				{
-					$url = $entries->url;
+				else {
+					$url = $this->replaceInsertTags($entries->url);
 				}
 
 				$entry['asset'] = array(
-					'media' => $url,
-					'credit' => $entries->credit,
-					'caption' => $entries->caption,
+					'media'   => $url,
+					'credit'  => $this->replaceInsertTags($entries->credit),
+					'caption' => $this->replaceInsertTags($entries->caption),
 				);
 
 				if($thumbnail)
@@ -174,46 +148,6 @@ class JSONController extends \Frontend
 		}
 
 		$json = sprintf('{ "timeline": %s }', json_encode($json));
-		$cache = new \File(sprintf('system/cache/timelinejs/timeline_%s.json', $id));
-		$cache->write($json);
-
 		return $json;
 	}
-
-
-	/**
-	 * @param $id
-	 * @return string
-	 */
-	public function getCached($id)
-	{
-		if($this->isCached($id))
-		{
-			return file_get_contents(sprintf('%s/system/cache/timelinejs/timeline_%s.json', TL_ROOT, $id));
-		}
-
-		return null;
-	}
-
-
-	/**
-	 * purge cache directory
-	 */
-	public function purgeCache()
-	{
-		if(is_dir(TL_ROOT . '/system/cache/timelinejs'))
-		{
-			// Purge the folder
-			$objFolder = new \Folder('system/cache/timelinejs');
-			$objFolder->purge();
-
-			// Restore the .htaccess file
-			$objFile = new \File('system/logs/.htaccess', true);
-			$objFile->copyTo('system/tmp/.htaccess');
-
-			// Add a log entry
-			$this->log('Purged the TimelineJS cache folder', 'TimelineJS\JSONController purgeCache()', TL_CRON);
-		}
-	}
-
 }
