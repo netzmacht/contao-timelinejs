@@ -28,8 +28,8 @@
     "conflict": {
         "contao/core":"3.2.0"
     },
-    "suggest": {
-        "netzmacht/font-awesome" : "Use Font Awesome icons with Contao-Bootstrap"
+    "replace": {
+        "contao-legacy/timelinejs": "*"
     },
     "autoload": {
         "classmap": ["src/system/modules/timelinejs/classes"]
