@@ -31,16 +31,6 @@ class TimelineJSEntryDataContainer extends DataContainer
 
 
 	/**
-	 * @param \DC_Table $dc
-	 */
-	public function updateCache(\DC_Table $dc)
-	{
-		$controller = new JSONController();
-		$controller->createCache($dc->activeRecord->pid);
-	}
-
-
-	/**
 	 * @param $row
 	 * @return string
 	 */

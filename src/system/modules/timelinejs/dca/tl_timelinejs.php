@@ -24,9 +24,6 @@ $GLOBALS['TL_DCA']['tl_timelinejs'] = array
 		'dataContainer'               => 'Table',
 		'enableVersioning'            => true,
 		'ctable'                      => array('tl_timelinejs_entry'),
-		'onsubmit_callback'           => array(
-			array('Netzmacht\\TimelineJS\\TimelineJSDataContainer', 'updateCache'),
-		),
 		'sql' => array
 		(
 			'keys' => array

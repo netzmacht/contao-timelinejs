@@ -40,7 +40,7 @@
                 "src/system/modules/timelinejs": "system/modules/timelinejs"
             },
             "runonce":[
-                "src/system/modules/timelinejs/runonce/runonce.php"
+                "src/system/modules/timelinejs/config/runonce.php"
             ]
         }
     }
