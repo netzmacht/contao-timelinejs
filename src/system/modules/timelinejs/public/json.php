@@ -16,7 +16,7 @@
  * Initialize the system
  */
 define('TL_MODE', 'FE');
-require_once '../../initialize.php';
+require_once dirname(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME'])))) . '/initialize.php';
 
 $controller = new Netzmacht\TimelineJS\JSONController();
 $controller->run();
