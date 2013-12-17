@@ -1,0 +1,47 @@
+{
+    "name":"netzmacht/contao-timelinejs",
+    "description":"Integrates ",
+    "keywords":["TimelineJS", "Timeline", "contao"],
+    "type":"contao-module",
+    "license":"LGPL-3.0+",
+    "authors":[
+        {
+            "name":"David Molineus",
+            "email":"mail@netzmacht.de",
+            "homepage":"http://www.netzmacht.de",
+            "role":"Project leader"
+        }
+    ],
+    "support":{
+        "email":"mail@netzmacht.de",
+        "issues":"https://github.com/netzmacht/contao-bootstrap/issues",
+        "forum":"https://community.contao.org/de/showthread.php?44382-Bootstrap-3-f%FCr-Contao&p=286796",
+        "wiki":"http://contao-bootstrap.netzmacht.de",
+        "source":"https://github.com/netzmacht/contao-bootstrap"
+    },
+    "require":{
+        "php":">=5.3.0",
+        "contao/core":"~3.1",
+        "bit3/contao-meta-palettes":">=1.4.2",
+        "contao-legacy/dca-rules":"~1.1.0"
+    },
+    "conflict": {
+        "contao/core":"3.2.0"
+    },
+    "suggest": {
+        "netzmacht/font-awesome" : "Use Font Awesome icons with Contao-Bootstrap"
+    },
+    "autoload": {
+        "classmap": ["src/system/modules/timelinejs/classes"]
+    },
+    "extra":{
+        "contao": {
+            "sources":{
+                "": "src/system/modules/timelinejs"
+            },
+            "runonce":[
+                "src/system/modules/timelinejs/runonce/runonce.php"
+            ]
+        }
+    }
+}

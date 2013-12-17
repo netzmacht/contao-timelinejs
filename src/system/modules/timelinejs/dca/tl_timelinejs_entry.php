@@ -196,7 +196,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
 			'exclude'                 => true,
 			'inputType'               => 'fileTree',
 			'eval'                    => array('fieldType'=>'radio', 'filesOnly'=>true, 'mandatory'=>false),
-			'sql'                     => "varchar(255) NOT NULL default ''"
+			'sql'                     => "binary(16) NULL"
 		),
 		'url' => array
 		(
@@ -229,7 +229,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
 			'inputType'               => 'fileTree',
 			'eval'                    => array('mandatory'=>false),
 			'eval'                    => array('fieldType'=>'radio', 'filesOnly'=>true, 'maxlength'=>255, 'tl_class' => 'clr'),
-			'sql'                     => "varchar(255) NOT NULL default ''"
+			'sql'                     => "binary(16) NULL"
 		),
 		'era' => array
 		(
