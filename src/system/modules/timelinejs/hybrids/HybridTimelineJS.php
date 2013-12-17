@@ -52,7 +52,7 @@ class HybridTimelineJS extends \Hybrid
 	 */
 	protected function compile()
 	{
-		$this->Template->source = sprintf('%s%s/system/modules/timelinejs/json.php?id=%s',
+		$this->Template->source = sprintf('%s%s/system/modules/timelinejs/public/json.php?id=%s',
 			\Environment::get('url'),
 			$GLOBALS['TL_CONFIG']['websitePath'],
 			$this->id
