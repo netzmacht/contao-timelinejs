@@ -2,7 +2,7 @@
 
 namespace Netzmacht\TimelineJS;
 
-require_once '../../../initialize.php';
+//require_once '../../../initialize.php';
 
 /**
  * Class RunOnce

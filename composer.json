@@ -38,10 +38,7 @@
         "contao": {
             "sources":{
                 "src/system/modules/timelinejs": "system/modules/timelinejs"
-            },
-            "runonce":[
-                "src/system/modules/timelinejs/config/runonce.php"
-            ]
+            }
         }
     }
 }
