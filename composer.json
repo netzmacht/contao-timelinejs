@@ -25,9 +25,6 @@
         "bit3/contao-meta-palettes":">=1.4.2",
         "contao-legacy/dca-rules":"~1.1.0"
     },
-    "conflict": {
-        "contao/core":"3.2.0"
-    },
     "replace": {
         "contao-legacy/timelinejs": "*"
     },
