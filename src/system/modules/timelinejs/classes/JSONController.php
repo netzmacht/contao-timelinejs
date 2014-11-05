@@ -32,6 +32,7 @@ class JSONController extends \Frontend
 
 		$this->loadLanguageFile('default');
 		$this->loadLanguageFile('modules');
+        $this->setStaticUrls();
 	}
 
 
