@@ -34,7 +34,7 @@ class EntryModel extends \Model
     public static function findPublishedByPid($pid, array $options = array())
     {
         $table   = static::$strTable;
-        $columns = array($table . '.pid=?', $table . 'published=1');
+        $columns = array($table . '.pid=?', $table . '.published=1');
 
         return static::findBy($columns, $pid, $options);
     }
