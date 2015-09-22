@@ -54,16 +54,31 @@ final class Timeline implements ConvertsToJavascript
     private $options;
 
     /**
+     * Set of eras.
+     *
+     * @var Era[]
+     */
+    private $eras;
+
+    /**
      * Timeline constructor.
      *
      * @param Slide[] $events  Set of slides.
      * @param Slide   $title   Title slide.
      * @param string  $scale   The scale.
      * @param array   $options Options.
+     * @param array   $eras    Set of eras.
      */
-    public function __construct(array $events = array(), Slide $title = null, $scale = null, array $options = array())
-    {
-        $this->events  = $events;
+    public function __construct(
+        array $events = array(),
+        Slide $title = null,
+        $scale = null,
+        array $options = array(),
+        array $eras = array()
+    ) {
+        $this->setEvents($events);
+        $this->setEras($eras);
+
         $this->title   = $title;
         $this->scale   = $scale;
         $this->options = $options;
@@ -214,6 +229,46 @@ final class Timeline implements ConvertsToJavascript
     }
 
     /**
+     * Get era.
+     *
+     * @return Era[]
+     */
+    public function getEras()
+    {
+        return $this->eras;
+    }
+
+    /**
+     * Set era.
+     *
+     * @param Era[] $eras Set of eras.
+     *
+     * @return $this
+     */
+    public function setEras(array $eras)
+    {
+        Assertion::allIsInstanceOf($eras, 'Netzmacht\Contao\TimelineJs\Definition\Slide');
+
+        $this->eras = $eras;
+
+        return $this;
+    }
+
+    /**
+     * Add an era.
+     *
+     * @param Era $era The era.
+     *
+     * @return $this
+     */
+    public function addEra(Era $era)
+    {
+        $this->eras[] = $era;
+
+        return $this;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function encode(Encoder $encoder, $flags = null)
@@ -221,6 +276,7 @@ final class Timeline implements ConvertsToJavascript
         $data           = $this->options;
         $data['title']  = $this->title;
         $data['events'] = $this->events;
+        $data['eras']   = $this->eras;
         $data['scale']  = $this->scale;
         $data           = array_filter($data);
 
