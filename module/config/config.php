@@ -31,4 +31,4 @@ $GLOBALS['TL_CTE']['includes']['TimelineJS']    = 'Netzmacht\Contao\TimelineJs\F
  * Models
  */
 $GLOBALS['TL_MODELS']['tl_timelinejs']       = 'Netzmacht\Contao\TimelineJs\Model\TimelineModel';
-$GLOBALS['TL_MODELS']['tl_timelinejs_etnry'] = 'Netzmacht\Contao\TimelineJs\Model\EntryModel';
+$GLOBALS['TL_MODELS']['tl_timelinejs_entry'] = 'Netzmacht\Contao\TimelineJs\Model\EntryModel';
