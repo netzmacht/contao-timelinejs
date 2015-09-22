@@ -50,7 +50,7 @@ abstract class TimelineEntry implements ConvertsToJavascript
      * @param Date $endDate   End date.
      */
     public function __construct(
-        Date $startDate,
+        Date $startDate = null,
         Text $text = null,
         Date $endDate = null
     ) {

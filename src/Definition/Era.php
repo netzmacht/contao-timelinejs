@@ -18,4 +18,11 @@ namespace Netzmacht\Contao\TimelineJs\Definition;
  */
 final class Era extends TimelineEntry
 {
+    /**
+     *  {@inheritDoc}
+     */
+    public function __construct(Date $startDate, Text $text = null, Date $endDate = null)
+    {
+        parent::__construct($startDate, $text, $endDate);
+    }
 }

@@ -68,7 +68,7 @@ final class Slide extends TimelineEntry
      * @param bool       $autolink    Autolink urls and emails.
      */
     public function __construct(
-        Date $startDate,
+        Date $startDate = null,
         Text $text = null,
         Date $endDate = null,
         Media $media = null,

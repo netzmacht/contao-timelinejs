@@ -167,6 +167,12 @@ final class Timeline implements ConvertsToJavascript
      */
     public function addEvent(Slide $slide)
     {
+        Assertion::isInstanceOf(
+            $slide->getStartDate(),
+            'Netzmacht\Contao\TimelineJs\Definition\Date',
+            'Start date is required.'
+        );
+
         $this->events[] = $slide;
 
         return $this;
