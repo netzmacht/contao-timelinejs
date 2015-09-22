@@ -1,14 +1,13 @@
 <?php
 
 /**
- * @package    dev
- * @author     David Molineus <david.molineus@netzmacht.de>
- * @copyright  2015 netzmacht creative David Molineus
- * @license    LGPL 3.0
- * @filesource
+ * Contao TimelineJS.
  *
+ * @package   timelinejs
+ * @author    David Molineus <http://netzmacht.de>
+ * @license   MPL/2.0
+ * @copyright 2013-2015 netzmacht creative David Molineus
  */
-
 namespace Netzmacht\Contao\TimelineJs\Definition;
 
 use Netzmacht\JavascriptBuilder\Encoder;
