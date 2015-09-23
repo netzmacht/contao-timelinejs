@@ -43,8 +43,8 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
         ),
         'label'             => array
         (
-            'fields' => array('startDate', 'headline'),
-            'format' => '%s: %s'
+            'fields' => array('type', 'headline', 'startDate'),
+            'format' => '%s: %s [%s]'
         ),
         'global_operations' => array
         (
@@ -98,13 +98,37 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
         'buttons_callback' => array()
     ),
     // Palettes
+    'palettes' => array('__selector__' => array('type')),
     'metapalettes'    => array
     (
+        '_base_'  => array(
+            'entry'     => array('headline', 'type'),
+            'date'      => array(),
+            'teaser'    => array('text'),
+            'media'     => array(),
+            'published' => array('published'),
+        ),
         'default' => array
         (
-            'entry'     => array('headline', 'startDate', 'endDate', 'teaser', 'tags', 'era'),
+            'entry'     => array('headline', 'type'),
+            'published' => array('published'),
+        ),
+        'event extends _base_' => array
+        (
+            'entry'     => array('headline', 'type', 'category'),
+            'date'      => array('startDate', 'startDisplay', 'endDate', 'endDisplay', 'dateDisplay', 'dateFormat'),
+            'teaser'    => array('text'),
             'media'     => array('media'),
             'published' => array('published'),
+        ),
+        'title extends _base_' => array(
+            'entry'     => array('headline', 'type'),
+            'teaser'    => array('text'),
+            'media'     => array('media'),
+            'published' => array('published'),
+        ),
+        'era extends _base_' => array(
+            'date'      => array('startDate', 'startDisplay', 'endDate', 'endDisplay', 'dateDisplay', 'dateFormat'),
         )
     ),
     // Subpalettes
@@ -133,19 +157,38 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
             'exclude'   => true,
             'inputType' => 'text',
             'search'    => true,
-            'eval'      => array('mandatory' => true, 'maxlength' => 255),
+            'eval'      => array('mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
             'sql'       => "varchar(255) NOT NULL default ''"
+        ),
+        'type'  => array
+        (
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['type'],
+            'exclude'   => true,
+            'inputType' => 'select',
+            'filter'    => true,
+            'options'   => array('event', 'title', 'era'),
+            'eval'      => array('mandatory' => true, 'tl_class' => 'w50', 'includeBlankOption' => true, 'submitOnChange' => true),
+            'sql'       => "varchar(16) NOT NULL default ''"
         ),
         'startDate' => array
         (
             'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['startDate'],
             'exclude'   => true,
             'inputType' => 'text',
-            'length'    => 4,
             'search'    => true,
             'filter'    => true,
-            'eval'      => array('mandatory' => false, 'doNotCopy' => true, 'tl_class' => 'w50'),
-            'sql'       => "varchar(15) NOT NULL default ''"
+            'eval'      => array('mandatory' => false, 'tl_class' => 'w50', 'maxlength' => 32),
+            'sql'       => "varchar(32) NOT NULL default ''"
+        ),
+        'startDisplay' => array
+        (
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['startDisplay'],
+            'exclude'   => true,
+            'inputType' => 'text',
+            'search'    => true,
+            'filter'    => true,
+            'eval'      => array('mandatory' => false, 'tl_class' => 'w50'),
+            'sql'       => "varchar(64) NOT NULL default ''"
         ),
         'endDate'   => array
         (
@@ -154,14 +197,44 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
             'inputType'     => 'text',
             'search'        => true,
             'filter'        => true,
-            'eval'          => array('doNotCopy' => true, 'tl_class' => 'w50'),
+            'eval'          => array('tl_class' => 'w50', 'maxlength' => 32),
             'save_callback' => array
             (),
-            'sql'           => "varchar(15) NOT NULL default ''"
+            'sql'           => "varchar(32) NOT NULL default ''"
         ),
-        'teaser'    => array
+        'endDisplay' => array
         (
-            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['teaser'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['endDisplay'],
+            'exclude'   => true,
+            'inputType' => 'text',
+            'search'    => true,
+            'filter'    => true,
+            'eval'      => array('mandatory' => false, 'tl_class' => 'w50'),
+            'sql'       => "varchar(64) NOT NULL default ''"
+        ),
+        'dateDisplay' => array
+        (
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['endDisplay'],
+            'exclude'   => true,
+            'inputType' => 'text',
+            'search'    => true,
+            'filter'    => true,
+            'eval'      => array('mandatory' => false, 'tl_class' => 'w50'),
+            'sql'       => "varchar(64) NOT NULL default ''"
+        ),
+        'dateFormat' => array
+        (
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['endDisplay'],
+            'exclude'   => true,
+            'inputType' => 'text',
+            'search'    => true,
+            'filter'    => true,
+            'eval'      => array('mandatory' => false, 'tl_class' => 'w50'),
+            'sql'       => "varchar(64) NOT NULL default ''"
+        ),
+        'text'    => array
+        (
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['text'],
             'exclude'   => true,
             'search'    => true,
             'inputType' => 'textarea',
@@ -225,9 +298,9 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
             'eval'      => array('tl_class' => 'w50 m12'),
             'sql'       => "char(1) NOT NULL default ''"
         ),
-        'tags'      => array
+        'category'      => array
         (
-            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['tags'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['category'],
             'exclude'   => true,
             'filter'    => true,
             'inputType' => 'text',

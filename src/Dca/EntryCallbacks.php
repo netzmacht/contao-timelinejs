@@ -27,6 +27,6 @@ class EntryCallbacks
      */
     public function listEntry($row)
     {
-        return $row['startDate'] . ': ' . $row['headline'];
+        return $row['type'] . ': ' . $row['headline'] . ' ' . $row['startDate'];
     }
 }

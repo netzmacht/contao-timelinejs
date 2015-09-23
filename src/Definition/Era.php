@@ -25,4 +25,12 @@ final class Era extends TimelineEntry
     {
         parent::__construct($startDate, $text, $endDate);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function toArray()
+    {
+        return array_merge(parent::toArray(), get_object_vars($this));
+    }
 }

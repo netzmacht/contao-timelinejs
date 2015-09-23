@@ -39,7 +39,7 @@ final class Slide extends TimelineEntry
      *
      * @var string
      */
-    private $dateDisplay;
+    private $displayDate;
 
     /**
      * The background information.
@@ -82,7 +82,7 @@ final class Slide extends TimelineEntry
         $this->media       = $media;
         $this->group       = $group;
         $this->background  = $background;
-        $this->dateDisplay = $dateDisplay;
+        $this->displayDate = $dateDisplay;
         $this->autolink    = $autolink;
     }
 
@@ -139,21 +139,21 @@ final class Slide extends TimelineEntry
      *
      * @return string
      */
-    public function getDateDisplay()
+    public function getDisplayDate()
     {
-        return $this->dateDisplay;
+        return $this->displayDate;
     }
 
     /**
      * Set dateDisplay.
      *
-     * @param string $dateDisplay DateDisplay.
+     * @param string $displayDate DateDisplay.
      *
      * @return $this
      */
-    public function setDateDisplay($dateDisplay)
+    public function setDisplayDate($displayDate)
     {
-        $this->dateDisplay = $dateDisplay;
+        $this->displayDate = $displayDate;
 
         return $this;
     }
@@ -204,5 +204,13 @@ final class Slide extends TimelineEntry
         $this->autolink = (bool) $autolink;
 
         return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function toArray()
+    {
+        return array_merge(parent::toArray(), get_object_vars($this));
     }
 }

@@ -133,11 +133,21 @@ abstract class TimelineEntry implements ConvertsToJavascript
     }
 
     /**
+     * Get object as array.
+     *
+     * @return array
+     */
+    protected function toArray()
+    {
+        return get_object_vars($this);
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function encode(Encoder $encoder, $flags = null)
     {
-        $raw  = array_filter(get_object_vars($this));
+        $raw  = array_filter($this->toArray());
         $data = array();
 
         foreach ($raw as $key => $value) {

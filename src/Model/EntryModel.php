@@ -20,7 +20,7 @@ namespace Netzmacht\Contao\TimelineJs\Model;
  * @property mixed|null startDisplay
  * @property mixed|null endDisplay
  * @property mixed|null endDate
- * @property mixed|null group
+ * @property mixed|null category
  * @property mixed|null dateDisplay
  * @property mixed|null autolink
  * @property mixed|null mediaUrl

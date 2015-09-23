@@ -83,7 +83,7 @@ class EntryBuilder
         $endDate    = $this->buildDate($entryModel->endDate, $entryModel->dateFormat, $entryModel->endDisplay);
         $text       = $this->buildText($entryModel);
         $media      = $this->buildMedia($entryModel, $timelineModel->thumbnailSize);
-        $group      = $entryModel->type === 'title' ? null : ($entryModel->group ?: null);
+        $group      = $entryModel->type === 'title' ? null : ($entryModel->category ?: null);
         $background = $this->buildBackground($entryModel);
         $display    = $entryModel->dateDisplay ?: null;
         $autolink   = (bool) $entryModel->autolink;
@@ -177,7 +177,10 @@ class EntryBuilder
     public function buildText(EntryModel $entryModel)
     {
         if ($entryModel->headline || $entryModel->text) {
-            return new Text($entryModel->headline ?: null, $entryModel->text ?: null);
+            return new Text(
+                StringUtil::replaceInsertTags($entryModel->headline) ?: null,
+                StringUtil::replaceInsertTags($entryModel->text) ?: null
+            );
         }
 
         return null;
