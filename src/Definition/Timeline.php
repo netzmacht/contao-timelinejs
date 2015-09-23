@@ -48,13 +48,6 @@ final class Timeline implements ConvertsToJavascript, HasStackInformation
     private $scale;
 
     /**
-     * Options.
-     *
-     * @var array
-     */
-    private $options;
-
-    /**
      * Set of eras.
      *
      * @var Era[]
@@ -67,14 +60,12 @@ final class Timeline implements ConvertsToJavascript, HasStackInformation
      * @param Slide[] $events  Set of slides.
      * @param Slide   $title   Title slide.
      * @param string  $scale   The scale.
-     * @param array   $options Options.
      * @param array   $eras    Set of eras.
      */
     public function __construct(
         array $events = array(),
         Slide $title = null,
         $scale = null,
-        array $options = array(),
         array $eras = array()
     ) {
         $this->setEvents($events);
@@ -82,7 +73,6 @@ final class Timeline implements ConvertsToJavascript, HasStackInformation
 
         $this->title   = $title;
         $this->scale   = $scale;
-        $this->options = $options;
     }
 
     /**
@@ -180,67 +170,6 @@ final class Timeline implements ConvertsToJavascript, HasStackInformation
     }
 
     /**
-     * Get options.
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
-     * Set options.
-     *
-     * @param array $options  Options.
-     * @param bool  $override If true all options get replaced.
-     *
-     * @return $this
-     */
-    public function setOptions(array $options, $override = false)
-    {
-        if ($override) {
-            $this->options = $options;
-        } else {
-            $this->options = array_merge($this->options, $options);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Set an option.
-     *
-     * @param string $name  The option name.
-     * @param mixed  $value The option value.
-     *
-     * @return $this
-     */
-    public function setOption($name, $value)
-    {
-        $this->options[$name] = $value;
-
-        return $this;
-    }
-
-    /**
-     * Get an option.
-     *
-     * @param string $name    Option name.
-     * @param mixed  $default Default value.
-     *
-     * @return mixed
-     */
-    public function getOption($name, $default = null)
-    {
-        if (array_key_exists($name, $this->options)) {
-            return $this->options[$name];
-        }
-
-        return $default;
-    }
-
-    /**
      * Get era.
      *
      * @return Era[]
@@ -285,14 +214,14 @@ final class Timeline implements ConvertsToJavascript, HasStackInformation
      */
     public function encode(Encoder $encoder, $flags = null)
     {
-        $data           = $this->options;
-        $data['title']  = $this->title;
-        $data['events'] = $this->events;
-        $data['eras']   = $this->eras;
-        $data['scale']  = $this->scale;
-        $data           = array_filter($data);
+        $data = array(
+            'title'  => $this->title,
+            'events' => $this->events,
+            'eras'   => $this->eras,
+            'scale'  => $this->scale
+        );
 
-        return $encoder->encodeArray($data, $flags);
+        return $encoder->encodeArray(array_filter($data), $flags);
     }
 
     /**
