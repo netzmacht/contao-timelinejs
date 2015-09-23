@@ -11,7 +11,6 @@
 
 namespace Netzmacht\Contao\TimelineJs\Definition\Background;
 
-use Assert\Assertion;
 use Netzmacht\Contao\TimelineJs\Definition\Background;
 
 /**
@@ -35,8 +34,6 @@ final class BackgroundUrl implements Background
      */
     public function __construct($value)
     {
-        Assertion::url($value);
-
         $this->value = $value;
     }
 
