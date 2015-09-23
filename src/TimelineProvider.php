@@ -123,8 +123,6 @@ class TimelineProvider
         }
 
         $timeline = $this->getTimeline($model);
-        $title    = new Slide(null, new Text('Test'));
-        $timeline->setTitle($title);
         $json     = $this->builder->encode($timeline, Flags::QUOTE_KEYS);
         $this->cache->save($cacheKey, $json);
 
