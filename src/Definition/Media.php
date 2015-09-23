@@ -83,8 +83,6 @@ final class Media implements \JsonSerializable
      */
     public function setUrl($url)
     {
-        Assertion::url($url);
-
         $this->url = $url;
 
         return $this;
@@ -161,8 +159,6 @@ final class Media implements \JsonSerializable
      */
     public function setThumbnail($thumbnail)
     {
-        Assertion::nullOrUrl($thumbnail);
-
         $this->thumbnail = $thumbnail;
 
         return $this;

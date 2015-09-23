@@ -118,21 +118,32 @@ class EntryBuilder
      */
     public function buildMedia(EntryModel $model, $thumbnailSize = null)
     {
-        $url = StringUtil::replaceInsertTags($model->mediaUrl);
-
-        if (!$url) {
+        if (!$model->media) {
             return null;
         }
 
-        $media = new Media($url);
+        if ($model->media === 'quote') {
+            $data = '<blockquote>' . $model->mediaQuote . '</blockquote>';
+        } elseif ($model->media === 'iframe') {
+            $data = '<iframe src="'. $model->mediaUrl .'"></iframe>';
+        } else {
+            $data = $model->mediaUrl;
+        }
+
+        $data = StringUtil::replaceInsertTags($data);
+        if (!$data) {
+            return null;
+        }
+
+        $media = new Media($data);
         $media->setCaption($model->mediaCaption ?: null);
         $media->setCredit($model->mediaCredit ?: null);
 
         $thumbnail = StringUtil::replaceInsertTags($model->mediaThumbnail);
         if ($thumbnail) {
             $media->setThumbnail($thumbnail);
-        } elseif ($thumbnailSize && file_exists(TL_ROOT . '/' . $url)) {
-            $file          = new \File($url);
+        } elseif ($thumbnailSize && file_exists(TL_ROOT . '/' . $data)) {
+            $file          = new \File($data);
             $thumbnailSize = deserialize($thumbnailSize, true);
 
             if (in_array($file->extension, ['jpg', 'gif', 'png', 'jpeg'])) {

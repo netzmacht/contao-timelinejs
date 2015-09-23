@@ -117,15 +117,6 @@ $GLOBALS['TL_DCA']['tl_timelinejs'] = array
             'eval'      => array('mandatory' => true, 'maxlength' => 255),
             'sql'       => "varchar(255) NOT NULL default ''"
         ),
-        'teaser'    => array
-        (
-            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['teaser'],
-            'exclude'   => true,
-            'search'    => true,
-            'inputType' => 'textarea',
-            'eval'      => array('rte' => 'tinyMCE', 'tl_class' => 'clr'),
-            'sql'       => "text NULL"
-        ),
         'width'     => array
         (
             'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['width'],
@@ -240,20 +231,6 @@ $GLOBALS['TL_DCA']['tl_timelinejs'] = array
             'eval'      => array('mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
             'sql'       => "varchar(255) NOT NULL default ''"
         ),
-        'misc'      => array
-        (
-            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['misc'],
-            'exclude'   => true,
-            'inputType' => 'checkbox',
-            'options'   => array(
-                'startAtEnd',
-                'hashBookmarks',
-                'debug',
-            ),
-            'reference' => &$GLOBALS['TL_LANG']['tl_timelinejs']['misc']['options'],
-            'eval'      => array('multiple' => true, 'mandatory' => false, 'tl_class' => 'clr'),
-            'sql'       => "varchar(255) NOT NULL default ''"
-        ),
         'zoom'      => array
         (
             'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['zoom'],
@@ -269,38 +246,6 @@ $GLOBALS['TL_DCA']['tl_timelinejs'] = array
             'inputType' => 'text',
             'eval'      => array('mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
             'sql'       => "int(10) unsigned NOT NULL default '0'"
-        ),
-        'media'     => array
-        (
-            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['media'],
-            'exclude'   => true,
-            'inputType' => 'checkbox',
-            'eval'      => array('submitOnChange' => true, 'maxlength' => 255),
-            'sql'       => "char(1) NOT NULL default ''",
-        ),
-        'singleSRC' => array
-        (
-            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['singleSRC'],
-            'exclude'   => true,
-            'inputType' => 'fileTree',
-            'eval'      => array('fieldType' => 'radio', 'filesOnly' => true, 'mandatory' => true),
-            'sql'       => "binary(16) NULL"
-        ),
-        'credit'    => array
-        (
-            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['credit'],
-            'exclude'   => true,
-            'inputType' => 'text',
-            'eval'      => array('mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'),
-            'sql'       => "varchar(255) NOT NULL default ''"
-        ),
-        'caption'   => array
-        (
-            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['caption'],
-            'exclude'   => true,
-            'inputType' => 'text',
-            'eval'      => array('mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'),
-            'sql'       => "varchar(255) NOT NULL default ''"
         ),
     )
 );
