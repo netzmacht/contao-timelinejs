@@ -18,7 +18,7 @@ use Netzmacht\Contao\TimelineJs\Util\StringUtil;
  *
  * @package Netzmacht\Contao\TimelineJs\Definition
  */
-abstract class TimelineEntry implements \JsonSerializable
+abstract class TimelineEntry extends Base
 {
     /**
      * The start date.
@@ -137,7 +137,10 @@ abstract class TimelineEntry implements \JsonSerializable
      */
     protected function toArray()
     {
-        return get_object_vars($this);
+        $data              = get_object_vars($this);
+        $data['unique_id'] = $this->getUniqueId();
+
+        return $data;
     }
 
     /**

@@ -68,6 +68,8 @@ class TimelineBuilder
      */
     public function buildOptions(Timeline $timeline, TimelineModel $timelineModel)
     {
+        $timeline->setUniqueId($timelineModel->getTable() . '_' . $timelineModel->id);
+
         if ($timelineModel->scale != 'human') {
             $timeline->setScale($timelineModel->scale);
         }

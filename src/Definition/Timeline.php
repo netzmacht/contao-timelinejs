@@ -18,7 +18,7 @@ use Assert\Assertion;
  *
  * @package Netzmacht\Contao\TimelineJs\Definition
  */
-final class Timeline implements \JsonSerializable
+final class Timeline extends Base
 {
     const SCALE_HUMAN        = 'human';
     const SCALE_COSMOLOGICAL = 'cosmological';
@@ -212,10 +212,11 @@ final class Timeline implements \JsonSerializable
     public function jsonSerialize()
     {
         $data = array(
-            'title'  => $this->title,
-            'events' => $this->events,
-            'eras'   => $this->eras,
-            'scale'  => $this->scale
+            'unique_id' => $this->getUniqueId(),
+            'title'     => $this->title,
+            'events'    => $this->events,
+            'eras'      => $this->eras,
+            'scale'     => $this->scale
         );
 
         return array_filter($data);

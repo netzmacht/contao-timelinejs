@@ -88,7 +88,10 @@ class EntryBuilder
         $display    = $entryModel->dateDisplay ?: null;
         $autolink   = (bool) $entryModel->autolink;
 
-        return new Slide($startDate, $text, $endDate, $media, $group, $background, $display, $autolink);
+        $slide = new Slide($startDate, $text, $endDate, $media, $group, $background, $display, $autolink);
+        $slide->setUniqueId($entryModel->getTable() . '_' . $entryModel->id);
+
+        return $slide;
     }
 
     /**
@@ -104,7 +107,10 @@ class EntryBuilder
         $endDate    = $this->buildDate($entryModel->endDate, $entryModel->dateFormat, $entryModel->endDisplay);
         $text       = $this->buildText($entryModel);
 
-        return new Era($startDate, $text, $endDate);
+        $era = new Era($startDate, $text, $endDate);
+        $era->setUniqueId($entryModel->getTable() . '_' . $entryModel->id);
+
+        return $era;
     }
 
     /**
