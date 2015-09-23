@@ -22,12 +22,25 @@ class StringUtil
      * Camelize the value.
      *
      * @param string $value The value.
+     * @param bool   $first If true first letter get camelized as well.
      *
      * @return string
      */
-    public static function camelize($value)
+    public static function camelize($value, $first = true)
     {
-        return preg_replace('/(^|_)([a-z])/', 'strtoupper("\\2")', $value);
+        $value = preg_replace_callback(
+            '/(^|_)([a-z])/',
+            function ($matches) {
+                return strtoupper($matches[2]);
+            },
+            $value
+        );
+
+        if ($first) {
+            return $value;
+        }
+
+        return lcfirst($value);
     }
 
     /**
@@ -41,9 +54,11 @@ class StringUtil
      * @see    http://stackoverflow.com/a/5194470
      */
     public static function decamelize($value) {
-        return preg_replace(
-            '/(^|[a-z])([A-Z])/e',
-            'strtolower(strlen("\\1") ? "\\1_\\2" : "\\2")',
+        return preg_replace_callback(
+            '/(^|[a-z])([A-Z])/',
+            function ($matches) {
+                return strtolower(strlen($matches[1]) ? $matches[1] . '_' . $matches[2] : $matches[2]);
+            },
             $value
         );
     }
@@ -58,16 +73,6 @@ class StringUtil
      */
     public static function replaceInsertTags($buffer, $cache = true)
     {
-        if (version_compare(VERSION, '3.5', '>=')) {
-            return \Controller::replaceInsertTags($buffer, $cache);
-        } else {
-            $reflector = new \ReflectionClass('Contao\Controller');
-            $instance  = $reflector->newInstanceWithoutConstructor();
-
-            $method = $reflector->getMethod('replaceInsertTags');
-            $method->setAccessible(true);
-
-            return $method->invoke($instance, $buffer, $cache);
-        }
+        return InsertTagReplacer::getInstance()->replace($buffer, $cache);
     }
 }

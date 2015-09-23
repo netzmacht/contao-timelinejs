@@ -17,7 +17,7 @@ use Netzmacht\Contao\TimelineJs\Builder\Event\BuildTimelineEvent;
 use Netzmacht\Contao\TimelineJs\Builder\TimelineBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-$GLOBALS['BE_MOD']['content']['TimelineJS'] = array
+$GLOBALS['BE_MOD']['content']['timelinejs'] = array
 (
     'icon'   => 'system/modules/timelinejs/assets/timeline.png',
     'tables' => array('tl_timelinejs', 'tl_timelinejs_entry'),
@@ -26,7 +26,7 @@ $GLOBALS['BE_MOD']['content']['TimelineJS'] = array
 /*
  * Hooks
  */
-$GLOBALS['TL_HOOKS']['initializeDependencyContainer'] = function ($container) {
+$GLOBALS['TL_HOOKS']['initializeDependencyContainer'][] = function ($container) {
     /** @var EventDispatcherInterface $dispatcher */
     $dispatcher = $container['event-dispatcher'];
     $dispatcher->addListener(

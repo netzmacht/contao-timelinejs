@@ -18,7 +18,7 @@ use Netzmacht\JavascriptBuilder\Builder;
 global $container;
 
 if (!isset($container['timelinejs.debug-mode'])) {
-    $container['timelinejs.debug-mode'] = !$container['toolkit.production-mode'];
+    $container['timelinejs.debug-mode'] = !$container['toolkit.production-mode'] || true;
 }
 
 $container['timelinejs.builder'] = $container->share(

@@ -21,7 +21,7 @@ use Netzmacht\Contao\Toolkit\View\Template;
  */
 class HybridTimeline extends Hybrid
 {
-    const URL_TEMPLATE = '%s%s/system/modules/timelinejs/public/json.php?';
+    const URL_TEMPLATE = '%s%s/system/modules/timelinejs/public/json.php?%s';
 
     /**
      * Template name.
@@ -55,12 +55,26 @@ class HybridTimeline extends Hybrid
     }
 
     /**
+     * Generate.
+     *
+     * @return string
+     */
+    public function generate()
+    {
+        if (TL_MODE === 'BE') {
+            return sprintf('TIMELINE ' . $this->objParent->timeline);
+        }
+
+        return parent::generate();
+    }
+
+    /**
      * {@inheritDoc}
      */
     protected function render(Template $template)
     {
         $provider = $this->getTimelineProvider();
-        $timeline = $provider->getTimelineModel($this->timeline);
+        $timeline = $provider->getTimelineModel($this->objParent->timeline);
         $event    = new BuildSourceUrlEvent($timeline, ['id' => $timeline->id]);
 
         $this->getServiceContainer()->getEventDispatcher()->dispatch($event::NAME, $event);

@@ -8,7 +8,7 @@
     var timeline = new TL.Timeline(
         'timeline-embed-<?php echo $this->id ?>',
         '<?= $this->source ?>',
-        <?= $this->provider->getOptionsJson($this->model) ?>
+        <?= $this->provider->getOptionsJson($this->timeline) ?>
     );
 </script>
 <?php $this->endblock(); ?>

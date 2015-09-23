@@ -29,8 +29,8 @@ class OptionsBuilder
      */
     private static $mapping = array(
         'script_path'        => array('type' => 'string', 'default' => null),
-        'height'             => array('type' => 'string', 'default' => null),
-        'width'              => array('type' => 'string', 'default' => null),
+//        'height'             => array('type' => 'string', 'default' => null),
+//        'width'              => array('type' => 'string', 'default' => null),
         'is_embed'           => array('type' => 'bool', 'default' => false),
         'is_full_embed'      => array('type' => 'bool', 'default' => false),
         'hash_bookmark'      => array('type' => 'bool', 'default' => false),
@@ -138,18 +138,21 @@ class OptionsBuilder
                 continue;
             }
 
+            $column = StringUtil::camelize($key, false);
+
+            if (!isset($data[$column])) {
+                continue;
+            }
+
             // Make sure default isset.
             $config['default'] = isset($config['default']) ? $config['default'] : null;
-
-            $value = isset($data[$key]) ? $data[$key] : null;
-            $value = call_user_func([$this, $method], $value, $config);
+            $value             = call_user_func([$this, $method], $data[$column], $config);
 
             // Node does not have to be set. Only set non default options.
             if ($config['type'] === 'node' || $value === $config['default']) {
                 continue;
             }
 
-            $key                 = StringUtil::camelize($key);
             $this->options[$key] = $value;
         }
     }

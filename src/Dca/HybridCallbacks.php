@@ -58,8 +58,8 @@ class HybridCallbacks extends \System
         return sprintf(
             '<a href="%s" title="%s"><img src="%s" alt="%s" style="padding-left:5px"></a>',
             $url,
-            'system/themes/default/images/edit.gif',
             $translator->translate('timeline_edit.1', $table, [$dataContainer->activeRecord->timeline]),
+            'system/themes/default/images/edit.gif',
             $translator->translate('timeline_edit.0', $table)
         );
     }

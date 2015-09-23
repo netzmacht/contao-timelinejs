@@ -17,7 +17,8 @@ use Netzmacht\Contao\TimelineJs\Frontend\JSONController;
 define('TL_MODE', 'FE');
 require_once dirname(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME'])))) . '/initialize.php';
 
-$input      = $GLOBALS['container']['input'];
+$provider = $GLOBALS['container']['timelinejs.provider'];
+$input    = $GLOBALS['container']['input'];
 
-$controller = new JSONController($input);
+$controller = new JSONController($provider, $input);
 $controller->run();

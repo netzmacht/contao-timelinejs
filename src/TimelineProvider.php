@@ -14,11 +14,14 @@ namespace Netzmacht\Contao\TimelineJs;
 use Doctrine\Common\Cache\Cache;
 use Netzmacht\Contao\TimelineJs\Builder\Event\BuildTimelineEvent;
 use Netzmacht\Contao\TimelineJs\Builder\Event\BuildTimelineOptionsEvent;
+use Netzmacht\Contao\TimelineJs\Definition\Slide;
+use Netzmacht\Contao\TimelineJs\Definition\Text;
 use Netzmacht\Contao\TimelineJs\Definition\Timeline;
 use Netzmacht\Contao\TimelineJs\Definition\TimelineOptions;
 use Netzmacht\Contao\TimelineJs\Event\GetCacheKeyEvent;
 use Netzmacht\Contao\TimelineJs\Model\TimelineModel;
 use Netzmacht\JavascriptBuilder\Builder;
+use Netzmacht\JavascriptBuilder\Flags;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
@@ -75,7 +78,7 @@ class TimelineProvider
         $model = TimelineModel::findByPk($timelineId);
 
         if (!$model) {
-            throw new \InvalidArgumentException(sprintf('Timeline "%s" does not exists.'));
+            throw new \InvalidArgumentException(sprintf('Timeline "%s" does not exists.', $timelineId));
         }
 
         return $model;
@@ -120,7 +123,9 @@ class TimelineProvider
         }
 
         $timeline = $this->getTimeline($model);
-        $json     = $this->builder->encode($timeline);
+        $title    = new Slide(null, new Text('Test'));
+        $timeline->setTitle($title);
+        $json     = $this->builder->encode($timeline, Flags::QUOTE_KEYS);
         $this->cache->save($cacheKey, $json);
 
         return $json;
@@ -164,7 +169,7 @@ class TimelineProvider
         }
 
         $options = $this->getOptions($model);
-        $json    = $this->builder->encode($options);
+        $json    = $this->builder->encode($options, JSON_FORCE_OBJECT);
 
         $this->cache->save($cacheKey, $json);
 
