@@ -111,6 +111,30 @@ final class Date implements ConvertsToJavascript
     }
 
     /**
+     * Get date from a string. The expected date format is Y-m-d H:i:s.u but only the year is required.
+     *
+     * @param string $dateString The date string.
+     * @param string $format     Javascript date format.
+     * @param string $display    Display representation.
+     *
+     * @return static
+     */
+    public static function fromString($dateString, $format = null, $display = null)
+    {
+        $result = array_fill_keys(['year', 'month', 'day', 'hour', 'minute', 'second', 'millisecond'], null);
+
+        list($date, $time)                                      = explode(' ', $dateString, 1);
+        list($result['year'], $result['month'], $result['day']) = explode('-', $date, 3);
+
+        if ($time) {
+            list ($time, $result['millisecond'])                         = explode('.', $time);
+            list ($result['hour'], $result['minute'], $result['second']) = explode(':', $time, 3);
+        }
+
+        return new static(array_filter($result), $format, $display);
+    }
+
+    /**
      * Set the date.
      *
      * It ignores invalid array keys.
