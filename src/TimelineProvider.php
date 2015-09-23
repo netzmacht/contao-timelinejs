@@ -14,14 +14,10 @@ namespace Netzmacht\Contao\TimelineJs;
 use Doctrine\Common\Cache\Cache;
 use Netzmacht\Contao\TimelineJs\Builder\Event\BuildTimelineEvent;
 use Netzmacht\Contao\TimelineJs\Builder\Event\BuildTimelineOptionsEvent;
-use Netzmacht\Contao\TimelineJs\Definition\Slide;
-use Netzmacht\Contao\TimelineJs\Definition\Text;
 use Netzmacht\Contao\TimelineJs\Definition\Timeline;
 use Netzmacht\Contao\TimelineJs\Definition\TimelineOptions;
 use Netzmacht\Contao\TimelineJs\Event\GetCacheKeyEvent;
 use Netzmacht\Contao\TimelineJs\Model\TimelineModel;
-use Netzmacht\JavascriptBuilder\Builder;
-use Netzmacht\JavascriptBuilder\Flags;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
@@ -46,24 +42,15 @@ class TimelineProvider
     private $cache;
 
     /**
-     * Javascript builder.
-     *
-     * @var Builder
-     */
-    private $builder;
-
-    /**
      * TimelineProvider constructor.
      *
      * @param EventDispatcher $eventDispatcher Event dispatcher.
-     * @param Builder         $builder         Javascript builder.
      * @param Cache           $cache           The cache.
      */
-    public function __construct(EventDispatcher $eventDispatcher, Builder $builder, Cache $cache)
+    public function __construct(EventDispatcher $eventDispatcher , Cache $cache)
     {
         $this->eventDispatcher = $eventDispatcher;
         $this->cache           = $cache;
-        $this->builder         = $builder;
     }
 
     /**
@@ -123,7 +110,7 @@ class TimelineProvider
         }
 
         $timeline = $this->getTimeline($model);
-        $json     = $this->builder->encode($timeline, Flags::QUOTE_KEYS);
+        $json     = json_encode($timeline);
         $this->cache->save($cacheKey, $json);
 
         return $json;
@@ -167,7 +154,7 @@ class TimelineProvider
         }
 
         $options = $this->getOptions($model);
-        $json    = $this->builder->encode($options, JSON_FORCE_OBJECT);
+        $json    = json_encode($options, JSON_FORCE_OBJECT);
 
         $this->cache->save($cacheKey, $json);
 

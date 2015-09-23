@@ -13,7 +13,6 @@ namespace Netzmacht\Contao\TimelineJs\Definition\Background;
 
 use Assert\Assertion;
 use Netzmacht\Contao\TimelineJs\Definition\Background;
-use Netzmacht\JavascriptBuilder\Encoder;
 
 /**
  * Class BackgroundUrl.
@@ -60,10 +59,8 @@ final class BackgroundUrl implements Background
     /**
      * {@inheritDoc}
      */
-    public function encode(Encoder $encoder, $flags = null)
+    public function jsonSerialize()
     {
-        $data = array('url' => $this->getValue());
-
-        return $encoder->encodeArray($data, $flags);
+        return array('url' => $this->getValue());
     }
 }

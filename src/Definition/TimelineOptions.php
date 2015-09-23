@@ -11,15 +11,12 @@
 
 namespace Netzmacht\Contao\TimelineJs\Definition;
 
-use Netzmacht\JavascriptBuilder\Encoder;
-use Netzmacht\JavascriptBuilder\Type\ConvertsToJavascript;
-
 /**
  * Class TimelineOptions.
  *
  * @package Netzmacht\Contao\TimelineJs\Definition
  */
-class TimelineOptions implements ConvertsToJavascript
+class TimelineOptions implements \JsonSerializable
 {
     /**
      * Options.
@@ -114,8 +111,8 @@ class TimelineOptions implements ConvertsToJavascript
     /**
      * {@inheritDoc}
      */
-    public function encode(Encoder $encoder, $flags = null)
+    public function jsonSerialize()
     {
-        return $encoder->encodeArray($this->options, $flags);
+        return $this->options;
     }
 }

@@ -12,15 +12,13 @@
 namespace Netzmacht\Contao\TimelineJs\Definition;
 
 use Assert\Assertion;
-use Netzmacht\JavascriptBuilder\Encoder;
-use Netzmacht\JavascriptBuilder\Type\ConvertsToJavascript;
 
 /**
  * TimelineJS date object.
  *
  * @package Netzmacht\Contao\TimelineJs\Definition
  */
-final class Date implements ConvertsToJavascript
+final class Date implements \JsonSerializable
 {
     /**
      * The date.
@@ -409,14 +407,13 @@ final class Date implements ConvertsToJavascript
     /**
      * {@inheritDoc}
      */
-    public function encode(Encoder $encoder, $flags = null)
+    public function jsonSerialize()
     {
         $data                 = $this->date;
         $data['format']       = $this->format;
         $data['display_date'] = $this->display;
-        $data                 = array_filter($data);
 
-        return $encoder->encodeArray($data, $flags);
+        return array_filter($data);
     }
 
     /**

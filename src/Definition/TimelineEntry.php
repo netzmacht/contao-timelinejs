@@ -12,15 +12,13 @@
 namespace Netzmacht\Contao\TimelineJs\Definition;
 
 use Netzmacht\Contao\TimelineJs\Util\StringUtil;
-use Netzmacht\JavascriptBuilder\Encoder;
-use Netzmacht\JavascriptBuilder\Type\ConvertsToJavascript;
 
 /**
  * Base class for timeline entries.
  *
  * @package Netzmacht\Contao\TimelineJs\Definition
  */
-abstract class TimelineEntry implements ConvertsToJavascript
+abstract class TimelineEntry implements \JsonSerializable
 {
     /**
      * The start date.
@@ -145,7 +143,7 @@ abstract class TimelineEntry implements ConvertsToJavascript
     /**
      * {@inheritDoc}
      */
-    public function encode(Encoder $encoder, $flags = null)
+    public function jsonSerialize()
     {
         $raw  = array_filter($this->toArray());
         $data = array();
@@ -155,6 +153,6 @@ abstract class TimelineEntry implements ConvertsToJavascript
             $data[$key] = $value;
         }
 
-        return $encoder->encodeArray($data, $flags);
+        return $data;
     }
 }

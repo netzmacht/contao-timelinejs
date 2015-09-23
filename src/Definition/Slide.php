@@ -11,8 +11,6 @@
 
 namespace Netzmacht\Contao\TimelineJs\Definition;
 
-use Netzmacht\JavascriptBuilder\Encoder;
-
 /**
  * TimelineJS slide object.
  *

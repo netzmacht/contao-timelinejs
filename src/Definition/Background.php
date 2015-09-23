@@ -11,14 +11,12 @@
 
 namespace Netzmacht\Contao\TimelineJs\Definition;
 
-use Netzmacht\JavascriptBuilder\Type\ConvertsToJavascript;
-
 /**
  * TimelineJS background value.
  *
  * @package Netzmacht\Contao\TimelineJs\Definition
  */
-interface Background extends ConvertsToJavascript
+interface Background extends \JsonSerializable
 {
     /**
      * Get background type.

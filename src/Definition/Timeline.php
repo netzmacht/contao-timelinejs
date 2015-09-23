@@ -12,16 +12,13 @@
 namespace Netzmacht\Contao\TimelineJs\Definition;
 
 use Assert\Assertion;
-use Netzmacht\JavascriptBuilder\Encoder;
-use Netzmacht\JavascriptBuilder\Type\ConvertsToJavascript;
-use Netzmacht\JavascriptBuilder\Type\HasStackInformation;
 
 /**
  * TimelineJS timeline object.
  *
  * @package Netzmacht\Contao\TimelineJs\Definition
  */
-final class Timeline implements ConvertsToJavascript, HasStackInformation
+final class Timeline implements \JsonSerializable
 {
     const SCALE_HUMAN        = 'human';
     const SCALE_COSMOLOGICAL = 'cosmological';
@@ -212,28 +209,13 @@ final class Timeline implements ConvertsToJavascript, HasStackInformation
     /**
      * {@inheritDoc}
      */
-    public function encode(Encoder $encoder, $flags = null)
+    public function jsonSerialize()
     {
-        $data = array(
+        return array(
             'title'  => $this->title,
             'events' => $this->events,
             'eras'   => $this->eras,
             'scale'  => $this->scale
         );
-
-        return $encoder->encodeArray(array_filter($data), $flags);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getObjectStack()
-    {
-        $stack = array_merge($this->events, $this->eras);
-        if ($this->title) {
-            $stack[] = $this->title;
-        }
-
-        return $stack;
     }
 }

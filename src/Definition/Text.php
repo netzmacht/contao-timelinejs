@@ -10,15 +10,12 @@
  */
 namespace Netzmacht\Contao\TimelineJs\Definition;
 
-use Netzmacht\JavascriptBuilder\Encoder;
-use Netzmacht\JavascriptBuilder\Type\ConvertsToJavascript;
-
 /**
  * TimelineJS text object.
  *
  * @package Netzmacht\Contao\TimelineJs\Definition
  */
-final class Text implements ConvertsToJavascript
+final class Text implements \JsonSerializable
 {
     /**
      * The text.
@@ -97,10 +94,8 @@ final class Text implements ConvertsToJavascript
     /**
      * {@inheritDoc}
      */
-    public function encode(Encoder $encoder, $flags = null)
+    public function jsonSerialize()
     {
-        $data = array_filter(get_object_vars($this));
-
-        return $encoder->encodeArray($data, $flags);
+        return array_filter(get_object_vars($this));
     }
 }

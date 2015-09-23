@@ -11,9 +11,7 @@
 
 namespace Netzmacht\Contao\TimelineJs\Definition\Background;
 
-use Assert\Assertion;
 use Netzmacht\Contao\TimelineJs\Definition\Background;
-use Netzmacht\JavascriptBuilder\Encoder;
 
 /**
  * Class BackgroundColor.
@@ -58,10 +56,8 @@ final class BackgroundColor implements Background
     /**
      * {@inheritDoc}
      */
-    public function encode(Encoder $encoder, $flags = null)
+    function jsonSerialize()
     {
-        $data = array('color' => $this->getValue());
-
-        return $encoder->encodeArray($data, $flags);
+        return array('color' => $this->getValue());
     }
 }

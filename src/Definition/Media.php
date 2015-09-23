@@ -12,15 +12,13 @@
 namespace Netzmacht\Contao\TimelineJs\Definition;
 
 use Assert\Assertion;
-use Netzmacht\JavascriptBuilder\Encoder;
-use Netzmacht\JavascriptBuilder\Type\ConvertsToJavascript;
 
 /**
  * TimelineJS media object.
  *
  * @package Netzmacht\Contao\TimelineJs\Definition
  */
-final class Media implements ConvertsToJavascript
+final class Media implements \JsonSerializable
 {
     /**
      * Media url.
@@ -173,10 +171,8 @@ final class Media implements ConvertsToJavascript
     /**
      * {@inheritDoc}
      */
-    public function encode(Encoder $encoder, $flags = null)
+    public function jsonSerialize()
     {
-        $data = array_filter(get_object_vars($this));
-
-        return $encoder->encodeArray($data, $flags);
+        return array_filter(get_object_vars($this));
     }
 }

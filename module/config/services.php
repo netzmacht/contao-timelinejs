@@ -13,19 +13,12 @@ use Doctrine\Common\Cache\ApcCache;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\FilesystemCache;
 use Netzmacht\Contao\TimelineJs\TimelineProvider;
-use Netzmacht\JavascriptBuilder\Builder;
 
 global $container;
 
 if (!isset($container['timelinejs.debug-mode'])) {
     $container['timelinejs.debug-mode'] = !$container['toolkit.production-mode'] || true;
 }
-
-$container['timelinejs.builder'] = $container->share(
-    function () {
-        return new Builder();
-    }
-);
 
 $container['timelinejs.cache'] = $container->share(
     function ($container) {
@@ -43,7 +36,6 @@ $container['timelinejs.provider'] = $container->share(
     function ($container) {
         return new TimelineProvider(
             $container['event-dispatcher'],
-            $container['timelinejs.builder'],
             $container['timelinejs.cache']
         );
     }
