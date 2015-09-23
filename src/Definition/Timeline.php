@@ -211,11 +211,13 @@ final class Timeline implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return array(
+        $data = array(
             'title'  => $this->title,
             'events' => $this->events,
             'eras'   => $this->eras,
             'scale'  => $this->scale
         );
+
+        return array_filter($data);
     }
 }
