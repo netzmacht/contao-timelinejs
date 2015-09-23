@@ -11,6 +11,8 @@
 
 namespace Netzmacht\Contao\TimelineJs\Frontend;
 
+use Netzmacht\Contao\TimelineJs\Event\BuildSourceUrlEvent;
+use Netzmacht\Contao\TimelineJs\TimelineProvider;
 use Netzmacht\Contao\Toolkit\Component\Hybrid;
 use Netzmacht\Contao\Toolkit\View\Template;
 
@@ -19,7 +21,7 @@ use Netzmacht\Contao\Toolkit\View\Template;
  */
 class HybridTimeline extends Hybrid
 {
-    const URL_TEMPLATE = '%s%s/system/modules/timelinejs/public/json.php?id=%s';
+    const URL_TEMPLATE = '%s%s/system/modules/timelinejs/public/json.php?';
 
     /**
      * Template name.
@@ -43,23 +45,37 @@ class HybridTimeline extends Hybrid
     protected $strKey = 'timeline';
 
     /**
+     * Get the timeline provider.
+     *
+     * @return TimelineProvider
+     */
+    private function getTimelineProvider()
+    {
+        return $this->getServiceContainer()->getService('timelinejs.provider');
+    }
+
+    /**
      * {@inheritDoc}
      */
     protected function render(Template $template)
     {
-        $misc   = deserialize($this->misc, true);
+        $provider = $this->getTimelineProvider();
+        $timeline = $provider->getTimelineModel($this->timeline);
+        $event    = new BuildSourceUrlEvent($timeline, ['id' => $timeline->id]);
+
+        $this->getServiceContainer()->getEventDispatcher()->dispatch($event::NAME, $event);
+
+        $query  = http_build_query($event->getQuery()->getArrayCopy());
         $source = sprintf(
             static::URL_TEMPLATE,
             $this->getServiceContainer()->getEnvironment()->get('url'),
             $this->getServiceContainer()->getConfig()->get('websitePath'),
-            $this->id
+            $query
         );
 
         $template
             ->set('source', $source)
-            ->set('font', $this->fonts)
-            ->set('startAtEnd', var_export(in_array('startAtEnd', $misc), true))
-            ->set('hashBookmarks', var_export(in_array('hashBookmarks', $misc), true))
-            ->set('debug', in_array('debug', $misc));
+            ->set('timeline', $timeline)
+            ->set('provider', $provider);
     }
 }

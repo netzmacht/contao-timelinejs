@@ -13,6 +13,23 @@ namespace Netzmacht\Contao\TimelineJs\Model;
 
 /**
  * Entry model.
+ *
+ * @property mixed|null type
+ * @property mixed|null startDate
+ * @property mixed|null dateFormat
+ * @property mixed|null startDisplay
+ * @property mixed|null endDisplay
+ * @property mixed|null endDate
+ * @property mixed|null group
+ * @property mixed|null dateDisplay
+ * @property mixed|null autolink
+ * @property mixed|null mediaUrl
+ * @property mixed|null mediaCaption
+ * @property mixed|null mediaCredit
+ * @property mixed|null mediaThumbnail
+ * @property mixed|null headline
+ * @property mixed|null text
+ * @property mixed|null background
  */
 class EntryModel extends \Model
 {
