@@ -11,6 +11,7 @@
 
 namespace Netzmacht\Contao\TimelineJs\Definition;
 
+use Netzmacht\Contao\TimelineJs\Util\StringUtil;
 use Netzmacht\JavascriptBuilder\Encoder;
 use Netzmacht\JavascriptBuilder\Type\ConvertsToJavascript;
 
@@ -132,24 +133,6 @@ abstract class TimelineEntry implements ConvertsToJavascript
     }
 
     /**
-     * Decamelize a value.
-     *
-     * Taken from stackoverflow.com.
-     *
-     * @param string $value The value.
-     *
-     * @return string
-     * @see    http://stackoverflow.com/a/5194470
-     */
-    private function decamelize($value) {
-        return preg_replace(
-            '/(^|[a-z])([A-Z])/e',
-            'strtolower(strlen("\\1") ? "\\1_\\2" : "\\2")',
-            $value
-        );
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function encode(Encoder $encoder, $flags = null)
@@ -158,7 +141,7 @@ abstract class TimelineEntry implements ConvertsToJavascript
         $data = array();
 
         foreach ($raw as $key => $value) {
-            $key        = $this->decamelize($key);
+            $key        = StringUtil::decamelize($key);
             $data[$key] = $value;
         }
 
