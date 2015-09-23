@@ -14,13 +14,14 @@ namespace Netzmacht\Contao\TimelineJs\Definition;
 use Assert\Assertion;
 use Netzmacht\JavascriptBuilder\Encoder;
 use Netzmacht\JavascriptBuilder\Type\ConvertsToJavascript;
+use Netzmacht\JavascriptBuilder\Type\HasStackInformation;
 
 /**
  * TimelineJS timeline object.
  *
  * @package Netzmacht\Contao\TimelineJs\Definition
  */
-final class Timeline implements ConvertsToJavascript
+final class Timeline implements ConvertsToJavascript, HasStackInformation
 {
     const SCALE_HUMAN        = 'human';
     const SCALE_COSMOLOGICAL = 'cosmological';
@@ -191,13 +192,18 @@ final class Timeline implements ConvertsToJavascript
     /**
      * Set options.
      *
-     * @param array $options Options.
+     * @param array $options  Options.
+     * @param bool  $override If true all options get replaced.
      *
      * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options, $override = false)
     {
-        $this->options = $options;
+        if ($override) {
+            $this->options = $options;
+        } else {
+            $this->options = array_merge($this->options, $options);
+        }
 
         return $this;
     }
@@ -287,5 +293,18 @@ final class Timeline implements ConvertsToJavascript
         $data           = array_filter($data);
 
         return $encoder->encodeArray($data, $flags);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getObjectStack()
+    {
+        $stack = array_merge($this->events, $this->eras);
+        if ($this->title) {
+            $stack[] = $this->title;
+        }
+
+        return $stack;
     }
 }
