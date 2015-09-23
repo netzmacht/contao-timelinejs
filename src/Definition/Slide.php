@@ -175,7 +175,7 @@ final class Slide extends TimelineEntry
      *
      * @return $this
      */
-    public function setBackground($background)
+    public function setBackground(Background $background)
     {
         $this->background = $background;
 
