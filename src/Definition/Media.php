@@ -12,6 +12,7 @@
 namespace Netzmacht\Contao\TimelineJs\Definition;
 
 use Assert\Assertion;
+use Netzmacht\Contao\TimelineJs\Util\StringUtil;
 
 /**
  * TimelineJS media object.
@@ -47,6 +48,20 @@ final class Media implements \JsonSerializable
      * @var string
      */
     private $thumbnail;
+
+    /**
+     * Link.
+     *
+     * @var string
+     */
+    private $link;
+
+    /**
+     * Link target.
+     *
+     * @var string
+     */
+    private $linkTarget;
 
     /**
      * Media constructor.
@@ -165,10 +180,44 @@ final class Media implements \JsonSerializable
     }
 
     /**
+     * Get link.
+     *
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * Set link.
+     *
+     * @param string $link   Link.
+     * @param null   $target Link target.
+     *
+     * @return $this
+     */
+    public function setLink($link, $target = null)
+    {
+        $this->link       = $link;
+        $this->linkTarget = $target;
+
+        return $this;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function jsonSerialize()
     {
-        return array_filter(get_object_vars($this));
+        $raw  = array_filter(get_object_vars($this));
+        $data = array();
+
+        foreach ($raw as $name => $value) {
+            $name        = StringUtil::decamelize($name);
+            $data[$name] = $value;
+        }
+
+        return $data;
     }
 }
