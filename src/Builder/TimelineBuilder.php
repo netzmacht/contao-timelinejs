@@ -85,11 +85,6 @@ class TimelineBuilder
      */
     public function buildEntries(Timeline $timeline, TimelineModel $timelineModel)
     {
-        // Only render default data source. Empty for compatibility.
-        if ($timelineModel->dataSource != 'default' && $timelineModel->dataSource != '') {
-            return;
-        }
-
         $collection = EntryModel::findPublishedByPid($timelineModel->id);
 
         if ($collection) {
