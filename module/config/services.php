@@ -9,7 +9,6 @@
  * @copyright 2013-2015 netzmacht creative David Molineus
  */
 
-use Doctrine\Common\Cache\ApcCache;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\FilesystemCache;
 use Netzmacht\Contao\TimelineJs\TimelineProvider;
@@ -24,8 +23,6 @@ $container['timelinejs.cache'] = $container->share(
     function ($container) {
         if ($container['timelinejs.debug-mode']) {
             return new ArrayCache();
-        } elseif (extension_loaded('apc') && ini_get('apc.enabled')) {
-            return new ApcCache();
         } else {
             return new FilesystemCache(TL_ROOT . '/system/cache/timelinejs');
         }
@@ -40,3 +37,6 @@ $container['timelinejs.provider'] = $container->share(
         );
     }
 );
+
+$container['timelinejs.datasources']   = new \ArrayObject();
+$container['timelinejs.datasources'][] = 'default';

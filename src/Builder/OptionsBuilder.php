@@ -31,12 +31,10 @@ class OptionsBuilder
         'script_path'        => array('type' => 'string', 'default' => null),
 //        'height'             => array('type' => 'string', 'default' => null),
 //        'width'              => array('type' => 'string', 'default' => null),
-        'is_embed'           => array('type' => 'bool', 'default' => false),
-        'is_full_embed'      => array('type' => 'bool', 'default' => false),
+//        'is_embed'           => array('type' => 'bool', 'default' => false),
+//        'is_full_embed'      => array('type' => 'bool', 'default' => false),
         'hash_bookmark'      => array('type' => 'bool', 'default' => false),
-        'default_bg_color'   => array('type' => 'rgb', 'default' => 'ffffff'),
-        'scale_factor'       => array('type' => 'int', 'default' => 2),
-        'initial_zoom'       => array('type' => 'int', 'default' => null),
+        'default_bg_color'   => array('type' => 'rgb', 'default' => '#ffffff'),
         'zoom_sequence'      => array(
             'type'    => 'csv',
             'default' => [0.5, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
@@ -47,31 +45,45 @@ class OptionsBuilder
         'start_at_slide'     => array('type' => 'int', 'default' => 0),
         'start_at_end'       => array('type' => 'bool', 'default' => false),
         'relative_date'      => array('type' => 'bool', 'default' => false),
-        'use_bc'             => array('type' => 'bool', 'default' => false),
+//        'use_bc'             => array('type' => 'bool', 'default' => false),
         'duration'           => array('type' => 'int', 'default' => 1000),
         'ease'               => array('type' => 'string', 'default' => 'easeInOutQuint'),
         'dragging'           => array('type' => 'bool', 'default' => true),
         'trackResize'        => array('type' => 'bool', 'default' => true),
-        'slide_default_fade' => array('type' => 'string', 'default' => '0%'),
+//        'slide_default_fade' => array('type' => 'string', 'default' => '0%'),
         'language'           => array('type' => 'string', 'default' => 'en'),
         'map_type'           => array('type' => 'string', 'default' => 'stamen:toner-lite'),
-        'ga_property_id'     => array('type' => 'string', 'default' => null),
-        'track_events'       => array(
-            'type'    => 'csv',
-            'default' => [
-                'back_to_start',
-                'nav_next',
-                'nav_previous',
-                'zoom_in',
-                'zoom_out'
-            ]
+//        'track_events'       => array(
+//            'type'    => 'csv',
+//            'default' => [
+//                'back_to_start',
+//                'nav_next',
+//                'nav_previous',
+//                'zoom_in',
+//                'zoom_out'
+//            ]
+//        ),
+        'apiKeys'              => array
+        (
+            'type'    => 'node',
+            'key'     => 'name',
+            'value'   => 'value',
+            'options' => array
+            (
+                'api_key_flickr'     => array('type' => 'string', 'default' => null),
+                'api_key_googlemaps' => array('type' => 'string', 'default' => null),
+                'ga_property_id'     => array('type' => 'string', 'default' => null),
+            )
         ),
-        'api_key_flickr'     => array('type' => 'string', 'default' => null),
         'sizes'              => array
         (
             'type'    => 'node',
+            'key'     => 'name',
+            'value'   => 'value',
             'options' => array
             (
+                'scale_factor'                     => array('type' => 'int', 'default' => 2),
+                'initial_zoom'                     => array('type' => 'int', 'default' => null),
                 'optimal_tick_witdh'               => array('type' => 'int', 'default' => 100),
                 'timenav_height'                   => array('type' => 'int', 'default' => 150),
                 'timenav_height_percentage'        => array('type' => 'int', 'default' => 25),
@@ -94,6 +106,20 @@ class OptionsBuilder
      * @var array
      */
     private $options = array();
+
+    public static function getSizeOptionNames($camelized = true)
+    {
+        $options = array_keys(static::$mapping['sizes']['options']);
+
+        if ($camelized) {
+            return array_map(
+                'Netzmacht\Contao\TimelineJs\Util\StringUtil::camelize',
+                $options
+            );
+        }
+
+        return $options;
+    }
 
     /**
      * Handle the build options event.
@@ -149,7 +175,7 @@ class OptionsBuilder
             $value             = call_user_func([$this, $method], $data[$column], $config);
 
             // Node does not have to be set. Only set non default options.
-            if ($config['type'] === 'node' || $value === $config['default']) {
+            if ($value === null || $config['type'] === 'node' || $value === $config['default']) {
                 continue;
             }
 
@@ -169,7 +195,7 @@ class OptionsBuilder
     {
         $value = (int) $value;
 
-        if ($config['default'] === null && $value === 0) {
+        if ($config['default'] === null || $value == '') {
             return null;
         }
 
@@ -188,7 +214,7 @@ class OptionsBuilder
     {
         $value = (string) $value;
 
-        if ($config['default'] === null && $value === 0) {
+        if ($config['default'] === null || $value === '') {
             return null;
         }
 
@@ -224,7 +250,14 @@ class OptionsBuilder
      */
     private function buildNodeOption($value, $config)
     {
-        $this->buildOptions(deserialize($value, true), $config['options']);
+        $value  = deserialize($value, true);
+        $mapped = array();
+
+        foreach ($value as $row) {
+            $mapped[$row[$config['key']]] = $row[$config['value']];
+        }
+
+        $this->buildOptions($mapped, $config['options']);
     }
 
     /**
@@ -237,13 +270,13 @@ class OptionsBuilder
      */
     private function buildCsvOption($value, $config)
     {
-        if ($config['default'] === null && $value === 0) {
+        if ($config['default'] === null && $value === '') {
             return null;
         }
 
         $delimiter = isset($config['delimiter']) ? $config['delimiter'] : ',';
 
-        return explode($delimiter, $value);
+        return array_filter(explode($delimiter, $value)) ?: null;
     }
 
     /**
@@ -260,30 +293,6 @@ class OptionsBuilder
             return null;
         }
 
-        if (substr($value, 0, 1) === '#') {
-            $value = substr($value, 1);
-        }
-
-        $length = strlen($value);
-        $rgb    = array(
-            'r' => null,
-            'g' => null,
-            'b' => null
-        );
-
-        switch ($length) {
-            case 3:
-                list($rgb['r'], $rgb['g'], $rgb['b']) = str_split($value, 1);
-                break;
-
-            case 6:
-                list($rgb['r'], $rgb['g'], $rgb['b']) = str_split($value, 2);
-                break;
-
-            default:
-                return null;
-        }
-
-        return $rgb;
+        return StringUtil::rgbColorToArray($value);
     }
 }

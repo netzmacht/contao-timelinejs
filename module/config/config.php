@@ -41,7 +41,6 @@ $GLOBALS['TL_HOOKS']['initializeDependencyContainer'][] = function ($container) 
 $GLOBALS['FE_MOD']['application']['TimelineJS'] = 'Netzmacht\Contao\TimelineJs\Frontend\HybridTimeline';
 $GLOBALS['TL_CTE']['includes']['TimelineJS']    = 'Netzmacht\Contao\TimelineJs\Frontend\HybridTimeline';
 
-
 /*
  * Models
  */

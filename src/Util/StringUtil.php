@@ -26,7 +26,7 @@ class StringUtil
      *
      * @return string
      */
-    public static function camelize($value, $first = true)
+    public static function camelize($value, $first = false)
     {
         $value = preg_replace_callback(
             '/(^|_)([a-z])/',
@@ -74,5 +74,34 @@ class StringUtil
     public static function replaceInsertTags($buffer, $cache = true)
     {
         return InsertTagReplacer::getInstance()->replace($buffer, $cache);
+    }
+
+    public static function rgbColorToArray($value)
+    {
+        if (substr($value, 0, 1) === '#') {
+            $value = substr($value, 1);
+        }
+
+        $length = strlen($value);
+        $rgb    = array(
+            'r' => null,
+            'g' => null,
+            'b' => null
+        );
+
+        switch ($length) {
+            case 3:
+                list($rgb['r'], $rgb['g'], $rgb['b']) = str_split($value, 1);
+                break;
+
+            case 6:
+                list($rgb['r'], $rgb['g'], $rgb['b']) = str_split($value, 2);
+                break;
+
+            default:
+                return null;
+        }
+
+        return $rgb;
     }
 }

@@ -11,6 +11,7 @@
 
 namespace Netzmacht\Contao\TimelineJs\Builder;
 
+use Contao\String;
 use Netzmacht\Contao\TimelineJs\Builder\Event\BuildEntryEvent;
 use Netzmacht\Contao\TimelineJs\Definition\Background;
 use Netzmacht\Contao\TimelineJs\Definition\Background\BackgroundColor;
@@ -103,8 +104,8 @@ class EntryBuilder
      */
     public function buildEra(EntryModel $entryModel)
     {
-        $startDate  = $this->buildDate($entryModel->startDate, $entryModel->dateFormat, $entryModel->startDisplay);
-        $endDate    = $this->buildDate($entryModel->endDate, $entryModel->dateFormat, $entryModel->endDisplay);
+        $startDate  = $this->buildDate($entryModel->startDate);
+        $endDate    = $this->buildDate($entryModel->endDate);
         $text       = $this->buildText($entryModel);
 
         $era = new Era($startDate, $text, $endDate);
@@ -156,6 +157,11 @@ class EntryBuilder
                 $thumbnail = \Image::get($file, $thumbnailSize[0], $thumbnailSize[1], $thumbnailSize[2]);
                 $media->setThumbnail($thumbnail);
             }
+        }
+
+        $link = StringUtil::replaceInsertTags($model->mediaLink);
+        if ($link) {
+            $media->setLink($link, $model->mediaLinkTarget ?: null);
         }
 
         return $media;
@@ -212,17 +218,15 @@ class EntryBuilder
      */
     public function buildBackground(EntryModel $entryModel)
     {
-        $background = deserialize($entryModel->background, true);
-
-        switch ($background[1]) {
-            case 'url':
-                return new BackgroundUrl(StringUtil::replaceInsertTags($background[0]));
-
-            case 'color':
-                return new BackgroundColor($background[0]);
-
-            default:
-                return null;
+        $background = StringUtil::replaceInsertTags($entryModel->background);
+        if (!$background) {
+            return null;
         }
+
+        if (substr($background, 0, 1) === '#') {
+            return new BackgroundColor($background);
+        }
+
+        return new BackgroundUrl($background);
     }
 }

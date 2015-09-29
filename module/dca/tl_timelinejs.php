@@ -9,6 +9,10 @@
  * @copyright 2013-2015 netzmacht creative David Molineus
  */
 
+use Netzmacht\Contao\TimelineJs\Builder\OptionsBuilder;
+use Netzmacht\Contao\TimelineJs\Dca\TimelineCallbacks;
+use Netzmacht\Contao\Toolkit\Dca;
+
 $GLOBALS['TL_DCA']['tl_timelinejs'] = array
 (
     // Config
@@ -87,37 +91,76 @@ $GLOBALS['TL_DCA']['tl_timelinejs'] = array
     // palettes
     'metapalettes'    => array(
         'default' => array(
-            'title'    => array('title', 'teaser'),
-            'options'  => array('width', 'height', 'language', 'fonts', 'misc', 'zoom', 'number'),
-            'media'    => array('media'),
-            'template' => array('template'),
+            'title'     => array('title', 'scale', 'language', 'dataSource', 'startAtSlide', 'startAtEnd'),
+            'config'    => array('categories', 'relativeDate', 'useBc'),
+            'options'   => array(':hide', 'sizes', 'layout', 'timenavPosition'),
+            'style'     => array('width', 'height', 'fonts', 'defaultBgColor', 'baseClass'),
+            'browser'   => array('hashBookmarks', 'trackResize', 'ease', 'duration', 'zoomSequence', 'dragging', 'slideDefaultFade'),
+            'api'       => array('apiKeys', 'mapType'),
+            'analytics' => array(':hidden', 'gaPropertyId', 'trackEvents')
         ),
     ),
     // subpalettes
     'metasubpalettes' => array
-    (
-        'media' => array('singleSRC', 'caption', 'credit')
-    ),
+    (),
     // Fields
     'fields'          => array
     (
-        'id'        => array
+        'id'              => array
         (
             'sql' => "int(10) unsigned NOT NULL auto_increment"
         ),
-        'tstamp'    => array
+        'tstamp'          => array
         (
             'sql' => "int(10) unsigned NOT NULL default '0'"
         ),
-        'title'     => array
+        'title'           => array
         (
             'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['title'],
             'exclude'   => true,
             'inputType' => 'text',
-            'eval'      => array('mandatory' => true, 'maxlength' => 255),
+            'eval'      => array('mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
             'sql'       => "varchar(255) NOT NULL default ''"
         ),
-        'width'     => array
+        'scale'           => array
+        (
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['scale'],
+            'exclude'   => true,
+            'inputType' => 'select',
+            'options'   => array('human', 'cosmological'),
+            'eval'      => array('mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
+            'sql'       => "varchar(16) NOT NULL default ''"
+        ),
+        'language'        => array
+        (
+            'label'            => &$GLOBALS['TL_LANG']['tl_timelinejs']['language'],
+            'exclude'          => true,
+            'inputType'        => 'select',
+            'options_callback' => TimelineCallbacks::callback('getSupportedLanguages'),
+            'eval'             => array(
+                'mandatory'          => false,
+                'maxlength'          => 8,
+                'tl_class'           => 'w50',
+                'chosen'             => true,
+                'includeBlankOption' => true
+            ),
+            'sql'              => "varchar(8) NOT NULL default ''"
+        ),
+        'dataSource'      => array
+        (
+            'label'            => &$GLOBALS['TL_LANG']['tl_timelinejs']['dataSource'],
+            'exclude'          => true,
+            'inputType'        => 'select',
+            'options_callback' => TimelineCallbacks::callback('getDataSources'),
+            'eval'             => array(
+                'mandatory'          => true,
+                'tl_class'           => 'w50',
+                'includeBlankOption' => true,
+                'submitOnChange'     => true
+            ),
+            'sql'              => "varchar(16) NOT NULL default ''"
+        ),
+        'width'           => array
         (
             'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['width'],
             'exclude'   => true,
@@ -125,7 +168,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs'] = array
             'eval'      => array('mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
             'sql'       => "varchar(255) NOT NULL default ''"
         ),
-        'height'    => array
+        'height'          => array
         (
             'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['height'],
             'exclude'   => true,
@@ -133,79 +176,126 @@ $GLOBALS['TL_DCA']['tl_timelinejs'] = array
             'eval'      => array('mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
             'sql'       => "varchar(255) NOT NULL default ''"
         ),
-        'language'  => array
+        'sizes'           => array
         (
-            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['language'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['sizes'],
+            'exclude'   => true,
+            'inputType' => 'multiColumnWizard',
+            'options'   => OptionsBuilder::getSizeOptionNames(),
+            'reference' => &$GLOBALS['TL_LANG']['tl_timelinejs']['sizesOptions'],
+            'eval'      => array(
+                'tl_class'     => 'clr',
+                'helpwizard'   => true,
+                'columnFields' => array(
+                    'name'  => array(
+                        'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['name'],
+                        'inputType' => 'select',
+                        'reference' => &$GLOBALS['TL_LANG']['tl_timelinejs']['sizesOptions'],
+                        'options'   => OptionsBuilder::getSizeOptionNames(),
+                        'eval'      => array('style' => 'width: 300px')
+                    ),
+                    'value' => array(
+                        'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['value'],
+                        'inputType' => 'text',
+                        'eval'      => array('style' => 'width: 100px')
+                    ),
+                )
+            ),
+            'sql'       => "blob NULL"
+        ),
+        'timenavPosition' => array
+        (
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['scale'],
             'exclude'   => true,
             'inputType' => 'select',
-            'options'   => array(
-                'af',
-                'ar',
-                'bg',
-                'ca',
-                'cz',
-                'da',
-                'de',
-                'el',
-                'en',
-                'en24hr',
-                'es',
-                'eu',
-                'fi',
-                'fo',
-                'fr',
-                'gl',
-                'hu',
-                'hy',
-                'id',
-                'is',
-                'it',
-                'iw',
-                'ja',
-                'ka',
-                'ko',
-                'kv',
-                'nl',
-                'no',
-                'pl',
-                'pt-br',
-                'pt',
-                'ru',
-                'sk',
-                'sl',
-                'sr-cy',
-                'sr',
-                'sv',
-                'ta',
-                'tl',
-                'tr',
-                'zh-cn',
-                'zh-tw',
-            ),
-            'eval'      => array('mandatory' => false, 'maxlength' => 8, 'tl_class' => 'w50'),
-            'sql'       => "varchar(8) NOT NULL default ''"
+            'options'   => array('bottom', 'top'),
+            'eval'      => array('mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
+            'sql'       => "varchar(16) NOT NULL default ''"
         ),
-        'map'       => array
+        'layout'          => array
+        (
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['layout'],
+            'exclude'   => true,
+            'inputType' => 'select',
+            'options'   => array('landscape', 'portrait'),
+            'eval'      => array(
+                'mandatory'          => true,
+                'tl_class'           => 'w50',
+                'includeBlankOption' => true,
+                'submitOnChange'     => true
+            ),
+            'sql'       => "varchar(16) NOT NULL default ''"
+        ),
+//        'relativeDate'    => array
+//        (
+//            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['relativeDate'],
+//            'exclude'   => true,
+//            'inputType' => 'checkbox',
+//            'eval'      => array('tl_class' => 'w50 m12'),
+//            'sql'       => "char(1) NOT NULL default ''"
+//        ),
+//        'useBc'           => array
+//        (
+//            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['useBc'],
+//            'exclude'   => true,
+//            'inputType' => 'checkbox',
+//            'eval'      => array('tl_class' => 'w50'),
+//            'sql'       => "char(1) NOT NULL default ''"
+//        ),
+        'hashBookmarks'           => array
+        (
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['hashBookmarks'],
+            'exclude'   => true,
+            'inputType' => 'checkbox',
+            'eval'      => array('tl_class' => 'w50'),
+            'sql'       => "char(1) NOT NULL default ''"
+        ),
+        'mapType'         => array
         (
             'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['map'],
             'exclude'   => true,
             'inputType' => 'select',
-            'options'   => array(
-                'stamen' => array('toner', 'toner-lines', 'toner-labels', 'watercolor', 'sterrain'),
+            'options' => array(
+                'stamen' => array(
+                    'stamen:toner-lite',
+                    'stamen:toner-lines',
+                    'stamen:toner-labels',
+                    'stamen:watercolor',
+                    'stamen:sterrain'
+                ),
                 'google' => array('ROADMAP', 'TERRAIN', 'HYBRID', 'SATELLITE'),
             ),
-            'eval'      => array('maxlength' => 255),
-            'sql'       => "varchar(255) NOT NULL default ''"
+            'eval'      => array('maxlength' => 32, 'includeBlankOption' => true),
+            'sql'       => "varchar(32) NOT NULL default ''"
         ),
-        'gmapKey'   => array
+        'apiKeys'         => array
         (
-            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['gmapKey'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['apiKeys'],
             'exclude'   => true,
-            'inputType' => 'text',
-            'eval'      => array('mandatory' => true, 'maxlength' => 255),
-            'sql'       => "varchar(255) NOT NULL default ''"
+            'inputType' => 'multiColumnWizard',
+            'options'   => array('apiKeyFlickr', 'apiKeyGooglemaps', 'gaPropertyId'),
+            'reference' => &$GLOBALS['TL_LANG']['tl_timelinejs']['apiKeyOptions'],
+            'eval'      => array(
+                'tl_class'     => 'clr',
+                'helpwizard'   => true,
+                'columnFields' => array(
+                    'name'  => array(
+                        'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['apiKeyName'],
+                        'inputType' => 'select',
+                        'reference' => &$GLOBALS['TL_LANG']['tl_timelinejs']['apiKeyOptions'],
+                        'options'   => array('apiKeyFlickr', 'apiKeyGooglemaps', 'gaPropertyId'),
+                        'eval'      => array('style' => 'width: 180px', 'chosen' => true)
+                    ),
+                    'value' => array(
+                        'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['apiKeyValue'],
+                        'inputType' => 'text',
+                        'eval'      => array('style' => 'width: 300px')
+                    ),
+                )
+            ),
+            'sql'       => "blob NULL"
         ),
-        'fonts'     => array
+        'fonts'           => array
         (
             'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['fonts'],
             'exclude'   => true,
@@ -231,21 +321,97 @@ $GLOBALS['TL_DCA']['tl_timelinejs'] = array
             'eval'      => array('mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
             'sql'       => "varchar(255) NOT NULL default ''"
         ),
-        'zoom'      => array
+        'zoomSequence'    => array
         (
-            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['zoom'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['zoomSequence'],
             'exclude'   => true,
             'inputType' => 'text',
+            'eval'      => array('mandatory' => false, 'maxlength' => 64, 'tl_class' => 'w50', 'csv' => true),
+            'sql'       => "varchar(64) NOT NULL default ''"
+        ),
+        'duration'    => array
+        (
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['duration'],
+            'exclude'   => true,
+            'inputType' => 'text',
+            'eval'      => array('mandatory' => false, 'maxlength' => 4, 'tl_class' => 'w50', 'rgxp' => 'digit'),
+            'sql'       => "varchar(4) NOT NULL default ''"
+        ),
+        'dragging'           => array
+        (
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['dragging'],
+            'exclude'   => true,
+            'inputType' => 'checkbox',
+            'eval'      => array('tl_class' => 'w50'),
+            'sql'       => "char(1) NOT NULL default ''"
+        ),
+        'trackResize'           => array
+        (
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['trackResize'],
+            'exclude'   => true,
+            'inputType' => 'checkbox',
+            'eval'      => array('tl_class' => 'w50'),
+            'sql'       => "char(1) NOT NULL default ''"
+        ),
+        'ease'    => array
+        (
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['ease'],
+            'exclude'   => true,
+            'inputType' => 'text',
+            'eval'      => array('mandatory' => false, 'maxlength' => 32, 'tl_class' => 'w50'),
+            'sql'       => "varchar(32) NOT NULL default ''"
+        ),
+        'startAtSlide'    => array
+        (
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['statAtSlide'],
+            'exclude'   => true,
+            'inputType' => 'text',
+            'default'   => 0,
             'eval'      => array('mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
             'sql'       => "int(10) unsigned NOT NULL default '0'"
         ),
-        'number'    => array
+        'startAtEnd'      => array
         (
-            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['number'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['startAtEnd'],
+            'exclude'   => true,
+            'inputType' => 'checkbox',
+            'eval'      => array('tl_class' => 'w50 m12'),
+            'sql'       => "char(1) NOT NULL default ''"
+        ),
+        'categories'      => array
+        (
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['categories'],
+            'exclude'   => true,
+            'inputType' => 'listWizard',
+            'eval'      => array('multipt' => true, 'maxlength' => 255, 'style' => 'width: calc(50% - 90px)'),
+            'sql'       => "mediumblob NULL"
+        ),
+        'defaultBgColor'  => array
+        (
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['defaultBgColor'],
             'exclude'   => true,
             'inputType' => 'text',
-            'eval'      => array('mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
-            'sql'       => "int(10) unsigned NOT NULL default '0'"
+            'eval'      => array(
+                'decodeEntities' => true,
+                'maxlength'      => 255,
+                'tl_class'       => 'w50 wizard',
+                'files'          => true,
+                'filesOnly'      => true,
+                'fieldType'      => 'radio',
+                'extensions'     => 'jpg,png,gif'
+            ),
+            'wizard'    => array(
+                Dca::createColorPickerCallback(),
+            ),
+            'sql'       => "varchar(255) NOT NULL default ''"
+        ),
+        'baseClass'       => array
+        (
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['baseClass'],
+            'exclude'   => true,
+            'inputType' => 'text',
+            'eval'      => array('mandatory' => false, 'maxlength' => 64, 'tl_class' => 'w50'),
+            'sql'       => "varchar(64) NOT NULL default ''"
         ),
     )
 );

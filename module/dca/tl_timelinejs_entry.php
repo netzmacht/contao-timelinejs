@@ -9,6 +9,9 @@
  * @copyright 2013-2015 netzmacht creative David Molineus
  */
 
+use Netzmacht\Contao\TimelineJs\Dca\EntryCallbacks;
+use Netzmacht\Contao\Toolkit\Dca;
+
 /**
  * Table tl_timelinejs_entry
  */
@@ -75,7 +78,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
                 'label'           => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['copy'],
                 'icon'            => 'visible.gif',
                 'attributes'      => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
-                'button_callback' => \Netzmacht\Contao\Toolkit\Dca::createToggleIconCallback(
+                'button_callback' => Dca::createToggleIconCallback(
                     'tl_timelinejs_entry',
                     'published'
                 )
@@ -107,8 +110,8 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
         '_base_'               => array(
             'entry' => array('headline', 'type', 'published'),
             'date'  => array(),
-            'text'  => array('text'),
-            'media' => array(),
+            'text'  => array(),
+            'media' => array()
         ),
         'default'              => array
         (
@@ -120,11 +123,13 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
             '+entry' => array('category before published'),
             'date'   => array('startDate', 'startDisplay', 'endDate', 'endDisplay', 'dateDisplay', 'dateFormat'),
             'text'   => array('text'),
-            'media'  => array('media'),
+            'media'  => array(':hide', 'media'),
+            'style'  => array(':hide', 'background')
         ),
         'title extends _base_' => array(
             'text'  => array('text'),
             'media' => array('media'),
+            'style' => array('background')
         ),
         'era extends _base_'   => array(
             'date' => array('startDate', 'endDate'),
@@ -134,9 +139,9 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
     'metasubselectpalettes' => array
     (
         'media' => array(
-            'media'  => array('mediaUrl', 'mediaCaption', 'mediaCredit', 'mediaThumbnail'),
+            'media'  => array('mediaUrl', 'mediaCaption', 'mediaCredit', 'mediaThumbnail', 'mediaLink'),
             'iframe' => array('mediaUrl', 'mediaCaption', 'mediaCredit', 'mediaThumbnail'),
-            'quote'  => array('mediaQuote', 'mediaCaption', 'mediaCredit', 'mediaThumbnail'),
+            'quote'  => array('mediaQuote', 'mediaCaption', 'mediaCredit', 'mediaThumbnail', 'mediaLink'),
         )
     ),
     // Fields
@@ -171,12 +176,14 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
             'filter'    => true,
             'sorting'   => true,
             'options'   => array('event', 'title', 'era'),
+            'reference' => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['types'],
             'eval'      => array(
                 'mandatory'          => true,
                 'tl_class'           => 'w50',
                 'includeBlankOption' => true,
                 'submitOnChange'     => true,
                 'chosen'             => true,
+                'helpwizard'         => true,
             ),
             'sql'       => "varchar(16) NOT NULL default ''"
         ),
@@ -254,11 +261,13 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
             'inputType' => 'select',
             'filter'    => true,
             'options'   => array('media', 'iframe', 'quote'),
+            'reference' => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['mediaTypes'],
             'eval'      => array(
                 'submitOnChange'     => true,
                 'includeBlankOption' => true,
                 'maxlength'          => 255,
-                'chosen'             => true
+                'chosen'             => true,
+                'helpwizard'         => true,
             ),
             'sql'       => "varchar(8) NOT NULL default ''",
         ),
@@ -317,12 +326,27 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
             ),
             'sql'       => "varchar(255) NOT NULL default ''"
         ),
+        'mediaLink' => array
+        (
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['mediaLink'],
+            'exclude'   => true,
+            'inputType' => 'text',
+            'eval'      => array(
+                'decodeEntities' => true,
+                'maxlength'      => 255,
+                'tl_class'       => 'w50 wizard',
+            ),
+            'wizard'    => array(
+                array('Netzmacht\Contao\TimelineJs\Dca\EntryCallbacks', 'pagePicker'),
+            ),
+            'sql'       => "varchar(255) NOT NULL default ''"
+        ),
         'mediaQuote'     => array
         (
             'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['mediaQuote'],
             'exclude'   => true,
             'inputType' => 'textarea',
-            'eval'      => array('rte' => 'tinyMCE', 'tl_class' => 'clr', 'rows' => 5),
+            'eval'      => array('rte' => 'tinyMCE', 'tl_class' => 'clr', 'style' => 'height: 120px'),
             'sql'       => "text NULL"
         ),
         'era'            => array
@@ -336,10 +360,11 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
         'category'       => array
         (
             'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['category'],
+            'inputType' => 'select',
             'exclude'   => true,
             'filter'    => true,
-            'inputType' => 'text',
-            'eval'      => array('mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'),
+            'options_callback' => array('Netzmacht\Contao\TimelineJs\Dca\EntryCallbacks', 'getCategoryOptions'),
+            'eval'      => array('mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50', 'chosen' => true, 'includeBlankOption' => true),
             'sql'       => "varchar(255) NOT NULL default ''"
         ),
         'published'      => array
@@ -351,6 +376,26 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
             'inputType' => 'checkbox',
             'eval'      => array('doNotCopy' => true, 'tl_class' => 'm12 w50'),
             'sql'       => "char(1) NOT NULL default ''"
+        ),
+        'background' => array
+        (
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['background'],
+            'exclude'   => true,
+            'inputType' => 'text',
+            'eval'      => array(
+                'decodeEntities' => true,
+                'maxlength'      => 255,
+                'tl_class'       => 'w50 wizard',
+                'files'          => true,
+                'filesOnly'      => true,
+                'fieldType'      => 'radio',
+                'extensions'     => 'jpg,png,gif'
+            ),
+            'wizard'    => array(
+                Dca::createColorPickerCallback(),
+                EntryCallbacks::callback('filePicker')
+            ),
+            'sql'       => "varchar(255) NOT NULL default ''"
         ),
     )
 );

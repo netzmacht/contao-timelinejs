@@ -1,12 +1,15 @@
+<?php
+$this->getAssetsManager()
+    ->addStylesheet('system/modules/timelinejs/assets/vendor/timelinejs/compiled/css/timeline.css');
+?>
 <?php $this->extend('block_unsearchable'); ?>
 
 <?php $this->block('content'); ?>
-<div id="timeline-embed-<?= $this->id ?>" style="height:<?= $this->height ?>;width:<?= $this->width ?>"></div>
-<?php $GLOBALS['TL_CSS'][] = 'system/modules/timelinejs/assets/vendor/timelinejs/compiled/css/timeline.css' ?>
+<div id="timeline-<?= $this->id ?>" style="height:<?= $this->height ?>;width:<?= $this->width ?>"></div>
 <script src="system/modules/timelinejs/assets/vendor/timelinejs/compiled/js/timeline.js"></script>
 <script type="text/javascript">
     var timeline = new TL.Timeline(
-        'timeline-embed-<?php echo $this->id ?>',
+        'timeline-<?php echo $this->id ?>',
         '<?= $this->source ?>',
         <?= $this->provider->getOptionsJson($this->timeline) ?>
     );

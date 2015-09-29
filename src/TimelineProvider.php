@@ -154,7 +154,7 @@ class TimelineProvider
         }
 
         $options = $this->getOptions($model);
-        $json    = json_encode($options, JSON_FORCE_OBJECT);
+        $json    = json_encode($options);
 
         $this->cache->save($cacheKey, $json);
 

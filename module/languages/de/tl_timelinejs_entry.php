@@ -28,7 +28,7 @@ $GLOBALS['TL_LANG']['tl_timelinejs_entry']['entry_legend'] = 'Eintrag';
 $GLOBALS['TL_LANG']['tl_timelinejs_entry']['media_legend'] = 'Media-Objekt';
 $GLOBALS['TL_LANG']['tl_timelinejs_entry']['text_legend']  = 'Beschreibung';
 $GLOBALS['TL_LANG']['tl_timelinejs_entry']['date_legend']  = 'Zeitraum';
-
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['style_legend'] = 'Style';
 
 //fields
 $GLOBALS['TL_LANG']['tl_timelinejs_entry']['headline'][0]       = 'Überschrift';
@@ -45,12 +45,12 @@ $GLOBALS['TL_LANG']['tl_timelinejs_entry']['endDisplay'][0]     = 'Beschriftung 
 $GLOBALS['TL_LANG']['tl_timelinejs_entry']['endDisplay'][1]     = 'Geben Sie optional eine Beschriftung ein, die anstelle des formatierten Datums erscheinen soll.';
 $GLOBALS['TL_LANG']['tl_timelinejs_entry']['dateDisplay'][0]    = 'Beschriftung Datum';
 $GLOBALS['TL_LANG']['tl_timelinejs_entry']['dateDisplay'][1]    = 'Falls angegeben wird anstelle des Zeitraums diese Beschriftung angezeigt.';
-$GLOBALS['TL_LANG']['tl_timelinejs_entry']['dateFormat'][0]     = 'Gewünschtes Datumsfomat';
-$GLOBALS['TL_LANG']['tl_timelinejs_entry']['dateFormat'][1]     = 'Geben Sie ein gewünschtes Datumsformat, das zur Erstellung der Beschriftung verwendet werden soll. Falls leer werden die Timeline-Einstellungen verwendet.';
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['dateFormat'][0]     = 'Datumsfomat';
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['dateFormat'][1]     = 'Geben Sie das gewünschtes Datumsformat, das zur Erstellung der Beschriftung verwendet werden soll. Falls leer werden die Timeline-Einstellungen verwendet.';
 $GLOBALS['TL_LANG']['tl_timelinejs_entry']['text'][0]           = 'Beschreibung';
 $GLOBALS['TL_LANG']['tl_timelinejs_entry']['text'][1]           = 'Geben Sie eine kurze Beschreibung des Eintrags ein.';
-$GLOBALS['TL_LANG']['tl_timelinejs_entry']['category'][0]       = 'Kategorie';
-$GLOBALS['TL_LANG']['tl_timelinejs_entry']['category'][1]       = 'Geben Sie eine Kategorie ein.';
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['category'][0]       = 'Gruppe';
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['category'][1]       = 'Wählen Sie eine Zeitstrahl-Gruppe aus, in der der Eintrag angezeigt werden soll.';
 $GLOBALS['TL_LANG']['tl_timelinejs_entry']['media'][0]          = 'Media-Objekt hinzufügen';
 $GLOBALS['TL_LANG']['tl_timelinejs_entry']['media'][1]          = 'Fügen Sie ein Media-Objekt hinzu.';
 $GLOBALS['TL_LANG']['tl_timelinejs_entry']['mediaUrl'][0]       = 'Medien URL';
@@ -63,3 +63,25 @@ $GLOBALS['TL_LANG']['tl_timelinejs_entry']['mediaThumbnail'][0] = 'Vorschaubild'
 $GLOBALS['TL_LANG']['tl_timelinejs_entry']['mediaThumbnail'][1] = 'Sie können ein Vorschaubild auswählen, das in der Timeline angezeigt wird.';
 $GLOBALS['TL_LANG']['tl_timelinejs_entry']['published'][0]      = 'Veröffentlicht';
 $GLOBALS['TL_LANG']['tl_timelinejs_entry']['published'][1]      = 'Eintrag wird veröffentlicht.';
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['mediaLink'][0]      = 'Link';
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['mediaLink'][1]      = 'Medien-Objekt verlinken';
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['mediaQuote'][0]     = 'Zitat';
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['mediaQuote'][1]     = 'Geben Sie das Zitat ein.';
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['background'][0]     = 'Hintergrund';
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['background'][1]     = 'Definieren Sie eine Hintergrundfarbe (hexadezimal, mit #) oder wählen Sie ein Hintergrundbild aus.';
+
+//types
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['types']['title'][0] = 'Titel';
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['types']['title'][1] = 'Eintrag wird als Titel-Folie dargestellt.';
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['types']['era'][0]   = 'Ära';
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['types']['era'][1]   = 'Eintrag wird als Ära auf dem Zeitstrahl dargestellt.';
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['types']['event'][0] = 'Event';
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['types']['event'][1] = 'Eintrag wird als reguläres Event dargestellt.';
+
+// media types
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['mediaTypes']['media'][0]  = 'Standard';
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['mediaTypes']['media'][1]  = 'Standard Media-Objekt.';
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['mediaTypes']['iframe'][0] = 'IFrame';
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['mediaTypes']['iframe'][1] = 'Media URL wird im IFrame geladen.';
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['mediaTypes']['quote'][0]  = 'Zitat';
+$GLOBALS['TL_LANG']['tl_timelinejs_entry']['mediaTypes']['quote'][1]  = 'Media-Objekt wird als Zitat dargestellt.';
