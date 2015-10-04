@@ -24,6 +24,13 @@ use Netzmacht\Contao\Toolkit\Dca\Callbacks;
 class EntryCallbacks extends Callbacks
 {
     /**
+     * Table name.
+     *
+     * @var string
+     */
+    protected $name = 'tl_timelinejs_entry';
+
+    /**
      * List the row entry.
      *
      * @param array $row Data row.
@@ -32,11 +39,9 @@ class EntryCallbacks extends Callbacks
      */
     public function listEntry($row)
     {
-        $key = sprintf('types.%s.0', $row['type']);
-
         return sprintf(
             '%s: %s %s',
-            $this->translate($key, 'tl_timelinejs_entry'),
+            $this->getFormatter()->formatValue('type', $row['type']),
             $row['headline'],
             $row['startDate']
         );
