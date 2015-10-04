@@ -41,7 +41,7 @@ class EntryCallbacks extends Callbacks
     {
         return sprintf(
             '%s: %s %s',
-            $this->getFormatter()->formatValue('type', $row['type']),
+            $this->formatValue('type', $row),
             $row['headline'],
             $row['startDate']
         );
