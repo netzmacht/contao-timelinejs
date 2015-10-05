@@ -10,7 +10,6 @@
  */
 
 use Netzmacht\Contao\TimelineJs\Dca\EntryCallbacks;
-use Netzmacht\Contao\Toolkit\Dca;
 
 /**
  * Table tl_timelinejs_entry
@@ -40,7 +39,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
             'mode'                  => 4,
             'headerFields'          => array('title'),
             'fields'                => array('type'),
-            'child_record_callback' => array('Netzmacht\Contao\TimelineJs\Dca\EntryCallbacks', 'listEntry'),
+            'child_record_callback' => EntryCallbacks::callback('listEntry'),
             'panelLayout'           => 'filter,sort;search,limit',
             'flag'                  => 12,
         ),
@@ -78,9 +77,11 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
                 'label'           => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['copy'],
                 'icon'            => 'visible.gif',
                 'attributes'      => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
-                'button_callback' => Dca::createToggleIconCallback(
-                    'tl_timelinejs_entry',
-                    'published'
+                'button_callback' => EntryCallbacks::stateButtonCallback('toggle'),
+                'toolkit'         => array(
+                    'state_button' => array(
+                        'column' => 'published'
+                    )
                 )
             ),
             'delete' => array
@@ -287,7 +288,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
                 'extensions'     => 'jpg,png,gif'
             ),
             'wizard'    => array(
-                array('Netzmacht\Contao\TimelineJs\Dca\EntryCallbacks', 'filePicker'),
+                EntryCallbacks::callback('generateFilePicker')
             ),
             'sql'       => "varchar(255) NOT NULL default ''"
         ),
@@ -322,7 +323,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
                 'extensions'     => 'jpg,png,gif'
             ),
             'wizard'    => array(
-                array('Netzmacht\Contao\TimelineJs\Dca\EntryCallbacks', 'filePicker'),
+                EntryCallbacks::callback('generateFilePicker'),
             ),
             'sql'       => "varchar(255) NOT NULL default ''"
         ),
@@ -337,7 +338,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
                 'tl_class'       => 'w50 wizard',
             ),
             'wizard'    => array(
-                array('Netzmacht\Contao\TimelineJs\Dca\EntryCallbacks', 'pagePicker'),
+                EntryCallbacks::callback('generatePagePicker'),
             ),
             'sql'       => "varchar(255) NOT NULL default ''"
         ),
@@ -359,13 +360,19 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
         ),
         'category'       => array
         (
-            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['category'],
-            'inputType' => 'select',
-            'exclude'   => true,
-            'filter'    => true,
-            'options_callback' => array('Netzmacht\Contao\TimelineJs\Dca\EntryCallbacks', 'getCategoryOptions'),
-            'eval'      => array('mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50', 'chosen' => true, 'includeBlankOption' => true),
-            'sql'       => "varchar(255) NOT NULL default ''"
+            'label'            => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['category'],
+            'inputType'        => 'select',
+            'exclude'          => true,
+            'filter'           => true,
+            'options_callback' => EntryCallbacks::callback('getCategoryOptions'),
+            'eval'             => array(
+                'mandatory'          => false,
+                'maxlength'          => 255,
+                'tl_class'           => 'w50',
+                'chosen'             => true,
+                'includeBlankOption' => true
+            ),
+            'sql'              => "varchar(255) NOT NULL default ''"
         ),
         'published'      => array
         (
@@ -392,8 +399,8 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
                 'extensions'     => 'jpg,png,gif'
             ),
             'wizard'    => array(
-                Dca::createColorPickerCallback(),
-                EntryCallbacks::callback('filePicker')
+                EntryCallbacks::callback('generateColorPicker'),
+                EntryCallbacks::callback('generateFilePicker')
             ),
             'sql'       => "varchar(255) NOT NULL default ''"
         ),
