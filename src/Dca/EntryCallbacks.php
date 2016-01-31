@@ -15,9 +15,9 @@ use DataContainer;
 use Netzmacht\Contao\TimelineJs\Model\TimelineModel;
 use Netzmacht\Contao\Toolkit\Dca\Button\Callback\StateButtonCallbackFactory;
 use Netzmacht\Contao\Toolkit\Dca\Callbacks;
-use Netzmacht\Contao\Toolkit\Dca\Wizard\Callback\ColorPickerCallback;
-use Netzmacht\Contao\Toolkit\Dca\Wizard\Callback\FilePickerCallback;
-use Netzmacht\Contao\Toolkit\Dca\Wizard\Callback\PagePickerCallback;
+use Netzmacht\Contao\Toolkit\Dca\Callback\ColorPickerCallback;
+use Netzmacht\Contao\Toolkit\Dca\Callback\FilePickerCallback;
+use Netzmacht\Contao\Toolkit\Dca\Callback\PagePickerCallback;
 
 /**
  * Timeline data container callbacks.
