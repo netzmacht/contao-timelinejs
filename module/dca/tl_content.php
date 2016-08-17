@@ -9,6 +9,7 @@
  * @copyright 2013-2015 netzmacht creative David Molineus
  */
 
+use Netzmacht\Contao\Toolkit\Dca\Callbacks;
 
 /*
  * Palettes
@@ -21,7 +22,6 @@ $GLOBALS['TL_DCA']['tl_content']['metapalettes']['TimelineJS'] = array(
     'invisible' => array(':hide', 'invisible', 'start', 'stop'),
 );
 
-
 /*
  * Fields
  */
@@ -30,7 +30,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['timeline'] = array
     'label'            => &$GLOBALS['TL_LANG']['tl_content']['timeline'],
     'exclude'          => true,
     'inputType'        => 'select',
-    'options_callback' => array('Netzmacht\Contao\TimelineJs\Dca\HybridCallbacks', 'getTimelineOptions'),
+    'options_callback' => Callbacks::callback('timelinejs.dca.component-callbacks', 'getTimelineOptions'),
     'eval'             => array(
         'mandatory'          => true,
         'includeBlankOption' => true,
@@ -38,7 +38,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['timeline'] = array
         'tl_class'           => 'w50 wizard',
     ),
     'wizard'           => array(
-        array('Netzmacht\Contao\TimelineJs\Dca\HybridCallbacks', 'getTimelineEditButton')
+        Callbacks::callback('timelinejs.dca.component-callbacks', 'getTimelineEditButton')
     ),
     'sql'              => "int(10) unsigned NOT NULL"
 );

@@ -19,16 +19,35 @@ $GLOBALS['BE_MOD']['content']['TimelineJS'] = array
     'tables' => array('tl_timelinejs', 'tl_timelinejs_entry'),
 );
 
-
 /*
  * Frontend modules and elements.
  */
-$GLOBALS['FE_MOD']['application']['TimelineJS'] = 'Netzmacht\Contao\TimelineJs\Frontend\HybridTimeline';
-$GLOBALS['TL_CTE']['includes']['TimelineJS']    = 'Netzmacht\Contao\TimelineJs\Frontend\HybridTimeline';
+$GLOBALS['FE_MOD']['application']['TimelineJS'] = function ($model, $column, \Interop\Container\ContainerInterface $container) {
+    return new \Netzmacht\Contao\TimelineJs\Frontend\HybridTimeline(
+        $model,
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::TEMPLATE_FACTORY),
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::TRANSLATOR),
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::DATABASE_CONNECTION),
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::ENVIRONMENT)->get('url'),
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::CONFIG)->get('websitePath'),
+        $column
+    );
+};
 
+$GLOBALS['TL_CTE']['includes']['TimelineJS'] = function ($model, $column, \Interop\Container\ContainerInterface $container) {
+    return new \Netzmacht\Contao\TimelineJs\Frontend\HybridTimeline(
+        $model,
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::TEMPLATE_FACTORY),
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::TRANSLATOR),
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::DATABASE_CONNECTION),
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::ENVIRONMENT)->get('url'),
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::CONFIG)->get('websitePath'),
+        $column
+    );
+};
 
 /*
- * Models
+ * Models.
  */
 $GLOBALS['TL_MODELS']['tl_timelinejs']       = 'Netzmacht\Contao\TimelineJs\Model\TimelineModel';
 $GLOBALS['TL_MODELS']['tl_timelinejs_etnry'] = 'Netzmacht\Contao\TimelineJs\Model\EntryModel';

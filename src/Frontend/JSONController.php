@@ -13,45 +13,46 @@ namespace Netzmacht\Contao\TimelineJs\Frontend;
 
 use Netzmacht\Contao\TimelineJs\Model\EntryModel;
 use Netzmacht\Contao\TimelineJs\Model\TimelineModel;
+use Netzmacht\Contao\Toolkit\InsertTag\Replacer;
 
 /**
  * Class JSONController.
  *
  * @package Netzmacht\TimelineJS
  */
-class JSONController extends \Frontend
+class JSONController
 {
     /**
-     * The input.
+     * Insert tag replacer.
      *
-     * @var \Input
+     * @var Replacer
      */
-    private $input;
+    private $insertTagReplacer;
 
     /**
      * Construct.
      *
-     * @param \Input $input The input.
+     * @param Replacer $insertTagReplacer
      */
-    public function __construct(\Input $input)
+    public function __construct(Replacer $insertTagReplacer)
     {
-        parent::__construct();
+        \Controller::loadLanguageFile('default');
+        \Controller::loadLanguageFile('modules');
 
-        $this->loadLanguageFile('default');
-        $this->loadLanguageFile('modules');
-
-        $this->input = $input;
+        $this->insertTagReplacer = $insertTagReplacer;
     }
 
     /**
      * Generates the json array of a timeline.
      *
+     * @param \Input $request Request input.
+     *
      * @return void
      * @throws \RuntimeException When no id is given.
      */
-    public function run()
+    public function execute(\Input $request)
     {
-        $timelineId = \Input::get('id');
+        $timelineId = $request->get('id');
 
         if ($timelineId == '') {
             throw new \RuntimeException('No id given');
@@ -78,16 +79,16 @@ class JSONController extends \Frontend
         }
 
         $json             = array();
-        $json['headline'] = $this->replaceInsertTags($timeline->title);
+        $json['headline'] = $this->insertTagReplacer->replace($timeline->title);
         $json['type']     = 'default';
-        $json['text']     = $this->replaceInsertTags($timeline->teaser);
+        $json['text']     = $this->insertTagReplacer->replace($timeline->teaser);
         $json['date']     = array();
 
         if ($timeline->media) {
             $json['asset'] = array
             (
-                'credit'  => $this->replaceInsertTags($timeline->credit),
-                'caption' => $this->replaceInsertTags($timeline->caption)
+                'credit'  => $this->insertTagReplacer->replace($timeline->credit),
+                'caption' => $this->insertTagReplacer->replace($timeline->caption)
             );
 
             if ($timeline->singleSRC) {
@@ -102,8 +103,8 @@ class JSONController extends \Frontend
             return '';
         }
 
-        while ($entries->next()) {
-            $this->parseEntry($entries, $json);
+        foreach ($entries as $entry) {
+            $this->parseEntry($entry, $json);
         }
 
         $json = sprintf('{ "timeline": %s }', json_encode($json));
@@ -124,8 +125,8 @@ class JSONController extends \Frontend
         $entry = array(
             'startDate' => $model->startDate,
             'endDate'   => $model->endDate ? $model->endDate : $model->startDate,
-            'headline'  => $this->replaceInsertTags($model->headline),
-            'text'      => $this->replaceInsertTags($model->teaser),
+            'headline'  => $this->insertTagReplacer->replace($model->headline),
+            'text'      => $this->insertTagReplacer->replace($model->teaser),
         );
 
         if ($model->tags) {
@@ -169,13 +170,13 @@ class JSONController extends \Frontend
                     $thumbnail = \Image::get($url, 60, 60);
                 }
             } else {
-                $url = $this->replaceInsertTags($model->url);
+                $url = $this->insertTagReplacer->replace($model->url);
             }
 
             $entry['asset'] = array(
                 'media'   => $url,
-                'credit'  => $this->replaceInsertTags($model->credit),
-                'caption' => $this->replaceInsertTags($model->caption),
+                'credit'  => $this->insertTagReplacer->replace($model->credit),
+                'caption' => $this->insertTagReplacer->replace($model->caption),
             );
 
             if ($thumbnail) {

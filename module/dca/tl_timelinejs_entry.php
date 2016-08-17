@@ -75,7 +75,10 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
                 'label'           => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['copy'],
                 'icon'            => 'visible.gif',
                 'attributes'      => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
-                'button_callback' => \Netzmacht\Contao\Toolkit\Dca::createToggleIconCallback('tl_timelinejs_entry', 'published')
+                'button_callback' => \Netzmacht\Contao\Toolkit\Dca::createToggleIconCallback(
+                    'tl_timelinejs_entry',
+                    'published'
+                )
             ),
             'delete' => array
             (

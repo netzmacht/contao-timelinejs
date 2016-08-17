@@ -13,6 +13,9 @@ namespace Netzmacht\Contao\TimelineJs\Model;
 
 /**
  * Timeline model.
+ *
+ * @property mixed|null misc
+ * @property mixed|null fonts
  */
 class TimelineModel extends \Model
 {

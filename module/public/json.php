@@ -10,6 +10,7 @@
  */
 
 use Netzmacht\Contao\TimelineJs\Frontend\JSONController;
+use Netzmacht\Contao\Toolkit\DependencyInjection\Services;
 
 /*
  * Initialize the system
@@ -17,7 +18,9 @@ use Netzmacht\Contao\TimelineJs\Frontend\JSONController;
 define('TL_MODE', 'FE');
 require_once dirname(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME'])))) . '/initialize.php';
 
-$input      = $GLOBALS['container']['input'];
+$container         = $GLOBALS['container'];
+$input             = $container[Services::INPUT];
+$insertTagReplacer = $container[Services::INSERT_TAG_REPLACER];
 
-$controller = new JSONController($input);
-$controller->run();
+$controller = new JSONController($insertTagReplacer);
+$controller->execute($input);

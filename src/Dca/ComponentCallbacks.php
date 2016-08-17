@@ -13,16 +13,31 @@
 
 namespace Netzmacht\Contao\TimelineJs\Dca;
 
+use ContaoCommunityAlliance\Translator\TranslatorInterface as Translator;
 use Netzmacht\Contao\TimelineJs\Model\TimelineModel;
 use Netzmacht\Contao\Toolkit\Dca\Options\OptionsBuilder;
-use Netzmacht\Contao\Toolkit\ServiceContainerTrait;
 
 /**
  * HybridCallbacks is the data container helper for tl_content and tl_module.
  */
-class HybridCallbacks extends \System
+class ComponentCallbacks
 {
-    use ServiceContainerTrait;
+    /**
+     * Translator.
+     *
+     * @var Translator
+     */
+    private $translator;
+
+    /**
+     * HybridCallbacks constructor.
+     *
+     * @param Translator $translator
+     */
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+    }
 
     /**
      * Get all timelines as array.
@@ -31,9 +46,9 @@ class HybridCallbacks extends \System
      */
     public function getTimelineOptions()
     {
-        $collection = TimelineModel::findAll();
+        $collection = TimelineModel::findAll(['order' => 'title']);
 
-        return OptionsBuilder::fromCollection($collection, 'id', 'title')->getOptions();
+        return OptionsBuilder::fromCollection($collection, 'title')->getOptions();
     }
 
     /**
@@ -49,9 +64,7 @@ class HybridCallbacks extends \System
             return '';
         }
 
-        $translator = $this->getServiceContainer()->getTranslator();
-        $table      = $this->getServiceContainer()->getInput()->get('table');
-        $url        = \Backend::addToUrl(
+        $url = \Backend::addToUrl(
             'do=timelinejs&amp;table=tl_timelinejs_entry&amp;act=&amp;id=' . $dataContainer->activeRecord->timeline
         );
 
@@ -59,8 +72,12 @@ class HybridCallbacks extends \System
             '<a href="%s" title="%s"><img src="%s" alt="%s" style="padding-left:5px"></a>',
             $url,
             'system/themes/default/images/edit.gif',
-            $translator->translate('timeline_edit.1', $table, [$dataContainer->activeRecord->timeline]),
-            $translator->translate('timeline_edit.0', $table)
+            $this->translator->translate(
+                'timeline_edit.1',
+                $dataContainer->table,
+                [$dataContainer->activeRecord->timeline]
+            ),
+            $this->translator->translate('timeline_edit.0', $dataContainer->table)
         );
     }
 }
