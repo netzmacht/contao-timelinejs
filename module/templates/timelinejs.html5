@@ -2,7 +2,7 @@
 
 <?php $this->block('content'); ?>
 <div id="timeline-embed-<?php echo $this->id; ?>"></div>
-<?php $this->helper('assets')->addJavascript('system/modules/timelinejs/vendor/timelinejs/compiled/js/timeline.min.js'); ?>
+<?php $this->helper('assets')->addJavascript('system/modules/timelinejs/assets/vendor/timelinejs/compiled/js/timeline-min.js'); ?>
 <script type="text/javascript">
     var timeline = new TL.Timeline(
         'timeline-embed-<?php echo $this->id; ?>',
