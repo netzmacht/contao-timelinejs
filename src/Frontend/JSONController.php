@@ -78,11 +78,14 @@ class JSONController
             throw new \RuntimeException('Timeline not found');
         }
 
-        $json             = array();
-        $json['headline'] = $this->insertTagReplacer->replace($timeline->title);
-        $json['type']     = 'default';
-        $json['text']     = $this->insertTagReplacer->replace($timeline->teaser);
-        $json['date']     = array();
+        $json = array();
+        $json['title'] = [
+            'text' => [
+                'headline' => $this->insertTagReplacer->replace($timeline->title),
+                'text'     => $this->insertTagReplacer->replace($timeline->teaser),
+            ],
+        ];
+        $json['events']   = array();
 
         if ($timeline->media) {
             $json['asset'] = array
@@ -107,9 +110,7 @@ class JSONController
             $this->parseEntry($entry, $json);
         }
 
-        $json = sprintf('{ "timeline": %s }', json_encode($json));
-
-        return $json;
+        return json_encode($json);
     }
 
     /**
@@ -123,10 +124,12 @@ class JSONController
     protected function parseEntry($model, &$json)
     {
         $entry = array(
-            'startDate' => $model->startDate,
-            'endDate'   => $model->endDate ? $model->endDate : $model->startDate,
-            'headline'  => $this->insertTagReplacer->replace($model->headline),
-            'text'      => $this->insertTagReplacer->replace($model->teaser),
+            'start_date' => $this->parseDate($model->startDate),
+            'end_date'   => $this->parseDate($model->endDate ?: $model->startDate),
+            'text'       => [
+                'headline'   => $this->insertTagReplacer->replace($model->headline),
+                'text'       => $this->insertTagReplacer->replace($model->teaser),
+            ]
         );
 
         if ($model->tags) {
@@ -139,7 +142,7 @@ class JSONController
 
         $this->parseMedia($model, $entry);
 
-        $json['date'][] = $entry;
+        $json['events'][] = $entry;
 
         return $json;
     }
@@ -183,5 +186,25 @@ class JSONController
                 $entry['asset']['thumbnail'] = $thumbnail;
             }
         }
+    }
+
+    /**
+     * Parse the date.
+     *
+     * @param string $dateString Date as comma separated values.
+     *
+     * @return array
+     */
+    private function parseDate($dateString)
+    {
+        $date = [
+            'year' => null,
+            'month' => null,
+            'day' => null
+        ];
+
+        list($date['year'], $date['month'], $date['day']) = explode(',', $dateString);
+
+        return array_filter($date);
     }
 }

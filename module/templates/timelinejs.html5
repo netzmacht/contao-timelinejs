@@ -1,23 +1,23 @@
 <?php $this->extend('block_unsearchable'); ?>
 
 <?php $this->block('content'); ?>
-<div id="timeline-embed-<?php echo $this->id; ?>"></div>
+<div id="timeline-embed-<?php echo $this->id; ?>" style="width: <?= $this->timeline->width ?>;height:<?= $this->timeline->height ?>;"></div>
 <?php $this->helper('assets')->addJavascript('system/modules/timelinejs/assets/vendor/timelinejs/compiled/js/timeline-min.js'); ?>
+<?php $this->helper('assets')->addStylesheet('system/modules/timelinejs/assets/vendor/timelinejs/compiled/css/timeline.css'); ?>
 <script type="text/javascript">
     var timeline = new TL.Timeline(
         'timeline-embed-<?php echo $this->id; ?>',
         '<?php echo $this->source; ?>',
         {
-            width: "<?php echo $this->width; ?>",
-            height: "<?php echo $this->height; ?>",
-            start_at_end: <?php echo $this->startAtEnd; ?>,
-            hash_bookmark: <?php echo $this->hashBookmarks; ?>
+            start_at_end: <?php echo $this->timeline->startAtEnd ? 'true' : 'false'; ?>,
+            hash_bookmark: <?php echo $this->timeline->hashBookmarks ? 'true' : 'false'; ?>,
+            script_path: 'system/modules/timelinejs/assets/vendor/timelinejs/compiled/js'
             <?php if($this->number): ?>, start_at_slide: "<?php echo $this->number; ?>"<?php endif; ?>
             <?php if($this->zoom): ?>, start_zoom_adjust: "<?php echo $this->zoom; ?>"<?php endif; ?>
             <?php if($this->map): ?>, maptype: "<?php echo $this->map; ?>"<?php endif; ?>
             <?php if($this->gmapKey): ?>, gmap_key: "<?php echo $this->gmapKey; ?>"<?php endif; ?>
             <?php if($this->font): ?>, font: "<?php echo $this->font; ?>"<?php endif; ?>
-            <?php if($this->language): ?>, lang: "<?php echo $this->language; ?>"<?php endif; ?>
+            <?php if($this->timeline->language): ?>, language: "<?php echo $this->timeline->language; ?>"<?php endif; ?>
             <?php if($this->debug): ?>, debug: true<?php endif; ?>
         }
     );
