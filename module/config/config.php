@@ -27,7 +27,6 @@ $GLOBALS['FE_MOD']['application']['TimelineJS'] = function ($model, $column, \In
         $model,
         $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::TEMPLATE_FACTORY),
         $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::TRANSLATOR),
-        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::DATABASE_CONNECTION),
         $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::ENVIRONMENT)->get('url'),
         $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::CONFIG)->get('websitePath'),
         $column
@@ -39,7 +38,6 @@ $GLOBALS['TL_CTE']['includes']['TimelineJS'] = function ($model, $column, \Inter
         $model,
         $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::TEMPLATE_FACTORY),
         $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::TRANSLATOR),
-        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::DATABASE_CONNECTION),
         $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::ENVIRONMENT)->get('url'),
         $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::CONFIG)->get('websitePath'),
         $column
