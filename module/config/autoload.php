@@ -12,7 +12,8 @@
 /**
  * Register the templates
  */
-TemplateLoader::addFiles(array
-(
-	'timelinejs' => 'system/modules/timelinejs/templates',
-));
+TemplateLoader::addFiles(
+    array(
+        'timelinejs' => 'system/modules/timelinejs/templates',
+    )
+);

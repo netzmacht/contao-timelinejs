@@ -18,9 +18,8 @@ use Netzmacht\Contao\Toolkit\DependencyInjection\Services;
 define('TL_MODE', 'FE');
 require_once dirname(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME'])))) . '/initialize.php';
 
-$container         = $GLOBALS['container'];
-$input             = $container[Services::INPUT];
-$insertTagReplacer = $container[Services::INSERT_TAG_REPLACER];
+$provider = $GLOBALS['container']['timelinejs.provider'];
+$input    = $GLOBALS['container'][Services::INPUT];
 
-$controller = new JSONController($insertTagReplacer);
+$controller = new JSONController($provider);
 $controller->execute($input);

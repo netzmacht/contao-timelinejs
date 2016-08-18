@@ -19,9 +19,11 @@
     },
     "require":{
         "php":">=5.4",
-        "contao/core":"~3.2",
+        "contao/core":"~3.3",
         "contao-community-alliance/meta-palettes":"~1.4",
-        "netzmacht/contao-toolkit": "~2.0"
+        "netzmacht/contao-toolkit": "~2.0",
+        "doctrine/cache": "~1",
+        "beberlei/assert": "~2"
     },
     "require-dev": {
         "netzmacht/contao-build-tools": "~1.1"

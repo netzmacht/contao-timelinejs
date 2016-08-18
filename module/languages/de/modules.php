@@ -13,7 +13,7 @@
 /**
  * Back end modules
  */
-$GLOBALS['TL_LANG']['MOD']['TimelineJS'] = array('Zeitstrahlen', 'Daten für die Zeitstrahlen (TimelineJS) verwalten');
+$GLOBALS['TL_LANG']['MOD']['timelinejs'] = array('Zeitstrahlen', 'Daten für die Zeitstrahlen (TimelineJS 3) verwalten');
 
 
 /**

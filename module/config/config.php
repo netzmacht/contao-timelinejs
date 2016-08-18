@@ -13,7 +13,7 @@
 /*
  * Backend modules
  */
-$GLOBALS['BE_MOD']['content']['TimelineJS'] = array
+$GLOBALS['BE_MOD']['content']['timelinejs'] = array
 (
     'icon'   => 'system/modules/timelinejs/assets/timeline.png',
     'tables' => array('tl_timelinejs', 'tl_timelinejs_entry'),
@@ -25,8 +25,10 @@ $GLOBALS['BE_MOD']['content']['TimelineJS'] = array
 $GLOBALS['FE_MOD']['application']['TimelineJS'] = function ($model, $column, $container) {
     return new \Netzmacht\Contao\TimelineJs\Frontend\HybridTimeline(
         $model,
+        $container->get('timelinejs.provider'),
         $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::TEMPLATE_FACTORY),
         $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::TRANSLATOR),
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::EVENT_DISPATCHER),
         $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::ENVIRONMENT)->get('url'),
         $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::CONFIG)->get('websitePath'),
         $column
@@ -36,8 +38,10 @@ $GLOBALS['FE_MOD']['application']['TimelineJS'] = function ($model, $column, $co
 $GLOBALS['TL_CTE']['includes']['TimelineJS'] = function ($model, $column, $container) {
     return new \Netzmacht\Contao\TimelineJs\Frontend\HybridTimeline(
         $model,
+        $container->get('timelinejs.provider'),
         $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::TEMPLATE_FACTORY),
         $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::TRANSLATOR),
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::EVENT_DISPATCHER),
         $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::ENVIRONMENT)->get('url'),
         $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::CONFIG)->get('websitePath'),
         $column

@@ -77,3 +77,7 @@ $GLOBALS['TL_LANG']['tl_timelinejs']['credit'][1] = 'Geben Sie den Autor oder di
 
 $GLOBALS['TL_LANG']['tl_timelinejs']['thumbnail'][0] = 'Vorschaubild';
 $GLOBALS['TL_LANG']['tl_timelinejs']['thumbnail'][1] = 'Sie können ein Vorschaubild auswählen, das in der Timeline angezeigt wird.';
+
+// Sizes options
+$GLOBALS['TL_LANG']['tl_timelinejs']['sizesOptions']['timenavHeightPercentage'][0] = 'Höhe Zeitnavigationsleiste in Prozent';
+$GLOBALS['TL_LANG']['tl_timelinejs']['sizesOptions']['timenavHeightPercentage'][1] = 'Gibt die Höhe der Zeitnavigationsleiste in Prozent an. Überschreibt den Pixelwert.';

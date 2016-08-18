@@ -11,9 +11,7 @@
 
 namespace Netzmacht\Contao\TimelineJs\Frontend;
 
-use Netzmacht\Contao\TimelineJs\Model\EntryModel;
-use Netzmacht\Contao\TimelineJs\Model\TimelineModel;
-use Netzmacht\Contao\Toolkit\InsertTag\Replacer;
+use Netzmacht\Contao\TimelineJs\TimelineProvider;
 
 /**
  * Class JSONController.
@@ -23,23 +21,20 @@ use Netzmacht\Contao\Toolkit\InsertTag\Replacer;
 class JSONController
 {
     /**
-     * Insert tag replacer.
+     * Timeline provider.
      *
-     * @var Replacer
+     * @var TimelineProvider
      */
-    private $insertTagReplacer;
+    private $provider;
 
     /**
      * Construct.
      *
-     * @param Replacer $insertTagReplacer
+     * @param TimelineProvider $provider Timeline provider.
      */
-    public function __construct(Replacer $insertTagReplacer)
+    public function __construct(TimelineProvider $provider)
     {
-        \Controller::loadLanguageFile('default');
-        \Controller::loadLanguageFile('modules');
-
-        $this->insertTagReplacer = $insertTagReplacer;
+        $this->provider = $provider;
     }
 
     /**
@@ -53,158 +48,9 @@ class JSONController
     public function execute(\Input $request)
     {
         $timelineId = $request->get('id');
+        $model      = $this->provider->getTimelineModel($timelineId);
 
-        if ($timelineId == '') {
-            throw new \RuntimeException('No id given');
-        }
-
-        echo $this->createJson($timelineId);
-    }
-
-    /**
-     * Create cache entry and return it as string.
-     *
-     * @param int $timelineId The timeline id.
-     *
-     * @return string
-     * @throws \RuntimeException When timeline is not found.
-     */
-    public function createJson($timelineId)
-    {
-        $timeline = TimelineModel::findByPk($timelineId);
-        $entries  = EntryModel::findPublishedByPid($timelineId);
-
-        if ($timeline === null) {
-            throw new \RuntimeException('Timeline not found');
-        }
-
-        $json = array();
-        $json['title'] = [
-            'text' => [
-                'headline' => $this->insertTagReplacer->replace($timeline->title),
-                'text'     => $this->insertTagReplacer->replace($timeline->teaser),
-            ],
-        ];
-        $json['events']   = array();
-
-        if ($timeline->media) {
-            $json['asset'] = array
-            (
-                'credit'  => $this->insertTagReplacer->replace($timeline->credit),
-                'caption' => $this->insertTagReplacer->replace($timeline->caption)
-            );
-
-            if ($timeline->singleSRC) {
-                $objFile                = \FilesModel::findByPk($timeline->singleSRC);
-                $json['asset']['media'] = $objFile->path;
-            }
-        }
-
-        if ($entries === null) {
-            echo json_encode($json);
-
-            return '';
-        }
-
-        foreach ($entries as $entry) {
-            $this->parseEntry($entry, $json);
-        }
-
-        return json_encode($json);
-    }
-
-    /**
-     * Parse an entry.
-     *
-     * @param EntryModel $model The entry model.
-     * @param array      $json  Generated json representation.
-     *
-     * @return array
-     */
-    protected function parseEntry($model, &$json)
-    {
-        $entry = array(
-            'start_date' => $this->parseDate($model->startDate),
-            'end_date'   => $this->parseDate($model->endDate ?: $model->startDate),
-            'text'       => [
-                'headline'   => $this->insertTagReplacer->replace($model->headline),
-                'text'       => $this->insertTagReplacer->replace($model->teaser),
-            ]
-        );
-
-        if ($model->tags) {
-            $entry['tag'] = $model->tags;
-        }
-
-        if ($model->era) {
-            $json['era'][] = $entry;
-        }
-
-        $this->parseMedia($model, $entry);
-
-        $json['events'][] = $entry;
-
-        return $json;
-    }
-
-    /**
-     * Pars the media section.
-     *
-     * @param EntryModel $model The entry model.
-     * @param array      $entry The parsed entry.
-     *
-     * @return void
-     */
-    protected function parseMedia($model, &$entry)
-    {
-        if ($model->media) {
-            $thumbnail = false;
-
-            if ($model->thumbnail) {
-                $objFile   = \FilesModel::findByPk($model->thumbnail);
-                $thumbnail = \Image::get($objFile->path, 60, 60);
-            }
-
-            if ($model->singleSRC) {
-                $objFile = \FilesModel::findByPk($model->singleSRC);
-                $url     = $objFile->path;
-
-                if (!$thumbnail) {
-                    $thumbnail = \Image::get($url, 60, 60);
-                }
-            } else {
-                $url = $this->insertTagReplacer->replace($model->url);
-            }
-
-            $entry['asset'] = array(
-                'media'   => $url,
-                'credit'  => $this->insertTagReplacer->replace($model->credit),
-                'caption' => $this->insertTagReplacer->replace($model->caption),
-            );
-
-            if ($thumbnail) {
-                $entry['asset']['thumbnail'] = $thumbnail;
-            }
-        }
-    }
-
-    /**
-     * Parse the date.
-     *
-     * @param string $dateString Date as comma separated values.
-     *
-     * @return array
-     */
-    private function parseDate($dateString)
-    {
-        $date = [
-            'year' => null,
-            'month' => null,
-            'day' => null
-        ];
-
-        list($date['year'], $date['month'], $date['day']) = explode(',', $dateString);
-
-        return array_filter($date);
+        header('Content-Type: application/json');
+        echo $this->provider->getTimelineJson($model);
     }
 }
