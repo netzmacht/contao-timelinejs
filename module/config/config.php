@@ -6,17 +6,13 @@
  * @package   timelinejs
  * @author    David Molineus <http://netzmacht.de>
  * @license   MPL/2.0
- * @copyright 2013-2015 netzmacht creative David Molineus
+ * @copyright 2013-2016 netzmacht David Molineus
  */
 
 
 /*
  * Backend modules
  */
-use Netzmacht\Contao\TimelineJs\Builder\Event\BuildTimelineEvent;
-use Netzmacht\Contao\TimelineJs\Builder\TimelineBuilder;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
 $GLOBALS['BE_MOD']['content']['timelinejs'] = array
 (
     'icon'   => 'system/modules/timelinejs/assets/timeline.png',
@@ -24,25 +20,36 @@ $GLOBALS['BE_MOD']['content']['timelinejs'] = array
 );
 
 /*
- * Hooks
+ * Frontend modules and elements.
  */
-$GLOBALS['TL_HOOKS']['initializeDependencyContainer'][] = function ($container) {
-    /** @var EventDispatcherInterface $dispatcher */
-    $dispatcher = $container['event-dispatcher'];
-    $dispatcher->addListener(
-        BuildTimelineEvent::NAME,
-        [new TimelineBuilder($GLOBALS['container']['event-dispatcher']), 'handleEvent']
+$GLOBALS['FE_MOD']['application']['TimelineJS'] = function ($model, $column, \Interop\Container\ContainerInterface $container) {
+    return new \Netzmacht\Contao\TimelineJs\Frontend\HybridTimeline(
+        $model,
+        $container->get('timelinejs.provider'),
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::TEMPLATE_FACTORY),
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::TRANSLATOR),
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::EVENT_DISPATCHER),
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::ENVIRONMENT)->get('url'),
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::CONFIG)->get('websitePath'),
+        $column
+    );
+};
+
+$GLOBALS['TL_CTE']['includes']['TimelineJS'] = function ($model, $column, \Interop\Container\ContainerInterface $container) {
+    return new \Netzmacht\Contao\TimelineJs\Frontend\HybridTimeline(
+        $model,
+        $container->get('timelinejs.provider'),
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::TEMPLATE_FACTORY),
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::TRANSLATOR),
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::EVENT_DISPATCHER),
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::ENVIRONMENT)->get('url'),
+        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::CONFIG)->get('websitePath'),
+        $column
     );
 };
 
 /*
- * Frontend modules and elements.
- */
-$GLOBALS['FE_MOD']['application']['TimelineJS'] = 'Netzmacht\Contao\TimelineJs\Frontend\HybridTimeline';
-$GLOBALS['TL_CTE']['includes']['TimelineJS']    = 'Netzmacht\Contao\TimelineJs\Frontend\HybridTimeline';
-
-/*
- * Models
+ * Models.
  */
 $GLOBALS['TL_MODELS']['tl_timelinejs']       = 'Netzmacht\Contao\TimelineJs\Model\TimelineModel';
 $GLOBALS['TL_MODELS']['tl_timelinejs_entry'] = 'Netzmacht\Contao\TimelineJs\Model\EntryModel';

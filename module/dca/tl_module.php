@@ -6,9 +6,10 @@
  * @package   timelinejs
  * @author    David Molineus <http://netzmacht.de>
  * @license   MPL/2.0
- * @copyright 2013-2015 netzmacht creative David Molineus
+ * @copyright 2013-2016 netzmacht David Molineus
  */
 
+use Netzmacht\Contao\Toolkit\Dca\Callbacks;
 
 /*
  * Palettes
@@ -27,7 +28,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['timeline'] = array
     'label'            => &$GLOBALS['TL_LANG']['tl_module']['timeline'],
     'exclude'          => true,
     'inputType'        => 'select',
-    'options_callback' => array('Netzmacht\Contao\TimelineJs\Dca\HybridCallbacks', 'getTimelineOptions'),
+    'options_callback' => Callbacks::callback('timelinejs.dca.component-callbacks', 'getTimelineOptions'),
     'eval'             => array(
         'mandatory'          => true,
         'includeBlankOption' => true,
@@ -35,7 +36,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['timeline'] = array
         'tl_class'           => 'w50 wizard',
     ),
     'wizard'           => array(
-        array('Netzmacht\Contao\TimelineJs\Dca\HybridCallbacks', 'getTimelineEditButton')
+        Callbacks::callback('timelinejs.dca.component-callbacks', 'getTimelineEditButton'),
     ),
     'sql'              => "int(10) unsigned NOT NULL"
 );

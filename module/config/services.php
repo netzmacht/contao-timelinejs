@@ -12,6 +12,8 @@
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\FilesystemCache;
 use Netzmacht\Contao\TimelineJs\TimelineProvider;
+use Netzmacht\Contao\TimelineJs\Dca\ComponentCallbacks;
+use Netzmacht\Contao\Toolkit\DependencyInjection\Services;
 
 global $container;
 
@@ -40,3 +42,9 @@ $container['timelinejs.provider'] = $container->share(
 
 $container['timelinejs.datasources']   = new \ArrayObject();
 $container['timelinejs.datasources'][] = 'default';
+
+$container['timelinejs.dca.component-callbacks'] = $container->share(
+    function ($container) {
+        return new ComponentCallbacks($container[Services::TRANSLATOR]);
+    }
+);

@@ -47,7 +47,7 @@ class TimelineProvider
      * @param EventDispatcher $eventDispatcher Event dispatcher.
      * @param Cache           $cache           The cache.
      */
-    public function __construct(EventDispatcher $eventDispatcher , Cache $cache)
+    public function __construct(EventDispatcher $eventDispatcher, Cache $cache)
     {
         $this->eventDispatcher = $eventDispatcher;
         $this->cache           = $cache;
