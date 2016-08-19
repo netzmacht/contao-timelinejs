@@ -81,7 +81,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
                 'label'           => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['copy'],
                 'icon'            => 'visible.gif',
                 'attributes'      => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
-                'button_callback' => CallbackFactory::stateButton('tl_timelinejs_entry', 'toggle'),
+                'button_callback' => CallbackFactory::stateButton('tl_timelinejs_entry', 'published'),
                 'toolkit'         => array(
                     'state_button' => array(
                         'column' => 'published'
