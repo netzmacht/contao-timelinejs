@@ -107,7 +107,7 @@ class EntryCallbacks extends Callbacks
         }
 
         if ($dataContainer->activeRecord) {
-            $timelineId = $dataContainer->pid;
+            $timelineId = $dataContainer->activeRecord->pid;
         } else {
             $entry = EntryModel::findByPk($dataContainer->id);
             $timelineId = $entry->pid;
