@@ -11,13 +11,8 @@
 
 namespace Netzmacht\Contao\TimelineJs\Dca;
 
-use DataContainer;
 use Netzmacht\Contao\TimelineJs\Model\TimelineModel;
-use Netzmacht\Contao\Toolkit\Dca\Button\Callback\StateButtonCallbackFactory;
-use Netzmacht\Contao\Toolkit\Dca\Callbacks;
-use Netzmacht\Contao\Toolkit\Dca\Callback\ColorPickerCallback;
-use Netzmacht\Contao\Toolkit\Dca\Callback\FilePickerCallback;
-use Netzmacht\Contao\Toolkit\Dca\Callback\PagePickerCallback;
+use Netzmacht\Contao\Toolkit\Dca\Callback\Callbacks;
 
 /**
  * Timeline data container callbacks.
@@ -26,17 +21,19 @@ use Netzmacht\Contao\Toolkit\Dca\Callback\PagePickerCallback;
  */
 class EntryCallbacks extends Callbacks
 {
-    use PagePickerCallback;
-    use FilePickerCallback;
-    use ColorPickerCallback;
-    use StateButtonCallbackFactory;
-
     /**
      * Table name.
      *
      * @var string
      */
     protected static $name = 'tl_timelinejs_entry';
+
+    /**
+     * Service name.
+     *
+     * @var string
+     */
+    protected static $serviceName = 'timelinejs.dca.entries';
 
     /**
      * List the row entry.

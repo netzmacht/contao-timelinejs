@@ -11,15 +11,62 @@
 
 namespace Netzmacht\Contao\TimelineJs\Dca;
 
-use Netzmacht\Contao\Toolkit\Dca\Callbacks;
+use Netzmacht\Contao\Toolkit\Dca\Callback\Callbacks;
+use Netzmacht\Contao\Toolkit\Dca\Manager;
 
+/**
+ * Class TimelineCallbacks
+ *
+ * @package Netzmacht\Contao\TimelineJs\Dca
+ */
 class TimelineCallbacks extends Callbacks
 {
-    public function getDataSources()
+    /**
+     * Data container name.
+     *
+     * @var string
+     */
+    protected static $name = 'tl_timelinejs';
+
+    /**
+     * Service name.
+     *
+     * @var string
+     */
+    protected static $serviceName = 'timelinejs.dca.timelines';
+
+    /**
+     * Set of data sources.
+     *
+     * @var \ArrayObject
+     */
+    private $dataSources;
+
+    /**
+     * TimelineCallbacks constructor.
+     *
+     * @param Manager      $dcaManager
+     * @param \ArrayObject $dataSources Data sources.
+     */
+    public function __construct(Manager $dcaManager, \ArrayObject $dataSources)
     {
-        return $this->getServiceContainer()->getService('timelinejs.datasources')->getArrayCopy();
+        parent::__construct($dcaManager);
+
+        $this->dataSources = $dataSources;
     }
 
+
+    /**
+     * @return array
+     */
+    public function getDataSources()
+    {
+        return $this->dataSources->getArrayCopy();
+    }
+
+    /**
+     * @return array
+     */
     public function getSupportedLanguages()
     {
         return array_map(

@@ -401,7 +401,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs'] = array
                 'extensions'     => 'jpg,png,gif'
             ),
             'wizard'    => array(
-                Dca::createColorPickerCallback(),
+                Dca\Callback\CallbackFactory::colorPicker()
             ),
             'sql'       => "varchar(255) NOT NULL default ''"
         ),

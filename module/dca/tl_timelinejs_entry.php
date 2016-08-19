@@ -10,6 +10,7 @@
  */
 
 use Netzmacht\Contao\TimelineJs\Dca\EntryCallbacks;
+use Netzmacht\Contao\Toolkit\Dca\Callback\CallbackFactory;
 
 /**
  * Table tl_timelinejs_entry
@@ -77,7 +78,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
                 'label'           => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['copy'],
                 'icon'            => 'visible.gif',
                 'attributes'      => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
-                'button_callback' => EntryCallbacks::stateButtonCallback('toggle'),
+                'button_callback' => CallbackFactory::stateButton('tl_timelinejs_entry', 'toggle'),
                 'toolkit'         => array(
                     'state_button' => array(
                         'column' => 'published'
@@ -288,7 +289,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
                 'extensions'     => 'jpg,png,gif'
             ),
             'wizard'    => array(
-                EntryCallbacks::callback('generateFilePicker')
+                CallbackFactory::filePicker()
             ),
             'sql'       => "varchar(255) NOT NULL default ''"
         ),
@@ -323,7 +324,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
                 'extensions'     => 'jpg,png,gif'
             ),
             'wizard'    => array(
-                EntryCallbacks::callback('generateFilePicker'),
+                CallbackFactory::filePicker(),
             ),
             'sql'       => "varchar(255) NOT NULL default ''"
         ),
@@ -338,7 +339,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
                 'tl_class'       => 'w50 wizard',
             ),
             'wizard'    => array(
-                EntryCallbacks::callback('generatePagePicker'),
+                CallbackFactory::pagePicker(),
             ),
             'sql'       => "varchar(255) NOT NULL default ''"
         ),
@@ -399,8 +400,8 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
                 'extensions'     => 'jpg,png,gif'
             ),
             'wizard'    => array(
-                EntryCallbacks::callback('generateColorPicker'),
-                EntryCallbacks::callback('generateFilePicker')
+                CallbackFactory::colorPicker(),
+                CallbackFactory::filePicker()
             ),
             'sql'       => "varchar(255) NOT NULL default ''"
         ),

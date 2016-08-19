@@ -51,7 +51,7 @@ $container['timelinejs.dca.component-callbacks'] = $container->share(
     }
 );
 
-$container['contao.dca.tl_timelinejs'] = $container->share(
+$container['timelinejs.dca.timelines'] = $container->share(
     function ($container) {
         return new TimelineCallbacks(
             $container[Services::DCA_MANAGER],
@@ -60,7 +60,7 @@ $container['contao.dca.tl_timelinejs'] = $container->share(
     }
 );
 
-$container['contao.dca.tl_timelinejs_entry'] = $container->share(
+$container['timelinejs.dca.entries'] = $container->share(
     function ($container) {
         return new EntryCallbacks(
             $container[Services::DCA_MANAGER]
