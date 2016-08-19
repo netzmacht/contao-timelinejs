@@ -11,6 +11,7 @@
 
 namespace Netzmacht\Contao\TimelineJs\Dca;
 
+use Netzmacht\Contao\TimelineJs\Model\EntryModel;
 use Netzmacht\Contao\TimelineJs\Model\TimelineModel;
 use Netzmacht\Contao\TimelineJs\TimelineProvider;
 use Netzmacht\Contao\Toolkit\Dca\Callback\Callbacks;
@@ -94,13 +95,27 @@ class EntryCallbacks extends Callbacks
     /**
      * Purge the cache for an updated timeline.
      *
-     * @param \DataContainer $dataContainer Data container driver.
+     * @param \DataContainer|mixed $dataContainerOrValue Data container driver or value (save_callback).
+     * @param \DataContainer       $dataContainer        Data container driver.
      *
-     * @return void
+     * @return mixed
      */
-    public function purgeCache($dataContainer)
+    public function purgeCache($dataContainerOrValue, $dataContainer = null)
     {
-        $model = $this->timelineProvider->getTimelineModel($dataContainer->activeRecord->pid);
+        if (!$dataContainer) {
+            $dataContainer = $dataContainerOrValue;
+        }
+
+        if ($dataContainer->activeRecord) {
+            $timelineId = $dataContainer->pid;
+        } else {
+            $entry = EntryModel::findByPk($dataContainer->id);
+            $timelineId = $entry->pid;
+        }
+
+        $model = $this->timelineProvider->getTimelineModel($timelineId);
         $this->timelineProvider->purgeCache($model);
+
+        return $dataContainerOrValue;
     }
 }

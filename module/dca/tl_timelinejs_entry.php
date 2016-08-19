@@ -21,10 +21,10 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
     // Config
     'config'                => array
     (
-        'dataContainer'    => 'Table',
-        'enableVersioning' => true,
-        'ptable'           => 'tl_timelinejs',
-        'sql'              => array
+        'dataContainer'     => 'Table',
+        'enableVersioning'  => true,
+        'ptable'            => 'tl_timelinejs',
+        'sql'               => array
         (
             'keys' => array
             (
@@ -78,7 +78,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
             ),
             'toggle' => array
             (
-                'label'           => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['copy'],
+                'label'           => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['toggle'],
                 'icon'            => 'visible.gif',
                 'attributes'      => 'onclick="Backend.getScrollOffset();return AjaxRequest.toggleVisibility(this,%s)"',
                 'button_callback' => CallbackFactory::stateButton('tl_timelinejs_entry', 'published'),
@@ -331,7 +331,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
             ),
             'sql'       => "varchar(255) NOT NULL default ''"
         ),
-        'mediaLink' => array
+        'mediaLink'      => array
         (
             'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['mediaLink'],
             'exclude'   => true,
@@ -380,15 +380,18 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
         ),
         'published'      => array
         (
-            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['published'],
-            'exclude'   => true,
-            'filter'    => true,
-            'flag'      => 2,
-            'inputType' => 'checkbox',
-            'eval'      => array('doNotCopy' => true, 'tl_class' => 'm12 w50'),
-            'sql'       => "char(1) NOT NULL default ''"
+            'label'         => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['published'],
+            'exclude'       => true,
+            'filter'        => true,
+            'flag'          => 2,
+            'inputType'     => 'checkbox',
+            'eval'          => array('doNotCopy' => true, 'tl_class' => 'm12 w50'),
+            'sql'           => "char(1) NOT NULL default ''",
+            'save_callback' => [
+                EntryCallbacks::callback('purgeCache'),
+            ],
         ),
-        'background' => array
+        'background'     => array
         (
             'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['background'],
             'exclude'   => true,
