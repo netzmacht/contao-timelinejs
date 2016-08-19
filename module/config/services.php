@@ -20,7 +20,7 @@ use Netzmacht\Contao\Toolkit\DependencyInjection\Services;
 global $container;
 
 if (!isset($container['timelinejs.debug-mode'])) {
-    $container['timelinejs.debug-mode'] = !$container['toolkit.production-mode'] || true;
+    $container['timelinejs.debug-mode'] = !$container['toolkit.production-mode'];
 }
 
 $container['timelinejs.cache'] = $container->share(
@@ -55,7 +55,8 @@ $container['timelinejs.dca.timelines'] = $container->share(
     function ($container) {
         return new TimelineCallbacks(
             $container[Services::DCA_MANAGER],
-            $container['timelinejs.datasources']
+            $container['timelinejs.datasources'],
+            $container['timelinejs.provider']
         );
     }
 );
@@ -63,7 +64,8 @@ $container['timelinejs.dca.timelines'] = $container->share(
 $container['timelinejs.dca.entries'] = $container->share(
     function ($container) {
         return new EntryCallbacks(
-            $container[Services::DCA_MANAGER]
+            $container[Services::DCA_MANAGER],
+            $container['timelinejs.provider']
         );
     }
 );

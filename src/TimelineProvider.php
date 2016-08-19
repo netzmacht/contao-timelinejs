@@ -162,6 +162,21 @@ class TimelineProvider
     }
 
     /**
+     * Purge the cache for a timeline.
+     *
+     * @param TimelineModel $model The timeline model.
+     *
+     * @return void
+     */
+    public function purgeCache(TimelineModel $model)
+    {
+        foreach (['definition', 'json', 'options', 'options-json'] as $type) {
+            $cacheKey = $this->getCacheKey($model, $type);
+            $this->cache->delete($cacheKey);
+        }
+    }
+
+    /**
      * Get the cache key for an object.
      *
      * @param TimelineModel $timelineModel The timeline model.

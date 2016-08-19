@@ -30,7 +30,10 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
             (
                 'id' => 'primary'
             )
-        )
+        ),
+        'onsubmit_callback' => [
+            EntryCallbacks::callback('purgeCache'),
+        ],
     ),
     // List
     'list'                  => array

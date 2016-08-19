@@ -11,6 +11,7 @@
 
 namespace Netzmacht\Contao\TimelineJs\Dca;
 
+use Netzmacht\Contao\TimelineJs\TimelineProvider;
 use Netzmacht\Contao\Toolkit\Dca\Callback\Callbacks;
 use Netzmacht\Contao\Toolkit\Dca\Manager;
 
@@ -43,18 +44,26 @@ class TimelineCallbacks extends Callbacks
     private $dataSources;
 
     /**
+     * Timeline provider.
+     *
+     * @var TimelineProvider
+     */
+    private $timelineProvider;
+
+    /**
      * TimelineCallbacks constructor.
      *
-     * @param Manager      $dcaManager
-     * @param \ArrayObject $dataSources Data sources.
+     * @param Manager          $dcaManager       Data container manager.
+     * @param \ArrayObject     $dataSources      Data sources.
+     * @param TimelineProvider $timelineProvider Timeline provider.
      */
-    public function __construct(Manager $dcaManager, \ArrayObject $dataSources)
+    public function __construct(Manager $dcaManager, \ArrayObject $dataSources, TimelineProvider $timelineProvider)
     {
         parent::__construct($dcaManager);
 
-        $this->dataSources = $dataSources;
+        $this->dataSources      = $dataSources;
+        $this->timelineProvider = $timelineProvider;
     }
-
 
     /**
      * @return array
@@ -75,5 +84,18 @@ class TimelineCallbacks extends Callbacks
             },
             glob(TL_ROOT . '/system/modules/timelinejs/assets/vendor/timelinejs/compiled/js/locale/*.json')
         );
+    }
+
+    /**
+     * Purge the cache for an updated timeline.
+     *
+     * @param \DataContainer $dataContainer Data container driver.
+     *
+     * @return void
+     */
+    public function purgeCache($dataContainer)
+    {
+        $model = $this->timelineProvider->getTimelineModel($dataContainer->id);
+        $this->timelineProvider->purgeCache($model);
     }
 }

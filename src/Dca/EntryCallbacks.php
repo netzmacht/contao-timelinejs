@@ -12,7 +12,9 @@
 namespace Netzmacht\Contao\TimelineJs\Dca;
 
 use Netzmacht\Contao\TimelineJs\Model\TimelineModel;
+use Netzmacht\Contao\TimelineJs\TimelineProvider;
 use Netzmacht\Contao\Toolkit\Dca\Callback\Callbacks;
+use Netzmacht\Contao\Toolkit\Dca\Manager;
 
 /**
  * Timeline data container callbacks.
@@ -34,6 +36,25 @@ class EntryCallbacks extends Callbacks
      * @var string
      */
     protected static $serviceName = 'timelinejs.dca.entries';
+
+    /**
+     * Timeline provider.
+     *
+     * @var TimelineProvider
+     */
+    private $timelineProvider;
+
+    /**
+     * EntryCallbacks constructor.
+     *
+     * @param Manager          $dcaManager       Data container manager.
+     * @param TimelineProvider $timelineProvider Timeline provider.
+     */
+    public function __construct(Manager $dcaManager, TimelineProvider $timelineProvider)
+    {
+        parent::__construct($dcaManager);
+        $this->timelineProvider = $timelineProvider;
+    }
 
     /**
      * List the row entry.
@@ -68,5 +89,18 @@ class EntryCallbacks extends Callbacks
         }
 
         return deserialize($timeline->categories, true);
+    }
+
+    /**
+     * Purge the cache for an updated timeline.
+     *
+     * @param \DataContainer $dataContainer Data container driver.
+     *
+     * @return void
+     */
+    public function purgeCache($dataContainer)
+    {
+        $model = $this->timelineProvider->getTimelineModel($dataContainer->activeRecord->pid);
+        $this->timelineProvider->purgeCache($model);
     }
 }
