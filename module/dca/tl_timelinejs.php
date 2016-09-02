@@ -154,6 +154,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs'] = array
             'label'            => &$GLOBALS['TL_LANG']['tl_timelinejs']['dataSource'],
             'exclude'          => true,
             'inputType'        => 'select',
+            'default'          => 'default',
             'options_callback' => TimelineCallbacks::callback('getDataSources'),
             'eval'             => array(
                 'mandatory'          => true,
@@ -346,7 +347,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs'] = array
             'exclude'   => true,
             'inputType' => 'checkbox',
             'default'   => true,
-            'eval'      => array('tl_class' => 'w50'),
+            'eval'      => array('tl_class' => 'w50 m12'),
             'sql'       => "char(1) NOT NULL default ''"
         ),
         'trackResize'           => array

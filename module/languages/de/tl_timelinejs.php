@@ -10,26 +10,19 @@
  */
 
 //buttons
-$GLOBALS['TL_LANG']['tl_timelinejs']['new'][0] = 'Neuen Zeitstrahl';
-$GLOBALS['TL_LANG']['tl_timelinejs']['new'][1] = 'Neuen Zeitstrahl anlegen';
-
-$GLOBALS['TL_LANG']['tl_timelinejs']['edit'][0] = 'Zeitstrahl bearbeiten';
-$GLOBALS['TL_LANG']['tl_timelinejs']['edit'][1] = 'Zeitstrahl ID %s bearbeiten';
-
+$GLOBALS['TL_LANG']['tl_timelinejs']['new'][0]    = 'Neuen Zeitstrahl';
+$GLOBALS['TL_LANG']['tl_timelinejs']['new'][1]    = 'Neuen Zeitstrahl anlegen';
+$GLOBALS['TL_LANG']['tl_timelinejs']['edit'][0]   = 'Zeitstrahl bearbeiten';
+$GLOBALS['TL_LANG']['tl_timelinejs']['edit'][1]   = 'Zeitstrahl ID %s bearbeiten';
 $GLOBALS['TL_LANG']['tl_timelinejs']['delete'][0] = 'Zeitstrahl löschen';
 $GLOBALS['TL_LANG']['tl_timelinejs']['delete'][1] = 'Zeitstrahl ID %s löschen';
-
-$GLOBALS['TL_LANG']['tl_timelinejs']['copy'][0] = 'Zeitstrahl duplizieren';
-$GLOBALS['TL_LANG']['tl_timelinejs']['copy'][1] = 'Zeitstrahl ID %s duplizieren';
-
-$GLOBALS['TL_LANG']['tl_timelinejs']['show'][0] = 'Zeitstrahl anzeigen';
-$GLOBALS['TL_LANG']['tl_timelinejs']['show'][1] = 'Zeitstrahl ID %s anzeigen';
-
+$GLOBALS['TL_LANG']['tl_timelinejs']['copy'][0]   = 'Zeitstrahl duplizieren';
+$GLOBALS['TL_LANG']['tl_timelinejs']['copy'][1]   = 'Zeitstrahl ID %s duplizieren';
+$GLOBALS['TL_LANG']['tl_timelinejs']['show'][0]   = 'Zeitstrahl anzeigen';
+$GLOBALS['TL_LANG']['tl_timelinejs']['show'][1]   = 'Zeitstrahl ID %s anzeigen';
 
 //legends
-$GLOBALS['TL_LANG']['tl_timelinejs']['title_legend'] = 'Titel & Beschreibung';
-$GLOBALS['TL_LANG']['tl_timelinejs']['options_legend'] = 'Optionen';
-$GLOBALS['TL_LANG']['tl_timelinejs']['media_legend'] = 'Bild';
+$GLOBALS['TL_LANG']['tl_timelinejs']['title_legend'] = 'Titel';
 
 
 //fields
