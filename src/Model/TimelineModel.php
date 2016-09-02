@@ -18,6 +18,7 @@ namespace Netzmacht\Contao\TimelineJs\Model;
  * @property mixed|null dataSource
  * @property mixed|null id
  * @property mixed|null thumbnailSize
+ * @property mixed|null categories
  */
 class TimelineModel extends \Model
 {

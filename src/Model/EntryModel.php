@@ -33,6 +33,7 @@ namespace Netzmacht\Contao\TimelineJs\Model;
  * @property mixed|null mediaQuote
  * @property mixed|null mediaLink
  * @property mixed|null media
+ * @property mixed|null pid
  */
 class EntryModel extends \Model
 {
