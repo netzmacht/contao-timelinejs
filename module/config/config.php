@@ -22,7 +22,7 @@ $GLOBALS['BE_MOD']['content']['timelinejs'] = array
 /*
  * Frontend modules and elements.
  */
-$GLOBALS['FE_MOD']['application']['TimelineJS'] = function ($model, $column, \Interop\Container\ContainerInterface $container) {
+$GLOBALS['FE_MOD']['application']['TimelineJS'] = function ($model, $column, $container) {
     return new \Netzmacht\Contao\TimelineJs\Frontend\HybridTimeline(
         $model,
         $container->get('timelinejs.provider'),
@@ -35,7 +35,7 @@ $GLOBALS['FE_MOD']['application']['TimelineJS'] = function ($model, $column, \In
     );
 };
 
-$GLOBALS['TL_CTE']['includes']['TimelineJS'] = function ($model, $column, \Interop\Container\ContainerInterface $container) {
+$GLOBALS['TL_CTE']['includes']['TimelineJS'] = function ($model, $column, $container) {
     return new \Netzmacht\Contao\TimelineJs\Frontend\HybridTimeline(
         $model,
         $container->get('timelinejs.provider'),

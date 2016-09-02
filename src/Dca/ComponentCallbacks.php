@@ -15,6 +15,7 @@ namespace Netzmacht\Contao\TimelineJs\Dca;
 
 use ContaoCommunityAlliance\Translator\TranslatorInterface as Translator;
 use Netzmacht\Contao\TimelineJs\Model\TimelineModel;
+use Netzmacht\Contao\Toolkit\Dca\Callback\Callbacks;
 use Netzmacht\Contao\Toolkit\Dca\Options\OptionsBuilder;
 
 /**

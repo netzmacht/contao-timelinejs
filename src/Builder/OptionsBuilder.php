@@ -28,7 +28,7 @@ class OptionsBuilder
      * @var array
      */
     private static $mapping = array(
-        'script_path'        => array('type' => 'string', 'default' => null),
+        'script_path'        => array('type' => 'string', 'default' => 'system/modules/timelinejs/assets/vendor/timelinejs/compiled/js'),
 //        'height'             => array('type' => 'string', 'default' => null),
 //        'width'              => array('type' => 'string', 'default' => null),
 //        'is_embed'           => array('type' => 'bool', 'default' => false),
@@ -167,6 +167,10 @@ class OptionsBuilder
             $column = StringUtil::camelize($key, false);
 
             if (!isset($data[$column])) {
+                if (isset($config['default']) ) {
+                    $this->options[$key] = $config['default'];
+                }
+
                 continue;
             }
 

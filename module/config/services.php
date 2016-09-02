@@ -11,6 +11,8 @@
 
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\FilesystemCache;
+use Netzmacht\Contao\TimelineJs\Dca\EntryCallbacks;
+use Netzmacht\Contao\TimelineJs\Dca\TimelineCallbacks;
 use Netzmacht\Contao\TimelineJs\TimelineProvider;
 use Netzmacht\Contao\TimelineJs\Dca\ComponentCallbacks;
 use Netzmacht\Contao\Toolkit\DependencyInjection\Services;
@@ -18,7 +20,7 @@ use Netzmacht\Contao\Toolkit\DependencyInjection\Services;
 global $container;
 
 if (!isset($container['timelinejs.debug-mode'])) {
-    $container['timelinejs.debug-mode'] = !$container['toolkit.production-mode'] || true;
+    $container['timelinejs.debug-mode'] = !$container['toolkit.production-mode'];
 }
 
 $container['timelinejs.cache'] = $container->share(
@@ -46,5 +48,24 @@ $container['timelinejs.datasources'][] = 'default';
 $container['timelinejs.dca.component-callbacks'] = $container->share(
     function ($container) {
         return new ComponentCallbacks($container[Services::TRANSLATOR]);
+    }
+);
+
+$container['timelinejs.dca.timelines'] = $container->share(
+    function ($container) {
+        return new TimelineCallbacks(
+            $container[Services::DCA_MANAGER],
+            $container['timelinejs.datasources'],
+            $container['timelinejs.provider']
+        );
+    }
+);
+
+$container['timelinejs.dca.entries'] = $container->share(
+    function ($container) {
+        return new EntryCallbacks(
+            $container[Services::DCA_MANAGER],
+            $container['timelinejs.provider']
+        );
     }
 );

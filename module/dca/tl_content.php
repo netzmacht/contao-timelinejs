@@ -9,7 +9,7 @@
  * @copyright 2013-2016 netzmacht David Molineus
  */
 
-use Netzmacht\Contao\Toolkit\Dca\Callbacks;
+use Netzmacht\Contao\Toolkit\Dca\Callback\CallbackFactory;
 
 /*
  * Palettes
@@ -30,7 +30,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['timeline'] = array
     'label'            => &$GLOBALS['TL_LANG']['tl_content']['timeline'],
     'exclude'          => true,
     'inputType'        => 'select',
-    'options_callback' => Callbacks::callback('timelinejs.dca.component-callbacks', 'getTimelineOptions'),
+    'options_callback' => CallbackFactory::service('timelinejs.dca.component-callbacks', 'getTimelineOptions'),
     'eval'             => array(
         'mandatory'          => true,
         'includeBlankOption' => true,
@@ -38,7 +38,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['timeline'] = array
         'tl_class'           => 'w50 wizard',
     ),
     'wizard'           => array(
-        Callbacks::callback('timelinejs.dca.component-callbacks', 'getTimelineEditButton')
+        CallbackFactory::service('timelinejs.dca.component-callbacks', 'getTimelineEditButton')
     ),
     'sql'              => "int(10) unsigned NOT NULL"
 );

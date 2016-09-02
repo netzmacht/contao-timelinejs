@@ -1,17 +1,12 @@
 <?php
-$this->getAssetsManager()
+$this->helper('assets')
+    ->addJavascript('system/modules/timelinejs/assets/vendor/timelinejs/compiled/js/timeline-min.js')
     ->addStylesheet('system/modules/timelinejs/assets/vendor/timelinejs/compiled/css/timeline.css');
 ?>
 <?php $this->extend('block_unsearchable'); ?>
 
 <?php $this->block('content'); ?>
-<<<<<<< HEAD
-<div id="timeline-<?= $this->id ?>" style="height:<?= $this->height ?>;width:<?= $this->width ?>"></div>
-<script src="system/modules/timelinejs/assets/vendor/timelinejs/compiled/js/timeline.js"></script>
-=======
-<div id="timeline-embed-<?php echo $this->id; ?>"></div>
-<?php $this->helper('assets')->addJavascript('system/modules/timelinejs/vendor/timelinejs/compiled/js/timeline.min.js'); ?>
->>>>>>> ce90d7fa006fb60f771ac4bd6f9152ec73d53635
+<div id="timeline-<?php echo $this->id; ?>" style="width: <?= $this->timeline->width ?>; height: <?= $this->timeline->height ?>;"></div>
 <script type="text/javascript">
     var timeline = new TL.Timeline(
         'timeline-<?php echo $this->id ?>',
