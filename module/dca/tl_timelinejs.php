@@ -191,14 +191,14 @@ $GLOBALS['TL_DCA']['tl_timelinejs'] = array
                 'helpwizard'   => true,
                 'columnFields' => array(
                     'name'  => array(
-                        'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['name'],
+                        'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['sizeOptionName'],
                         'inputType' => 'select',
                         'reference' => &$GLOBALS['TL_LANG']['tl_timelinejs']['sizesOptions'],
                         'options'   => OptionsBuilder::getSizeOptionNames(),
                         'eval'      => array('style' => 'width: 300px')
                     ),
                     'value' => array(
-                        'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['value'],
+                        'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['sizeOptionValue'],
                         'inputType' => 'text',
                         'eval'      => array('style' => 'width: 100px')
                     ),
@@ -255,7 +255,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs'] = array
         ),
         'mapType'         => array
         (
-            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['map'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['mapType'],
             'exclude'   => true,
             'inputType' => 'select',
             'options' => array(
@@ -345,6 +345,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs'] = array
             'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['dragging'],
             'exclude'   => true,
             'inputType' => 'checkbox',
+            'default'   => true,
             'eval'      => array('tl_class' => 'w50'),
             'sql'       => "char(1) NOT NULL default ''"
         ),
@@ -353,6 +354,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs'] = array
             'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['trackResize'],
             'exclude'   => true,
             'inputType' => 'checkbox',
+            'default'   => true,
             'eval'      => array('tl_class' => 'w50'),
             'sql'       => "char(1) NOT NULL default ''"
         ),
@@ -366,7 +368,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs'] = array
         ),
         'startAtSlide'    => array
         (
-            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['statAtSlide'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['startAtSlide'],
             'exclude'   => true,
             'inputType' => 'text',
             'default'   => 0,
@@ -391,7 +393,7 @@ $GLOBALS['TL_DCA']['tl_timelinejs'] = array
         ),
         'defaultBgColor'  => array
         (
-            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs_entry']['defaultBgColor'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_timelinejs']['defaultBgColor'],
             'exclude'   => true,
             'inputType' => 'text',
             'eval'      => array(
