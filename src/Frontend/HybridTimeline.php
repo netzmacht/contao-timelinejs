@@ -129,13 +129,13 @@ class HybridTimeline extends AbstractHybrid
     /**
      * {@inheritDoc}
      */
-    protected function compile(Template $template)
+    protected function compile()
     {
         if (!$this->timeline) {
             return;
         }
 
-        parent::compile($template);
+        parent::compile();
 
         $event = new BuildSourceUrlEvent($this->timeline, ['id' => $this->timeline->id]);
         $this->eventDispatcher->dispatch($event::NAME, $event);
@@ -148,7 +148,7 @@ class HybridTimeline extends AbstractHybrid
             $query
         );
 
-        $template
+        $this->template
             ->set('timeline', $this->timeline)
             ->set('source', $source)
             ->set('provider', $this->timelineProvider);
