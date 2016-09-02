@@ -68,7 +68,7 @@ class EntryCallbacks extends Callbacks
     {
         return sprintf(
             '%s: %s %s',
-            $this->formatValue('type', $row),
+            $this->getFormatter()->formatValue('type', $row['type']),
             $row['headline'],
             $row['startDate']
         );
@@ -109,7 +109,7 @@ class EntryCallbacks extends Callbacks
         if ($dataContainer->activeRecord) {
             $timelineId = $dataContainer->activeRecord->pid;
         } else {
-            $entry = EntryModel::findByPk($dataContainer->id);
+            $entry      = EntryModel::findByPk($dataContainer->id);
             $timelineId = $entry->pid;
         }
 
