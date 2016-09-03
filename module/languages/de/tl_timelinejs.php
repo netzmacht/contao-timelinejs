@@ -22,55 +22,53 @@ $GLOBALS['TL_LANG']['tl_timelinejs']['show'][0]   = 'Zeitstrahl anzeigen';
 $GLOBALS['TL_LANG']['tl_timelinejs']['show'][1]   = 'Zeitstrahl ID %s anzeigen';
 
 //legends
-$GLOBALS['TL_LANG']['tl_timelinejs']['title_legend'] = 'Titel';
-
+$GLOBALS['TL_LANG']['tl_timelinejs']['title_legend']   = 'Titel';
+$GLOBALS['TL_LANG']['tl_timelinejs']['config_legend']  = 'Konfiguration';
+$GLOBALS['TL_LANG']['tl_timelinejs']['options_legend'] = 'Optionen';
+$GLOBALS['TL_LANG']['tl_timelinejs']['style_legend']   = 'Style';
+$GLOBALS['TL_LANG']['tl_timelinejs']['browser_legend'] = 'Browser';
+$GLOBALS['TL_LANG']['tl_timelinejs']['api_legend']     = 'API';
 
 //fields
-$GLOBALS['TL_LANG']['tl_timelinejs']['title'][0] = 'Titel';
-$GLOBALS['TL_LANG']['tl_timelinejs']['title'][1] = 'Geben Sie einen Titel des Zeitstrahls ein.';
-
-$GLOBALS['TL_LANG']['tl_timelinejs']['teaser'][0] = 'Beschreibung';
-$GLOBALS['TL_LANG']['tl_timelinejs']['teaser'][1] = 'Geben Sie eine Beschreibung des Zeitstrahls ein.';
-
-$GLOBALS['TL_LANG']['tl_timelinejs']['width'][0] = 'Breite des Zeitstrahls eingeben';
-$GLOBALS['TL_LANG']['tl_timelinejs']['width'][1] = 'Geben Sie die Breite als Zahl ein. Alternativ kann auch eine Prozentzahl eingegeben werden.';
-
-$GLOBALS['TL_LANG']['tl_timelinejs']['height'][0] = 'Höhe';
-$GLOBALS['TL_LANG']['tl_timelinejs']['height'][1] = 'Geben Sie die Höhe in Pixel ein.';
-
-$GLOBALS['TL_LANG']['tl_timelinejs']['language'][0] = 'Sprache';
-$GLOBALS['TL_LANG']['tl_timelinejs']['language'][1] = 'Wählen Sie die Sprache aus.';
-
-$GLOBALS['TL_LANG']['tl_timelinejs']['fonts'][0] = 'Schriftarten';
-$GLOBALS['TL_LANG']['tl_timelinejs']['fonts'][1] = 'Wählen Sie aus, welche Schriftartenkombination verwendet werden soll.';
-
-$GLOBALS['TL_LANG']['tl_timelinejs']['misc'][0] = 'Weitere Optionen';
-$GLOBALS['TL_LANG']['tl_timelinejs']['misc'][1] = 'Entscheiden Sie, welche weiteren Optionen ausgewählt sein sollen.';
-$GLOBALS['TL_LANG']['tl_timelinejs']['misc']['options']['startAtEnd'] = 'mit letztem Eintrag starten';
-$GLOBALS['TL_LANG']['tl_timelinejs']['misc']['options']['hashBookmarks'] = 'fügt für jeden Beitrag einen Anker-Link (#) hinzu';
-$GLOBALS['TL_LANG']['tl_timelinejs']['misc']['options']['debug'] = 'Debugmodus aktivieren (Ausgabe in der Browser-Konsole)';
-
-$GLOBALS['TL_LANG']['tl_timelinejs']['zoom'][0] = 'Zoom-Stufe';
-$GLOBALS['TL_LANG']['tl_timelinejs']['zoom'][1] = 'Geben Sie die gewünschte Zoom-Stufe an, die standardmäßig gewählt wird.';
-
-$GLOBALS['TL_LANG']['tl_timelinejs']['number'][0] = 'Nummer des 1. Slides';
-$GLOBALS['TL_LANG']['tl_timelinejs']['number'][1] = 'Geben Sie eine Nummer des Slides an, mit dem gestartet werden soll.';
-
-$GLOBALS['TL_LANG']['tl_timelinejs']['media'][0] = 'Bild hinzufügen';
-$GLOBALS['TL_LANG']['tl_timelinejs']['media'][1] = 'Fügen Sie eine Bilddatei hinzu';
-
-$GLOBALS['TL_LANG']['tl_timelinejs']['singleSRC'][0] = 'Lokale Bilddatei auswählen';
-$GLOBALS['TL_LANG']['tl_timelinejs']['singleSRC'][1] = 'Wählen Sie eine lokale Bilddatei aus, die für den Eintrag verwendet werden soll.';
-
-$GLOBALS['TL_LANG']['tl_timelinejs']['caption'][0] = 'Bildunterschrift';
-$GLOBALS['TL_LANG']['tl_timelinejs']['caption'][1] = 'Geben Sie eine Bildunterschrift an';
-
-$GLOBALS['TL_LANG']['tl_timelinejs']['credit'][0] = 'Lizenz/Autor';
-$GLOBALS['TL_LANG']['tl_timelinejs']['credit'][1] = 'Geben Sie den Autor oder die Lizenz an.';
-
-$GLOBALS['TL_LANG']['tl_timelinejs']['thumbnail'][0] = 'Vorschaubild';
-$GLOBALS['TL_LANG']['tl_timelinejs']['thumbnail'][1] = 'Sie können ein Vorschaubild auswählen, das in der Timeline angezeigt wird.';
-
-// Sizes options
-$GLOBALS['TL_LANG']['tl_timelinejs']['sizesOptions']['timenavHeightPercentage'][0] = 'Höhe Zeitnavigationsleiste in Prozent';
-$GLOBALS['TL_LANG']['tl_timelinejs']['sizesOptions']['timenavHeightPercentage'][1] = 'Gibt die Höhe der Zeitnavigationsleiste in Prozent an. Überschreibt den Pixelwert.';
+$GLOBALS['TL_LANG']['tl_timelinejs']['title'][0]           = 'Title';
+$GLOBALS['TL_LANG']['tl_timelinejs']['title'][1]           = 'Geben geben Sie einen Titel für den Zeitstrahl ein.';
+$GLOBALS['TL_LANG']['tl_timelinejs']['scale'][0]           = 'Skala';
+$GLOBALS['TL_LANG']['tl_timelinejs']['scale'][1]           = 'Entweder human oder cosmological.';
+$GLOBALS['TL_LANG']['tl_timelinejs']['dataSource'][0]      = 'Datenquelle';
+$GLOBALS['TL_LANG']['tl_timelinejs']['dataSource'][1]      = 'Aus welcher Datenquelle sollen die Events erstellt werden?';
+$GLOBALS['TL_LANG']['tl_timelinejs']['startAtSlide'][0]    = 'Anfang';
+$GLOBALS['TL_LANG']['tl_timelinejs']['startAtSlide'][1]    = 'Nummer des Eintrags, welcher zuerst angezeigt werden sol';
+$GLOBALS['TL_LANG']['tl_timelinejs']['startAtEnd'][0]      = 'Mit letzten Eintrag beginnen';
+$GLOBALS['TL_LANG']['tl_timelinejs']['startAtEnd'][1]      = 'Wenn ausgewählt, wird mit dem letzten Eintrag begonnen.';
+$GLOBALS['TL_LANG']['tl_timelinejs']['categories'][0]      = 'Kategorien';
+$GLOBALS['TL_LANG']['tl_timelinejs']['categories'][1]      = 'Definieren Sie Kategorien, die zur Gruppierung auf dem Zeitstrahl genutzt werden soll.';
+$GLOBALS['TL_LANG']['tl_timelinejs']['sizes'][0]           = 'Größenkonfigurationen';
+$GLOBALS['TL_LANG']['tl_timelinejs']['sizes'][1]           = 'Definieren Sie verschiedene Größenangaben.';
+$GLOBALS['TL_LANG']['tl_timelinejs']['sizeOptionName'][0]  = 'Name';
+$GLOBALS['TL_LANG']['tl_timelinejs']['sizeOptionName'][1]  = 'Name der Größenkonfiguration.';
+$GLOBALS['TL_LANG']['tl_timelinejs']['sizeOptionValue'][0] = 'Wert';
+$GLOBALS['TL_LANG']['tl_timelinejs']['sizeOptionValue'][1] = 'Wert der Größenkonfigurationen.';
+$GLOBALS['TL_LANG']['tl_timelinejs']['defaultBgColor'][0]  = 'Standardhintergrundfarbe';
+$GLOBALS['TL_LANG']['tl_timelinejs']['defaultBgColor'][1]  = 'Standard RGB Hintergrundfarbe';
+$GLOBALS['TL_LANG']['tl_timelinejs']['baseClass'][0]       = 'Standard CSS-Klasse';
+$GLOBALS['TL_LANG']['tl_timelinejs']['baseClass'][1]       = 'Wird hier eine Klasse eingetragen, verliert die Timline ihren Standard-Stil.';
+$GLOBALS['TL_LANG']['tl_timelinejs']['hashBookmarks'][0]   = 'Bookmmark Hashes';
+$GLOBALS['TL_LANG']['tl_timelinejs']['hashBookmarks'][1]   = 'Wenn aktiviert, wird jeder Eintrag mit einem Anker Bookmark versehen und die Url des Browsers dementsprechend angepasst.';
+$GLOBALS['TL_LANG']['tl_timelinejs']['trackResize'][0]     = 'Größenveränderungen registrieren';
+$GLOBALS['TL_LANG']['tl_timelinejs']['trackResize'][1]     = 'Die Timeline soll auf Größenänderungen des Browsers reagieren.';
+$GLOBALS['TL_LANG']['tl_timelinejs']['ease'][0]            = 'Easing equation';
+$GLOBALS['TL_LANG']['tl_timelinejs']['ease'][1]            = 'Easing equation of the animation. Default <em>TL.Ease.easeInOutQuint</em>';
+$GLOBALS['TL_LANG']['tl_timelinejs']['duration'][0]        = 'Dauer';
+$GLOBALS['TL_LANG']['tl_timelinejs']['duration'][1]        = 'Dauer der Animation.';
+$GLOBALS['TL_LANG']['tl_timelinejs']['zoomSequence'][0]    = 'Zoom sequence';
+$GLOBALS['TL_LANG']['tl_timelinejs']['zoomSequence'][1]    = 'Comma separated list of values for TimeNav zoom levels. Each value is a scale_factor, which means that at any given level, the full timeline would require that many screens to display all events.';
+$GLOBALS['TL_LANG']['tl_timelinejs']['dragging'][0]        = 'Dragging';
+$GLOBALS['TL_LANG']['tl_timelinejs']['dragging'][1]        = 'Aktiviere Dragging.';
+$GLOBALS['TL_LANG']['tl_timelinejs']['apiKeys'][0]         = 'API Schlüssel';
+$GLOBALS['TL_LANG']['tl_timelinejs']['apiKeys'][1]         = 'API Schlüssel.';
+$GLOBALS['TL_LANG']['tl_timelinejs']['apiKeyName'][0]      = 'Name';
+$GLOBALS['TL_LANG']['tl_timelinejs']['apiKeyName'][1]      = 'Name des API Schlüssels';
+$GLOBALS['TL_LANG']['tl_timelinejs']['apiKeyValue'][0]     = 'API Schlüssel';
+$GLOBALS['TL_LANG']['tl_timelinejs']['apiKeyValue'][1]     = 'Wert des API Schlüssels.';
+$GLOBALS['TL_LANG']['tl_timelinejs']['mapType'][0]         = 'Kartentyp';
+$GLOBALS['TL_LANG']['tl_timelinejs']['mapType'][1]         = 'Bitte suchen Sie einen Kartentyp aus.';

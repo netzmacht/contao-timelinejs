@@ -23,9 +23,9 @@ $GLOBALS['TL_LANG']['tl_timelinejs']['show'][1]   = 'Show timeline ID %s';
 
 
 //legends
-$GLOBALS['TL_LANG']['tl_timelinejs']['title_legend']   = 'Title & description';
+$GLOBALS['TL_LANG']['tl_timelinejs']['title_legend']   = 'Title';
 $GLOBALS['TL_LANG']['tl_timelinejs']['config_legend']  = 'Configuration';
-$GLOBALS['TL_LANG']['tl_timelinejs']['options_legend'] = 'Optionen';
+$GLOBALS['TL_LANG']['tl_timelinejs']['options_legend'] = 'Options';
 $GLOBALS['TL_LANG']['tl_timelinejs']['style_legend']   = 'Style';
 $GLOBALS['TL_LANG']['tl_timelinejs']['browser_legend'] = 'Browser';
 $GLOBALS['TL_LANG']['tl_timelinejs']['api_legend']     = 'API';
