@@ -53,3 +53,10 @@ $GLOBALS['TL_CTE']['includes']['TimelineJS'] = function ($model, $column, $conta
  */
 $GLOBALS['TL_MODELS']['tl_timelinejs']       = 'Netzmacht\Contao\TimelineJs\Model\TimelineModel';
 $GLOBALS['TL_MODELS']['tl_timelinejs_entry'] = 'Netzmacht\Contao\TimelineJs\Model\EntryModel';
+
+/*
+ * Maintenance.
+ */
+$GLOBALS['TL_PURGE']['custom']['timelinejs'] = [
+    'callback' => ['Netzmacht\Contao\TimelineJs\Backend\Maintenance', 'purgeCache'],
+];
