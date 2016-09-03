@@ -32,7 +32,7 @@ class ComponentCallbacks
     /**
      * HybridCallbacks constructor.
      *
-     * @param Translator $translator
+     * @param Translator $translator Translator.
      */
     public function __construct(Translator $translator)
     {

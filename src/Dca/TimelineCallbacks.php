@@ -16,7 +16,7 @@ use Netzmacht\Contao\Toolkit\Dca\Callback\Callbacks;
 use Netzmacht\Contao\Toolkit\Dca\Manager;
 
 /**
- * Class TimelineCallbacks
+ * Class TimelineCallbacks.
  *
  * @package Netzmacht\Contao\TimelineJs\Dca
  */
@@ -66,6 +66,8 @@ class TimelineCallbacks extends Callbacks
     }
 
     /**
+     * Get all data sources.
+     *
      * @return array
      */
     public function getDataSources()
@@ -74,6 +76,8 @@ class TimelineCallbacks extends Callbacks
     }
 
     /**
+     * Get all supported languages.
+     *
      * @return array
      */
     public function getSupportedLanguages()

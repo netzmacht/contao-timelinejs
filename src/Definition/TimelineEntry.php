@@ -44,7 +44,7 @@ abstract class TimelineEntry extends Base
     /**
      * Constructor.
      *
-     * @param Date $startDate Start date
+     * @param Date $startDate Start date.
      * @param Text $text      Slide text.
      * @param Date $endDate   End date.
      */

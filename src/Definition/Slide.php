@@ -56,7 +56,7 @@ final class Slide extends TimelineEntry
     /**
      * Slide constructor.
      *
-     * @param Date       $startDate   Start date
+     * @param Date       $startDate   Start date.
      * @param Text       $text        Slide text.
      * @param Date       $endDate     End date.
      * @param Media      $media       Media object.

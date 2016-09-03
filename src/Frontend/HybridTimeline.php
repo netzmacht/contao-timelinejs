@@ -13,15 +13,13 @@ namespace Netzmacht\Contao\TimelineJs\Frontend;
 
 use Netzmacht\Contao\TimelineJs\Event\BuildSourceUrlEvent;
 use Netzmacht\Contao\TimelineJs\TimelineProvider;
-use Netzmacht\Contao\Toolkit\Component\Hybrid;
 use ContaoCommunityAlliance\Translator\TranslatorInterface as Translator;
 use Database\Result;
 use Model\Collection;
 use Netzmacht\Contao\TimelineJs\Model\TimelineModel;
 use Netzmacht\Contao\Toolkit\Component\Hybrid\AbstractHybrid;
-use Netzmacht\Contao\Toolkit\View\Template;
 use Netzmacht\Contao\Toolkit\View\Template\TemplateFactory;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface as EventDispatcher;
 
 /**
  * Class HybridTimeline.
@@ -59,43 +57,47 @@ class HybridTimeline extends AbstractHybrid
     private $timeline;
 
     /**
+     * Timeline provider.
+     *
      * @var TimelineProvider
      */
     private $timelineProvider;
 
     /**
-     * @var EventDispatcherInterface
+     * Event dispatcher.
+     *
+     * @var EventDispatcher
      */
     private $eventDispatcher;
 
     /**
      * HybridTimeline constructor.
      *
-     * @param Result|\Model|Collection $model           Component model.
-     * @param TimelineProvider         $timelineProvider
-     * @param TemplateFactory          $templateFactory Template factory.
-     * @param Translator               $translator      Translator.
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param string                   $url             Current url.
-     * @param string                   $websitePath     Website path.
-     * @param string                   $column          Column name.
+     * @param Result|\Model|Collection $model            Component model.
+     * @param TimelineProvider         $timelineProvider Timeline provider.
+     * @param TemplateFactory          $templateFactory  Template factory.
+     * @param Translator               $translator       Translator.
+     * @param EventDispatcher          $eventDispatcher  Event Dispatcher.
+     * @param string                   $url              Current url.
+     * @param string                   $websitePath      Website path.
+     * @param string                   $column           Column name.
      */
     public function __construct(
         $model,
         TimelineProvider $timelineProvider,
         TemplateFactory $templateFactory,
         Translator $translator,
-        EventDispatcherInterface $eventDispatcher,
+        EventDispatcher $eventDispatcher,
         $url,
         $websitePath,
         $column = 'main'
     ) {
         parent::__construct($model, $templateFactory, $translator, $column);
 
-        $this->url         = $url;
-        $this->websitePath = $websitePath;
+        $this->url              = $url;
+        $this->websitePath      = $websitePath;
         $this->timelineProvider = $timelineProvider;
-        $this->eventDispatcher = $eventDispatcher;
+        $this->eventDispatcher  = $eventDispatcher;
     }
 
     /**

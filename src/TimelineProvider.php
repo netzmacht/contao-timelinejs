@@ -21,7 +21,9 @@ use Netzmacht\Contao\TimelineJs\Model\TimelineModel;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
- * Class TimelineProvider
+ * TimelineProvider is the main entrypoint of the Timeline extension.
+ *
+ * You should usually only use this service to get a timeline.
  *
  * @package Netzmacht\Contao\TimelineJs
  */
@@ -59,6 +61,7 @@ class TimelineProvider
      * @param int $timelineId The timeline id.
      *
      * @return TimelineModel
+     * @throws \InvalidArgumentException On no timeline found.
      */
     public function getTimelineModel($timelineId)
     {

@@ -26,6 +26,7 @@ class Maintenance
 
     /**
      * The timeline js cache directory.
+     *
      * @var string
      */
     private $cacheDir;

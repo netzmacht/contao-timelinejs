@@ -35,13 +35,13 @@ class BuildSourceUrlEvent extends Event
      *
      * @var \ArrayObject
      */
-    private $query ;
+    private $query;
 
     /**
      * BuildSourceUrlEvent constructor.
      *
-     * @param TimelineModel $timelineModel
-     * @param array         $query
+     * @param TimelineModel $timelineModel Timeline model.
+     * @param array         $query         Query params.
      */
     public function __construct(TimelineModel $timelineModel, array $query = array())
     {

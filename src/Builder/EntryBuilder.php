@@ -41,7 +41,7 @@ class EntryBuilder
     /**
      * EntryBuilder constructor.
      *
-     * @param Replacer $insertTagReplacer
+     * @param Replacer $insertTagReplacer Insert tag replacer.
      */
     public function __construct(Replacer $insertTagReplacer)
     {
@@ -143,9 +143,9 @@ class EntryBuilder
      */
     public function buildEra(EntryModel $entryModel)
     {
-        $startDate  = $this->buildDate($entryModel->startDate);
-        $endDate    = $this->buildDate($entryModel->endDate);
-        $text       = $this->buildText($entryModel);
+        $startDate = $this->buildDate($entryModel->startDate);
+        $endDate   = $this->buildDate($entryModel->endDate);
+        $text      = $this->buildText($entryModel);
 
         $era = new Era($startDate, $text, $endDate);
         $era->setUniqueId($entryModel->getTable() . '_' . $entryModel->id);
@@ -156,51 +156,27 @@ class EntryBuilder
     /**
      * Create the media object for the model. If no url is given, it returns null.
      *
-     * @param EntryModel $model The model.
-     *
-     * @param mixed  $thumbnailSize The thumbnail size as array or serialized string.
+     * @param EntryModel $model         The model.
+     * @param mixed      $thumbnailSize The thumbnail size as array or serialized string.
      *
      * @return Media|null
      */
     public function buildMedia(EntryModel $model, $thumbnailSize = null)
     {
-        if (!$model->media) {
-            return null;
-        }
-
-        if ($model->media === 'quote') {
-            $data = '<blockquote>' . $model->mediaQuote . '</blockquote>';
-        } elseif ($model->media === 'iframe') {
-            $data = '<iframe src="'. $model->mediaUrl .'"></iframe>';
-        } else {
-            $data = $model->mediaUrl;
-        }
-
-        $data = $this->replaceInsertTags($data);
+        $data = $this->getMediaData($model);
         if (!$data) {
             return null;
         }
 
         $media = new Media($data);
-        $media->setCaption($model->mediaCaption ?: null);
-        $media->setCredit($model->mediaCredit ?: null);
+        $media->setCaption($this->valueOrNull($model->mediaCaption));
+        $media->setCredit($this->valueOrNull($model->mediaCredit));
 
-        $thumbnail = $this->replaceInsertTags($model->mediaThumbnail);
-        if ($thumbnail) {
-            $media->setThumbnail($thumbnail);
-        } elseif ($thumbnailSize && file_exists(TL_ROOT . '/' . $data)) {
-            $file          = new \File($data);
-            $thumbnailSize = deserialize($thumbnailSize, true);
-
-            if (in_array($file->extension, ['jpg', 'gif', 'png', 'jpeg'])) {
-                $thumbnail = \Image::get($file, $thumbnailSize[0], $thumbnailSize[1], $thumbnailSize[2]);
-                $media->setThumbnail($thumbnail);
-            }
-        }
+        $this->buildMediaThumbnail($media, $model, $thumbnailSize);
 
         $link = $this->replaceInsertTags($model->mediaLink);
         if ($link) {
-            $media->setLink($link, $model->mediaLinkTarget ?: null);
+            $media->setLink($link, $this->valueOrNull($model->mediaLinkTarget));
         }
 
         return $media;
@@ -211,9 +187,9 @@ class EntryBuilder
      *
      * The expected date format is Y-m-d H:i:s.u but only the year is required.
      *
-     * @param string        $dateString The date string.
-     * @param string|null   $format     Alternative date format.
-     * @param string|null   $display    Date string representation.
+     * @param string      $dateString The date string.
+     * @param string|null $format     Alternative date format.
+     * @param string|null $display    Date string representation.
      *
      * @return Date|null
      */
@@ -282,5 +258,78 @@ class EntryBuilder
         $content = $this->insertTagReplacer->replace($content, false);
         
         return $content;
+    }
+
+    /**
+     * Build media thumbnail.
+     *
+     * @param Media      $media         Media.
+     * @param EntryModel $model         Entry model.
+     * @param mixed      $thumbnailSize The thumbnail size as array or serialized string.
+     *
+     * @return void
+     */
+    private function buildMediaThumbnail(Media $media, EntryModel $model, $thumbnailSize)
+    {
+        $thumbnail = $this->replaceInsertTags($model->mediaThumbnail);
+        if (!$thumbnail) {
+            if (!$model->mediaUrl) {
+                return;
+            }
+
+            $thumbnail = $this->replaceInsertTags($model->mediaUrl);
+            if (!$thumbnail) {
+                return;
+            }
+        }
+
+        if ($thumbnailSize && file_exists(TL_ROOT . '/' . $thumbnail)) {
+            $file          = new \File($thumbnail);
+            $thumbnailSize = deserialize($thumbnailSize, true);
+
+            if (!in_array($file->extension, ['jpg', 'gif', 'png', 'jpeg'])) {
+                return;
+            }
+
+            $thumbnail = \Image::get($file, $thumbnailSize[0], $thumbnailSize[1], $thumbnailSize[2]);
+        }
+
+        $media->setThumbnail($thumbnail);
+    }
+
+    /**
+     * Get the media data.
+     *
+     * @param EntryModel $model Entry model.
+     *
+     * @return mixed|null|string
+     */
+    private function getMediaData(EntryModel $model)
+    {
+        if (!$model->media) {
+            return null;
+        }
+
+        if ($model->media === 'quote') {
+            $data = '<blockquote>' . $model->mediaQuote . '</blockquote>';
+        } elseif ($model->media === 'iframe') {
+            $data = '<iframe src="' . $model->mediaUrl . '"></iframe>';
+        } else {
+            $data = $model->mediaUrl;
+        }
+
+        return $this->replaceInsertTags($data);
+    }
+
+    /**
+     * Get the value or null.
+     *
+     * @param mixed $value Given value.
+     *
+     * @return mixed
+     */
+    private function valueOrNull($value)
+    {
+        return $value ?: null;
     }
 }

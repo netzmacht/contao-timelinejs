@@ -22,7 +22,7 @@ use Netzmacht\Contao\Toolkit\DependencyInjection\Services;
 global $container;
 
 if (!isset($container[TimelineServices::DEBUG_MODE])) {
-    $container[TimelineServices::DEBUG_MODE] = !$container[Services::PRODUCTION_MODE];
+    $container[TimelineServices::DEBUG_MODE] = true; // !$container[Services::PRODUCTION_MODE];
 }
 
 /**

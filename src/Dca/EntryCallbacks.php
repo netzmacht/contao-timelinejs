@@ -11,7 +11,7 @@
 
 namespace Netzmacht\Contao\TimelineJs\Dca;
 
-use ContaoCommunityAlliance\Translator\TranslatorInterface;
+use ContaoCommunityAlliance\Translator\TranslatorInterface as Translator;
 use Netzmacht\Contao\TimelineJs\Definition\Date;
 use Netzmacht\Contao\TimelineJs\Model\EntryModel;
 use Netzmacht\Contao\TimelineJs\Model\TimelineModel;
@@ -50,18 +50,18 @@ class EntryCallbacks extends Callbacks
     /**
      * Translator.
      *
-     * @var TranslatorInterface
+     * @var Translator
      */
     private $translator;
 
     /**
      * EntryCallbacks constructor.
      *
-     * @param Manager             $dcaManager       Data container manager.
-     * @param TimelineProvider    $timelineProvider Timeline provider.
-     * @param TranslatorInterface $translator       Translator.
+     * @param Manager          $dcaManager       Data container manager.
+     * @param TimelineProvider $timelineProvider Timeline provider.
+     * @param Translator       $translator       Translator.
      */
-    public function __construct(Manager $dcaManager, TimelineProvider $timelineProvider, TranslatorInterface $translator)
+    public function __construct(Manager $dcaManager, TimelineProvider $timelineProvider, Translator $translator)
     {
         parent::__construct($dcaManager);
 
@@ -89,21 +89,20 @@ class EntryCallbacks extends Callbacks
     /**
      * Validate the start date.
      *
-     * @param mixed $value
+     * @param mixed $value Date value.
      *
      * @return mixed
      * @throws \InvalidArgumentException On invalid date given.
      */
     public function validateStartDate($value)
     {
-        var_dump('start');
         return $this->validateDate($value, true);
     }
 
     /**
      * Validate the end date.
      *
-     * @param mixed $value
+     * @param mixed $value Date value.
      *
      * @return mixed
      * @throws \InvalidArgumentException On invalid date given.
@@ -116,8 +115,8 @@ class EntryCallbacks extends Callbacks
     /**
      * Validate a date format.
      *
-     * @param string $value
-     * @param bool   $yearRequired
+     * @param string $value        Date value.
+     * @param bool   $yearRequired If true no empty value is accepted.
      *
      * @return string
      * @throws \InvalidArgumentException On invalid date given.

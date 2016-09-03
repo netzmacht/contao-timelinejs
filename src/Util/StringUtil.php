@@ -53,7 +53,8 @@ class StringUtil
      * @return string
      * @see    http://stackoverflow.com/a/5194470
      */
-    public static function decamelize($value) {
+    public static function decamelize($value)
+    {
         return preg_replace_callback(
             '/(^|[a-z])([A-Z])/',
             function ($matches) {
@@ -63,6 +64,13 @@ class StringUtil
         );
     }
 
+    /**
+     * Convert a rgb color in hex format into an array.
+     *
+     * @param string $value Rgb color in hex format. Leading # is optional.
+     *
+     * @return array|null
+     */
     public static function rgbColorToArray($value)
     {
         if (substr($value, 0, 1) === '#') {

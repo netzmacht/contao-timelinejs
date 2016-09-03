@@ -54,10 +54,10 @@ final class Timeline extends Base
     /**
      * Timeline constructor.
      *
-     * @param Slide[] $events  Set of slides.
-     * @param Slide   $title   Title slide.
-     * @param string  $scale   The scale.
-     * @param array   $eras    Set of eras.
+     * @param array|Slide[] $events Set of slides.
+     * @param Slide         $title  Title slide.
+     * @param string        $scale  The scale.
+     * @param array         $eras   Set of eras.
      */
     public function __construct(
         array $events = array(),
@@ -68,8 +68,8 @@ final class Timeline extends Base
         $this->setEvents($events);
         $this->setEras($eras);
 
-        $this->title   = $title;
-        $this->scale   = $scale;
+        $this->title = $title;
+        $this->scale = $scale;
     }
 
     /**
@@ -133,7 +133,7 @@ final class Timeline extends Base
     /**
      * Set events.
      *
-     * @param Slide[] $events Events.
+     * @param Slide[]|array $events Events.
      *
      * @return $this
      */
@@ -179,7 +179,7 @@ final class Timeline extends Base
     /**
      * Set era.
      *
-     * @param Era[] $eras Set of eras.
+     * @param Era[]|array $eras Set of eras.
      *
      * @return $this
      */

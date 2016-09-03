@@ -19,6 +19,7 @@ use Netzmacht\Contao\Toolkit\Data\Model\ModelArrayAccess;
  * Class OptionsBuilder build options array.
  *
  * @package Netzmacht\Contao\TimelineJs\Builder
+ * @SuppressWarnings(PHPMD.UnusedPrivateMethods)
  */
 class OptionsBuilder
 {
@@ -28,31 +29,42 @@ class OptionsBuilder
      * @var array
      */
     private static $mapping = array(
-        'script_path'        => array('type' => 'string', 'default' => 'system/modules/timelinejs/assets/vendor/timelinejs/compiled/js'),
+        'script_path'      => array(
+            'type'    => 'string',
+            'default' => 'system/modules/timelinejs/assets/vendor/timelinejs/compiled/js'
+        ),
+// @codingStandardsIgnoreStart TODO: Check config.
 //        'height'             => array('type' => 'string', 'default' => null),
 //        'width'              => array('type' => 'string', 'default' => null),
 //        'is_embed'           => array('type' => 'bool', 'default' => false),
 //        'is_full_embed'      => array('type' => 'bool', 'default' => false),
-        'hash_bookmark'      => array('type' => 'bool', 'default' => false),
-        'default_bg_color'   => array('type' => 'rgb', 'default' => '#ffffff'),
-        'zoom_sequence'      => array(
+// codingStandardsIgnoreEnd
+        'hash_bookmark'    => array('type' => 'bool', 'default' => false),
+        'default_bg_color' => array('type' => 'rgb', 'default' => '#ffffff'),
+        'zoom_sequence'    => array(
             'type'    => 'csv',
             'default' => [0.5, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
         ),
-        'layout'             => array('type' => 'string', 'default' => 'landscape'),
-        'timenav_position'   => array('type' => 'string', 'default' => 'bottom'),
-        'base_class'         => array('type' => 'string', 'default' => 'tl-timeline'),
-        'start_at_slide'     => array('type' => 'int', 'default' => 0),
-        'start_at_end'       => array('type' => 'bool', 'default' => false),
-        'relative_date'      => array('type' => 'bool', 'default' => false),
+        'layout'           => array('type' => 'string', 'default' => 'landscape'),
+        'timenav_position' => array('type' => 'string', 'default' => 'bottom'),
+        'base_class'       => array('type' => 'string', 'default' => 'tl-timeline'),
+        'start_at_slide'   => array('type' => 'int', 'default' => 0),
+        'start_at_end'     => array('type' => 'bool', 'default' => false),
+        'relative_date'    => array('type' => 'bool', 'default' => false),
+// @codingStandardsIgnoreStart TODO: Check config.
 //        'use_bc'             => array('type' => 'bool', 'default' => false),
-        'duration'           => array('type' => 'int', 'default' => 1000),
-        'ease'               => array('type' => 'string', 'default' => 'easeInOutQuint'),
-        'dragging'           => array('type' => 'bool', 'default' => true),
-        'trackResize'        => array('type' => 'bool', 'default' => true),
+// codingStandardsIgnoreEnd
+        'duration'         => array('type' => 'int', 'default' => 1000),
+        'ease'             => array('type' => 'string', 'default' => 'easeInOutQuint'),
+        'dragging'         => array('type' => 'bool', 'default' => true),
+        'trackResize'      => array('type' => 'bool', 'default' => true),
+// @codingStandardsIgnoreStart TODO: Check config.
 //        'slide_default_fade' => array('type' => 'string', 'default' => '0%'),
-        'language'           => array('type' => 'string', 'default' => 'en'),
-        'map_type'           => array('type' => 'string', 'default' => 'stamen:toner-lite'),
+// codingStandardsIgnoreEnd
+
+        'language'         => array('type' => 'string', 'default' => 'en'),
+        'map_type'         => array('type' => 'string', 'default' => 'stamen:toner-lite'),
+// @codingStandardsIgnoreStart TODO: Check config.
 //        'track_events'       => array(
 //            'type'    => 'csv',
 //            'default' => [
@@ -63,7 +75,8 @@ class OptionsBuilder
 //                'zoom_out'
 //            ]
 //        ),
-        'apiKeys'              => array
+// codingStandardsIgnoreEnd
+        'apiKeys'          => array
         (
             'type'    => 'node',
             'key'     => 'name',
@@ -75,7 +88,7 @@ class OptionsBuilder
                 'ga_property_id'     => array('type' => 'string', 'default' => null),
             )
         ),
-        'sizes'              => array
+        'sizes'            => array
         (
             'type'    => 'node',
             'key'     => 'name',
@@ -167,7 +180,7 @@ class OptionsBuilder
             $column = StringUtil::camelize($key, false);
 
             if (!isset($data[$column])) {
-                if (isset($config['default']) ) {
+                if (isset($config['default'])) {
                     $this->options[$key] = $config['default'];
                 }
 
@@ -197,7 +210,7 @@ class OptionsBuilder
      */
     private function buildIntOption($value, $config)
     {
-        $value = (int) $value;
+        $value = (int)$value;
 
         if ($config['default'] === null || $value == '') {
             return null;
@@ -216,7 +229,7 @@ class OptionsBuilder
      */
     private function buildStringOption($value, $config)
     {
-        $value = (string) $value;
+        $value = (string)$value;
 
         if ($config['default'] === null || $value === '') {
             return null;
@@ -235,7 +248,7 @@ class OptionsBuilder
      */
     private function buildBoolOption($value, $config)
     {
-        $value = (bool) $value;
+        $value = (bool)$value;
 
         if ($config['default'] === null && $value === 0) {
             return null;

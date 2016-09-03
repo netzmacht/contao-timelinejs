@@ -151,11 +151,12 @@ final class Date implements \JsonSerializable
     }
 
     /**
-     * Guard a valid date string is goven.
+     * Guard a valid date string is given.
      *
      * @param string $dateString Date string.
      *
      * @return void
+     * @throws \InvalidArgumentException On invalid date string input.
      */
     private static function guardValidDateString($dateString)
     {

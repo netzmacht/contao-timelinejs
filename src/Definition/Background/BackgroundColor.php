@@ -56,7 +56,7 @@ final class BackgroundColor implements Background
     /**
      * {@inheritDoc}
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return array('color' => $this->getValue());
     }

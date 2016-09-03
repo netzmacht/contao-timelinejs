@@ -15,6 +15,11 @@ use Netzmacht\Contao\TimelineJs\Definition\Timeline;
 use Netzmacht\Contao\TimelineJs\Model\TimelineModel;
 use Symfony\Component\EventDispatcher\Event;
 
+/**
+ * Class BuildTimelineEvent.
+ *
+ * @package Netzmacht\Contao\TimelineJs\Builder\Event
+ */
 class BuildTimelineEvent extends Event
 {
     const NAME = 'timelinejs.builder.build-timeline';

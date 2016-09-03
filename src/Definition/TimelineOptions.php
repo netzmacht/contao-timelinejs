@@ -28,7 +28,7 @@ class TimelineOptions implements \JsonSerializable
     /**
      * TimelineOptions constructor.
      *
-     * @param array $options
+     * @param array $options Timeline options.
      */
     public function __construct(array $options = array())
     {

@@ -56,6 +56,7 @@ class BuildEntryEvent extends Event
 
     /**
      * The era.
+     *
      * @var Era
      */
     private $era;
