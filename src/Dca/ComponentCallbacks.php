@@ -8,7 +8,7 @@
  * @package   timelinejs
  * @author    David Molineus <david.molineus@netzmacht.de>
  * @license   MPL/2.0
- * @copyright 2013 netzmacht creative David Molineus
+ * @copyright 2013-2016 netzmacht David Molineus
  */
 
 namespace Netzmacht\Contao\TimelineJs\Dca;
