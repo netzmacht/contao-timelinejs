@@ -10,62 +10,109 @@
  */
 
 use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Cache\FilesystemCache;
 use Netzmacht\Contao\TimelineJs\Dca\EntryCallbacks;
 use Netzmacht\Contao\TimelineJs\Dca\TimelineCallbacks;
+use Netzmacht\Contao\TimelineJs\DependencyInjection\TimelineServices;
 use Netzmacht\Contao\TimelineJs\TimelineProvider;
 use Netzmacht\Contao\TimelineJs\Dca\ComponentCallbacks;
 use Netzmacht\Contao\Toolkit\DependencyInjection\Services;
 
 global $container;
 
-if (!isset($container['timelinejs.debug-mode'])) {
-    $container['timelinejs.debug-mode'] = !$container['toolkit.production-mode'];
+if (!isset($container[TimelineServices::DEBUG_MODE])) {
+    $container[TimelineServices::DEBUG_MODE] = !$container[Services::PRODUCTION_MODE];
 }
 
-$container['timelinejs.cache'] = $container->share(
+/**
+ * Timeline cache dir.
+ *
+ * @var string
+ */
+$container[TimelineServices::CACHE_DIR] = '/system/cache/timelinejs';
+
+/**
+ * Internal used timeline cache.
+ *
+ * @var Cache
+ */
+$container[TimelineServices::CACHE] = $container->share(
     function ($container) {
-        if ($container['timelinejs.debug-mode']) {
+        if ($container[TimelineServices::DEBUG_MODE]) {
             return new ArrayCache();
         } else {
-            return new FilesystemCache(TL_ROOT . '/system/cache/timelinejs');
+            return new FilesystemCache(TL_ROOT . $container[TimelineServices::CACHE_DIR]);
         }
     }
 );
 
-$container['timelinejs.provider'] = $container->share(
+/**
+ * Timeline provider.
+ *
+ * @var TimelineProvider
+ */
+$container[TimelineServices::TIMELINE_PROVIDER] = $container->share(
     function ($container) {
         return new TimelineProvider(
-            $container['event-dispatcher'],
-            $container['timelinejs.cache']
+            $container[Services::EVENT_DISPATCHER],
+            $container[TimelineServices::CACHE]
         );
     }
 );
 
-$container['timelinejs.datasources']   = new \ArrayObject();
-$container['timelinejs.datasources'][] = 'default';
+/**
+ * Data sources.
+ *
+ * @var \ArrayObject
+ */
+if (!isset($container[TimelineServices::DATA_SOURCES])) {
+    $container[TimelineServices::DATA_SOURCES] = new \ArrayObject();
+}
 
-$container['timelinejs.dca.component-callbacks'] = $container->share(
+/**
+ * Default data source.
+ *
+ * @var string
+ */
+$container[TimelineServices::DATA_SOURCES][]    = 'default';
+
+/**
+ * Data container callback service for components.
+ *
+ * @var ComponentCallbacks
+ */
+$container[TimelineServices::DCA_COMPONENT] = $container->share(
     function ($container) {
         return new ComponentCallbacks($container[Services::TRANSLATOR]);
     }
 );
 
-$container['timelinejs.dca.timelines'] = $container->share(
+/**
+ * Data container callback service for timeline.
+ *
+ * @var TimelineCallbacks
+ */
+$container[TimelineServices::DCA_TIMELINE] = $container->share(
     function ($container) {
         return new TimelineCallbacks(
             $container[Services::DCA_MANAGER],
-            $container['timelinejs.datasources'],
-            $container['timelinejs.provider']
+            $container[TimelineServices::DATA_SOURCES],
+            $container[TimelineServices::TIMELINE_PROVIDER]
         );
     }
 );
 
-$container['timelinejs.dca.entries'] = $container->share(
+/**
+ * Data container callback service for timeline entries.
+ *
+ * @var EntryCallbacks
+ */
+$container[TimelineServices::DCA_ENTRY] = $container->share(
     function ($container) {
         return new EntryCallbacks(
             $container[Services::DCA_MANAGER],
-            $container['timelinejs.provider'],
+            $container[TimelineServices::TIMELINE_PROVIDER],
             $container[Services::TRANSLATOR]
         );
     }
