@@ -1,6 +1,6 @@
 {
     "name":"netzmacht/contao-timelinejs",
-    "description":"Integrates ",
+    "description":"Integrates TimelineJS into Contao CMS",
     "keywords":["TimelineJS", "Timeline", "contao"],
     "type":"contao-module",
     "license":"LGPL-3.0+",
