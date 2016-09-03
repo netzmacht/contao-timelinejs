@@ -6,7 +6,7 @@
  * Copyright (C) 2005-2013 Leo Feyer
  *
  * @package   timelinejs
- * @author    netzmacht creative David Molineus
+ * @author    David Molineus <david.molineus@netzmacht.de>
  * @license   MPL/2.0
  * @copyright 2013 netzmacht creative David Molineus
  */
@@ -15,7 +15,6 @@ namespace Netzmacht\Contao\TimelineJs\Dca;
 
 use ContaoCommunityAlliance\Translator\TranslatorInterface as Translator;
 use Netzmacht\Contao\TimelineJs\Model\TimelineModel;
-use Netzmacht\Contao\Toolkit\Dca\Callback\Callbacks;
 use Netzmacht\Contao\Toolkit\Dca\Options\OptionsBuilder;
 
 /**
