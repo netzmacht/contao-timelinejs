@@ -176,7 +176,7 @@ class EntryBuilder
             $data = $model->mediaUrl;
         }
 
-        $data = $this->insertTagReplacer->replace($data);
+        $data = $this->replaceInsertTags($data);
         if (!$data) {
             return null;
         }
@@ -185,7 +185,7 @@ class EntryBuilder
         $media->setCaption($model->mediaCaption ?: null);
         $media->setCredit($model->mediaCredit ?: null);
 
-        $thumbnail = $this->insertTagReplacer->replace($model->mediaThumbnail);
+        $thumbnail = $this->replaceInsertTags($model->mediaThumbnail);
         if ($thumbnail) {
             $media->setThumbnail($thumbnail);
         } elseif ($thumbnailSize && file_exists(TL_ROOT . '/' . $data)) {
@@ -198,7 +198,7 @@ class EntryBuilder
             }
         }
 
-        $link = $this->insertTagReplacer->replace($model->mediaLink);
+        $link = $this->replaceInsertTags($model->mediaLink);
         if ($link) {
             $media->setLink($link, $model->mediaLinkTarget ?: null);
         }
@@ -240,8 +240,8 @@ class EntryBuilder
     {
         if ($entryModel->headline || $entryModel->text) {
             return new Text(
-                $this->insertTagReplacer->replace($entryModel->headline) ?: null,
-                $this->insertTagReplacer->replace($entryModel->text) ?: null
+                $this->replaceInsertTags($entryModel->headline) ?: null,
+                $this->replaceInsertTags($entryModel->text) ?: null
             );
         }
 
@@ -257,7 +257,7 @@ class EntryBuilder
      */
     public function buildBackground(EntryModel $entryModel)
     {
-        $background = $this->insertTagReplacer->replace($entryModel->background);
+        $background = $this->replaceInsertTags($entryModel->background);
         if (!$background) {
             return null;
         }
@@ -267,5 +267,20 @@ class EntryBuilder
         }
 
         return new BackgroundUrl($background);
+    }
+
+    /**
+     * Replace insert tags.
+     *
+     * @param string $content Content to replace.
+     *
+     * @return string
+     */
+    private function replaceInsertTags($content)
+    {
+        $content = $this->insertTagReplacer->replace($content);
+        $content = $this->insertTagReplacer->replace($content, false);
+        
+        return $content;
     }
 }
