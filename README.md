@@ -39,3 +39,9 @@ Features
 For developer
  * Event driven timeline building. Easy to customize the timeline definition.
  * Multiple data sources are supported. Feed free to create your own one.
+
+
+Migrating
+---------
+
+Migrating form contao-timeline v1 to v3 is not supported.
