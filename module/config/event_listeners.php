@@ -34,6 +34,6 @@ return [
         [new OptionsBuilder(), 'handleEvent']
     ],
     BuildEntryEvent::NAME => [
-        [new EntryBuilder(), 'handleEvent']
+        [new EntryBuilder($GLOBALS['container'][Services::INSERT_TAG_REPLACER]), 'handleEvent']
     ],
 ];

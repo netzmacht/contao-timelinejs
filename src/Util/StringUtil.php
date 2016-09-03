@@ -63,19 +63,6 @@ class StringUtil
         );
     }
 
-    /**
-     * Replace insert tags with their values
-     *
-     * @param string  $buffer The text with the tags to be replaced.
-     * @param boolean $cache  If false, non-cacheable tags will be replaced.
-     *
-     * @return string
-     */
-    public static function replaceInsertTags($buffer, $cache = true)
-    {
-        return InsertTagReplacer::getInstance()->replace($buffer, $cache);
-    }
-
     public static function rgbColorToArray($value)
     {
         if (substr($value, 0, 1) === '#') {

@@ -11,7 +11,6 @@
 
 namespace Netzmacht\Contao\TimelineJs\Builder;
 
-use Contao\String;
 use Netzmacht\Contao\TimelineJs\Builder\Event\BuildEntryEvent;
 use Netzmacht\Contao\TimelineJs\Definition\Background;
 use Netzmacht\Contao\TimelineJs\Definition\Background\BackgroundColor;
@@ -23,7 +22,7 @@ use Netzmacht\Contao\TimelineJs\Definition\Slide;
 use Netzmacht\Contao\TimelineJs\Definition\Text;
 use Netzmacht\Contao\TimelineJs\Model\EntryModel;
 use Netzmacht\Contao\TimelineJs\Model\TimelineModel;
-use Netzmacht\Contao\TimelineJs\Util\StringUtil;
+use Netzmacht\Contao\Toolkit\InsertTag\Replacer;
 
 /**
  * Class EntryBuilder build the different definition classes from the entry model.
@@ -32,6 +31,23 @@ use Netzmacht\Contao\TimelineJs\Util\StringUtil;
  */
 class EntryBuilder
 {
+    /**
+     * Insert tag replacer.
+     *
+     * @var Replacer
+     */
+    private $insertTagReplacer;
+
+    /**
+     * EntryBuilder constructor.
+     *
+     * @param Replacer $insertTagReplacer
+     */
+    public function __construct(Replacer $insertTagReplacer)
+    {
+        $this->insertTagReplacer = $insertTagReplacer;
+    }
+
     /**
      * Handle the build event.
      *
@@ -160,7 +176,7 @@ class EntryBuilder
             $data = $model->mediaUrl;
         }
 
-        $data = StringUtil::replaceInsertTags($data);
+        $data = $this->insertTagReplacer->replace($data);
         if (!$data) {
             return null;
         }
@@ -169,7 +185,7 @@ class EntryBuilder
         $media->setCaption($model->mediaCaption ?: null);
         $media->setCredit($model->mediaCredit ?: null);
 
-        $thumbnail = StringUtil::replaceInsertTags($model->mediaThumbnail);
+        $thumbnail = $this->insertTagReplacer->replace($model->mediaThumbnail);
         if ($thumbnail) {
             $media->setThumbnail($thumbnail);
         } elseif ($thumbnailSize && file_exists(TL_ROOT . '/' . $data)) {
@@ -182,7 +198,7 @@ class EntryBuilder
             }
         }
 
-        $link = StringUtil::replaceInsertTags($model->mediaLink);
+        $link = $this->insertTagReplacer->replace($model->mediaLink);
         if ($link) {
             $media->setLink($link, $model->mediaLinkTarget ?: null);
         }
@@ -224,8 +240,8 @@ class EntryBuilder
     {
         if ($entryModel->headline || $entryModel->text) {
             return new Text(
-                StringUtil::replaceInsertTags($entryModel->headline) ?: null,
-                StringUtil::replaceInsertTags($entryModel->text) ?: null
+                $this->insertTagReplacer->replace($entryModel->headline) ?: null,
+                $this->insertTagReplacer->replace($entryModel->text) ?: null
             );
         }
 
@@ -241,7 +257,7 @@ class EntryBuilder
      */
     public function buildBackground(EntryModel $entryModel)
     {
-        $background = StringUtil::replaceInsertTags($entryModel->background);
+        $background = $this->insertTagReplacer->replace($entryModel->background);
         if (!$background) {
             return null;
         }
