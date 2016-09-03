@@ -28,7 +28,7 @@
     "require-dev": {
         "netzmacht/contao-build-tools": "~1.1"
     },
-    "replace": {
+    "conflict": {
         "contao-legacy/timelinejs": "*"
     },
     "autoload": {
