@@ -11,9 +11,9 @@
 
 namespace Netzmacht\Contao\TimelineJs\Builder;
 
-use Netzmacht\Contao\TimelineJs\Builder\Data\ModelDecorator;
 use Netzmacht\Contao\TimelineJs\Builder\Event\BuildTimelineOptionsEvent;
 use Netzmacht\Contao\TimelineJs\Util\StringUtil;
+use Netzmacht\Contao\Toolkit\Data\Model\ModelArrayAccess;
 
 /**
  * Class OptionsBuilder build options array.
@@ -143,7 +143,7 @@ class OptionsBuilder
     {
         $this->options = array();
 
-        $this->buildOptions(new ModelDecorator($model), static::$mapping);
+        $this->buildOptions(new ModelArrayAccess($model), static::$mapping);
 
         return $this->options;
     }
