@@ -3,7 +3,7 @@
 /**
  * Contao TimelineJS.
  *
- * @package   timelinejs
+ * @package   Contao TimelineJS.
  * @author    David Molineus <http://netzmacht.de>
  * @license   MPL/2.0
  * @copyright 2013-2016 netzmacht David Molineus
