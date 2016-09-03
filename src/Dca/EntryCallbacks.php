@@ -11,6 +11,8 @@
 
 namespace Netzmacht\Contao\TimelineJs\Dca;
 
+use ContaoCommunityAlliance\Translator\TranslatorInterface;
+use Netzmacht\Contao\TimelineJs\Definition\Date;
 use Netzmacht\Contao\TimelineJs\Model\EntryModel;
 use Netzmacht\Contao\TimelineJs\Model\TimelineModel;
 use Netzmacht\Contao\TimelineJs\TimelineProvider;
@@ -46,15 +48,25 @@ class EntryCallbacks extends Callbacks
     private $timelineProvider;
 
     /**
+     * Translator.
+     *
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
      * EntryCallbacks constructor.
      *
-     * @param Manager          $dcaManager       Data container manager.
-     * @param TimelineProvider $timelineProvider Timeline provider.
+     * @param Manager             $dcaManager       Data container manager.
+     * @param TimelineProvider    $timelineProvider Timeline provider.
+     * @param TranslatorInterface $translator       Translator.
      */
-    public function __construct(Manager $dcaManager, TimelineProvider $timelineProvider)
+    public function __construct(Manager $dcaManager, TimelineProvider $timelineProvider, TranslatorInterface $translator)
     {
         parent::__construct($dcaManager);
+
         $this->timelineProvider = $timelineProvider;
+        $this->translator       = $translator;
     }
 
     /**
@@ -72,6 +84,51 @@ class EntryCallbacks extends Callbacks
             $row['headline'],
             $row['startDate']
         );
+    }
+
+    /**
+     * Validate the start date.
+     *
+     * @param mixed $value
+     *
+     * @return mixed
+     * @throws \InvalidArgumentException On invalid date given.
+     */
+    public function validateStartDate($value)
+    {
+        var_dump('start');
+        return $this->validateDate($value, true);
+    }
+
+    /**
+     * Validate the end date.
+     *
+     * @param mixed $value
+     *
+     * @return mixed
+     * @throws \InvalidArgumentException On invalid date given.
+     */
+    public function validateEndDate($value)
+    {
+        return $this->validateDate($value);
+    }
+
+    /**
+     * Validate a date format.
+     *
+     * @param string $value
+     * @param bool   $yearRequired
+     *
+     * @return string
+     * @throws \InvalidArgumentException On invalid date given.
+     */
+    private function validateDate($value, $yearRequired = false)
+    {
+        if ($value || $yearRequired) {
+            Date::fromString($value);
+        }
+
+        return $value;
     }
 
     /**

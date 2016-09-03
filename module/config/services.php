@@ -65,7 +65,8 @@ $container['timelinejs.dca.entries'] = $container->share(
     function ($container) {
         return new EntryCallbacks(
             $container[Services::DCA_MANAGER],
-            $container['timelinejs.provider']
+            $container['timelinejs.provider'],
+            $container[Services::TRANSLATOR]
         );
     }
 );

@@ -200,7 +200,10 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
             'sorting'   => true,
             'flag'      => 3,
             'length'    => 4,
-            'eval'      => array('mandatory' => false, 'tl_class' => 'w50', 'maxlength' => 32),
+            'eval'      => array('mandatory' => true, 'tl_class' => 'w50', 'maxlength' => 32),
+            'save_callback' => [
+        //        EntryCallbacks::callback('validateStartDate'),
+            ],
             'sql'       => "varchar(32) NOT NULL default ''"
         ),
         'startDisplay'   => array
@@ -219,8 +222,9 @@ $GLOBALS['TL_DCA']['tl_timelinejs_entry'] = array
             'inputType'     => 'text',
             'search'        => true,
             'eval'          => array('tl_class' => 'w50', 'maxlength' => 32),
-            'save_callback' => array
-            (),
+            'save_callback' => [
+                EntryCallbacks::callback('validateEndDate'),
+            ],
             'sql'           => "varchar(32) NOT NULL default ''"
         ),
         'endDisplay'     => array

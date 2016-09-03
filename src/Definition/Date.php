@@ -50,6 +50,22 @@ final class Date implements \JsonSerializable
     private $display;
 
     /**
+     * Allowed date formats.
+     *
+     * @var array
+     */
+    private static $dateFormats = [
+        '',
+        'Y',
+        'Y-m',
+        'Y-m-d',
+        'Y-m-d h',
+        'Y-m-d h:i',
+        'Y-m-d h:i:s',
+        'Y-m-d h:i:s.u',
+    ];
+
+    /**
      * Date constructor.
      *
      * @param array  $date    Date as array.
@@ -119,6 +135,8 @@ final class Date implements \JsonSerializable
      */
     public static function fromString($dateString, $format = null, $display = null)
     {
+        static::guardValidDateString($dateString);
+
         $result = array_fill_keys(['year', 'month', 'day', 'hour', 'minute', 'second', 'millisecond'], null);
 
         list($date, $time)                                      = explode(' ', $dateString, 1);
@@ -130,6 +148,26 @@ final class Date implements \JsonSerializable
         }
 
         return new static(array_filter($result), $format, $display);
+    }
+
+    /**
+     * Guard a valid date string is goven.
+     *
+     * @param string $dateString Date string.
+     *
+     * @return void
+     */
+    private static function guardValidDateString($dateString)
+    {
+        foreach (static::$dateFormats as $format) {
+            $date = \DateTime::createFromFormat($format, $dateString);
+
+            if ($date !== false && $date->format($format) === $dateString) {
+                return;
+            };
+        }
+
+        throw new \InvalidArgumentException('Invalid date string given.');
     }
 
     /**
