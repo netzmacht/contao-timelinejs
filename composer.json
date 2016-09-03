@@ -19,7 +19,7 @@
     },
     "require":{
         "php":">=5.4",
-        "contao/core":"~3.3",
+        "contao/core":"~3.5",
         "contao-community-alliance/meta-palettes":"~1.4",
         "netzmacht/contao-toolkit": "~2.0",
         "doctrine/cache": "~1",
