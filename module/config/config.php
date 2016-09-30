@@ -22,31 +22,8 @@ $GLOBALS['BE_MOD']['content']['timelinejs'] = array
 /*
  * Frontend modules and elements.
  */
-$GLOBALS['FE_MOD']['application']['TimelineJS'] = function ($model, $column, $container) {
-    return new \Netzmacht\Contao\TimelineJs\Frontend\HybridTimeline(
-        $model,
-        $container->get('timelinejs.provider'),
-        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::TEMPLATE_FACTORY),
-        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::TRANSLATOR),
-        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::EVENT_DISPATCHER),
-        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::ENVIRONMENT)->get('url'),
-        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::CONFIG)->get('websitePath'),
-        $column
-    );
-};
-
-$GLOBALS['TL_CTE']['includes']['TimelineJS'] = function ($model, $column, $container) {
-    return new \Netzmacht\Contao\TimelineJs\Frontend\HybridTimeline(
-        $model,
-        $container->get('timelinejs.provider'),
-        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::TEMPLATE_FACTORY),
-        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::TRANSLATOR),
-        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::EVENT_DISPATCHER),
-        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::ENVIRONMENT)->get('url'),
-        $container->get(\Netzmacht\Contao\Toolkit\DependencyInjection\Services::CONFIG)->get('websitePath'),
-        $column
-    );
-};
+$GLOBALS['FE_MOD']['application']['TimelineJS'] = 'Netzmacht\Contao\Toolkit\Component\Module\ModuleDecorator';
+$GLOBALS['TL_CTE']['includes']['TimelineJS']    = 'Netzmacht\Contao\Toolkit\Component\ContentElement\ContentElementDecorator';
 
 /*
  * Models.

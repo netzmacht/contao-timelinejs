@@ -12,9 +12,11 @@
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Cache\FilesystemCache;
+use Interop\Container\ContainerInterface;
 use Netzmacht\Contao\TimelineJs\Dca\EntryCallbacks;
 use Netzmacht\Contao\TimelineJs\Dca\TimelineCallbacks;
 use Netzmacht\Contao\TimelineJs\DependencyInjection\TimelineServices;
+use Netzmacht\Contao\TimelineJs\Frontend\HybridTimeline;
 use Netzmacht\Contao\TimelineJs\TimelineProvider;
 use Netzmacht\Contao\TimelineJs\Dca\ComponentCallbacks;
 use Netzmacht\Contao\Toolkit\DependencyInjection\Services;
@@ -117,3 +119,32 @@ $container[TimelineServices::DCA_ENTRY] = $container->share(
         );
     }
 );
+
+/**
+ * Timeline hybrid elements.
+ */
+$container[Services::CONTENT_ELEMENTS_MAP]['TimelineJS'] = function ($model, $column, ContainerInterface $container) {
+    return new HybridTimeline(
+        $model,
+        $container->get('timelinejs.provider'),
+        $container->get(Services::TEMPLATE_FACTORY),
+        $container->get(Services::TRANSLATOR),
+        $container->get(Services::EVENT_DISPATCHER),
+        $container->get(Services::ENVIRONMENT)->get('url'),
+        $container->get(Services::CONFIG)->get('websitePath'),
+        $column
+    );
+};
+
+$container[Services::MODULES_MAP]['TimelineJS'] = function ($model, $column, ContainerInterface $container) {
+    return new HybridTimeline(
+        $model,
+        $container->get('timelinejs.provider'),
+        $container->get(Services::TEMPLATE_FACTORY),
+        $container->get(Services::TRANSLATOR),
+        $container->get(Services::EVENT_DISPATCHER),
+        $container->get(Services::ENVIRONMENT)->get('url'),
+        $container->get(Services::CONFIG)->get('websitePath'),
+        $column
+    );
+};
