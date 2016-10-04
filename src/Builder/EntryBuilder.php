@@ -98,12 +98,11 @@ class EntryBuilder
     {
         $text       = $this->buildText($entryModel);
         $media      = $this->buildMedia($entryModel, $timelineModel->thumbnailSize);
-        $group      = $entryModel->type === 'title' ? null : ($entryModel->category ?: null);
         $background = $this->buildBackground($entryModel);
         $display    = $entryModel->dateDisplay ?: null;
         $autolink   = (bool) $entryModel->autolink;
 
-        $slide = new Slide(null, $text, null, $media, $group, $background, $display, $autolink);
+        $slide = new Slide(null, $text, null, $media, null, $background, $display, $autolink);
         $slide->setUniqueId($entryModel->getTable() . '_' . $entryModel->id);
 
         return $slide;
@@ -123,7 +122,7 @@ class EntryBuilder
         $endDate    = $this->buildDate($entryModel->endDate, $entryModel->dateFormat, $entryModel->endDisplay);
         $text       = $this->buildText($entryModel);
         $media      = $this->buildMedia($entryModel, $timelineModel->thumbnailSize);
-        $group      = $entryModel->type === 'title' ? null : ($entryModel->category ?: null);
+        $group      = $entryModel->category ?: null;
         $background = $this->buildBackground($entryModel);
         $display    = $entryModel->dateDisplay ?: null;
         $autolink   = (bool) $entryModel->autolink;
