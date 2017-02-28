@@ -47,6 +47,14 @@ class JSONController
      */
     public function execute(\Input $request)
     {
+        // Define static urls so insert tag replacements work properly (See #4)
+        if (!defined('TL_FILES_URL')) {
+            $pageId = $request->get('page');
+            $page   = \PageModel::findByPk($pageId);
+
+            \Controller::setStaticUrls($page);
+        }
+
         $timelineId = $request->get('id');
         $model      = $this->provider->getTimelineModel($timelineId);
 

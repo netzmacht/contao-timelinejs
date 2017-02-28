@@ -139,7 +139,12 @@ class HybridTimeline extends AbstractHybrid
 
         parent::compile();
 
-        $event = new BuildSourceUrlEvent($this->timeline, ['id' => $this->timeline->id]);
+        $params = [
+            'id' => $this->timeline->id,
+            'page' => $GLOBALS['objPage']->id
+        ];
+
+        $event = new BuildSourceUrlEvent($this->timeline, $params);
         $this->eventDispatcher->dispatch($event::NAME, $event);
 
         $query  = http_build_query($event->getQuery()->getArrayCopy());
